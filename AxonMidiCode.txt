@@ -1,0 +1,135 @@
+#include "AxonEventManager.h"
+#include "AxonCCMidiEvent.h"
+
+#include "AxonDebugDefines.h"
+
+MIDI_CREATE_INSTANCE(HardwareSerial, DUMMYSERIALPORT, DUMMYMIDI);
+
+void DUMMYCLASSNAME::HandleSysEx(uint8_t* array, uint8_t size)
+{
+#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	Serial.print( F("Axon MIDI NETWORK 1") );
+#else
+	Serial.print( F("Axon MIDI NETWORK 2") );
+#endif
+	Serial.print( F("::HandleSysEx ") );
+	Serial.println( size );
+#endif
+}
+
+void DUMMYCLASSNAME::HandleCC( uint8_t channel, uint8_t cc, uint8_t val )
+{
+#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	Serial.print( F("Axon MIDI NETWORK 1") );
+#else
+	Serial.print( F("Axon MIDI NETWORK 2") );
+#endif
+	Serial.print( F("::HandleCC ") );
+	Serial.print( channel );
+	Serial.print( F(" : ") );
+	Serial.print( cc );
+	Serial.print( F(" : ") );
+	Serial.println( val );
+#endif
+
+	AxonCCMidiEvent *event = new AxonCCMidiEvent();
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	event->setNetwork(0);
+#else
+	event->setNetwork(1);
+#endif
+	event->setChannel(channel);
+	event->setCC(cc);
+	event->setVal(val);
+	
+	AxonEventManager::instance()->addToQueue( event );
+}
+
+void DUMMYCLASSNAME::HandlePC( uint8_t channel, uint8_t pc )
+{
+#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	Serial.print( F("Axon MIDI NETWORK 1") );
+#else
+	Serial.print( F("Axon MIDI NETWORK 2") );
+#endif
+	Serial.print( F("::HandlePC ") );
+	Serial.print( channel );
+	Serial.print( F(" : ") );
+	Serial.println( pc );
+#endif
+}
+
+void DUMMYCLASSNAME::HandleSongSelect( uint8_t songNumber )
+{
+#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	Serial.print( F("Axon MIDI NETWORK 1") );
+#else
+	Serial.print( F("Axon MIDI NETWORK 2") );
+#endif
+	Serial.print( F("::HandleSongNumber ") );
+	Serial.println( songNumber );
+#endif
+}
+
+DUMMYCLASSNAME::DUMMYCLASSNAME()
+{
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	DUMMYMIDI.setHandleProgramChange( DUMMYCLASSNAME::HandlePC );
+	DUMMYMIDI.setHandleControlChange( DUMMYCLASSNAME::HandleCC );
+	DUMMYMIDI.setHandleSongSelect( DUMMYCLASSNAME::HandleSongSelect );
+	DUMMYMIDI.setHandleSystemExclusive( DUMMYCLASSNAME::HandleSysEx );
+#else INCLUDE_FOR_MIDI_NETWORK_TWO
+	DUMMYMIDI.setHandleProgramChange( DUMMYCLASSNAME::HandlePC );
+	DUMMYMIDI.setHandleControlChange( DUMMYCLASSNAME::HandleCC );
+	DUMMYMIDI.setHandleSongSelect( DUMMYCLASSNAME::HandleSongSelect );
+	DUMMYMIDI.setHandleSystemExclusive( DUMMYCLASSNAME::HandleSysEx );
+#endif
+
+	DUMMYMIDI.begin( MIDI_CHANNEL_OMNI );
+	DUMMYMIDI.turnThruOff();
+}
+
+void DUMMYCLASSNAME::sendCC(uint8_t channel, uint8_t cc, uint8_t val )
+{
+#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	Serial.print( F("Axon MIDI NETWORK 1") );
+#else
+	Serial.print( F("Axon MIDI NETWORK 2") );
+#endif
+	Serial.print( F("::sendCC Channel=") );
+	Serial.print( channel );
+	Serial.print( F(" CC=") );
+	Serial.print( cc );
+	Serial.print( F(" val=") );
+	Serial.println( val );
+#endif
+
+	DUMMYMIDI.sendControlChange( cc, val, channel );
+}
+
+void DUMMYCLASSNAME::sendPC(uint8_t channel, uint8_t pc)
+{
+#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	Serial.print( F("Axon MIDI NETWORK 1") );
+#else
+	Serial.print( F("Axon MIDI NETWORK 2") );
+#endif
+	Serial.print( F("::sendPC Channel=") );
+	Serial.print( channel );
+	Serial.print( F(" PC=") );
+	Serial.println( pc );
+#endif
+
+	DUMMYMIDI.sendProgramChange( pc, channel );
+}
+
+void DUMMYCLASSNAME::read()
+{
+	DUMMYMIDI.read();
+}
