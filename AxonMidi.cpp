@@ -63,6 +63,18 @@ void AxonMidi::sendPC(uint8_t network, uint8_t channel, uint8_t pc)
 	}
 }
 
+void AxonMidi::sendSysEx( uint8_t network, uint8_t inLength, const uint8_t* inArray, bool inArrayContainsBoundaries )
+{
+#ifdef DEBUG_AXONMIDI
+	Serial.print( F("AxonMidi sending SysEx: Network=") );
+	Serial.println( network );
+#endif
+	if ((network == 0) || (network == 1))
+	{
+		_midiNet[network]->sendSysEx( inLength, inArray, inArrayContainsBoundaries );
+	}
+}
+
 void AxonMidi::read()
 {
 	_midiNet[0]->read();

@@ -3,11 +3,13 @@
 
 #include "Arduino.h"
 
-																				
+
 class AxonEvent
 {
 	public:
 		AxonEvent();
+		virtual ~AxonEvent() {};
+		
 		uint16_t getGroupID() { return _groupID; }
 		
 		bool sameType( AxonEvent *event );

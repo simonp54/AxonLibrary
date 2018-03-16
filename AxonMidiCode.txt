@@ -1,5 +1,8 @@
 #include "AxonEventManager.h"
 #include "AxonCCMidiEvent.h"
+#include "AxonPCMidiEvent.h"
+#include "AxonSysExMidiEvent.h"
+#include "AxonSongSelectMidiEvent.h"
 
 #include "AxonDebugDefines.h"
 
@@ -16,6 +19,16 @@ void DUMMYCLASSNAME::HandleSysEx(uint8_t* array, uint8_t size)
 	Serial.print( F("::HandleSysEx ") );
 	Serial.println( size );
 #endif
+
+	AxonSysExMidiEvent *event = new AxonSysExMidiEvent();
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	event->setNetwork(0);
+#else
+	event->setNetwork(1);
+#endif
+	event->copyData( array, size );
+	
+	AxonEventManager::instance()->addToQueue( event );
 }
 
 void DUMMYCLASSNAME::HandleCC( uint8_t channel, uint8_t cc, uint8_t val )
@@ -60,6 +73,18 @@ void DUMMYCLASSNAME::HandlePC( uint8_t channel, uint8_t pc )
 	Serial.print( F(" : ") );
 	Serial.println( pc );
 #endif
+
+/*	AxonPCMidiEvent *event = new AxonPCMidiEvent();
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	event->setNetwork(0);
+#else
+	event->setNetwork(1);
+#endif
+	event->setChannel(channel);
+	event->setPC(pc);
+	
+	AxonEventManager::instance()->addToQueue( event );
+*/
 }
 
 void DUMMYCLASSNAME::HandleSongSelect( uint8_t songNumber )
@@ -73,6 +98,18 @@ void DUMMYCLASSNAME::HandleSongSelect( uint8_t songNumber )
 	Serial.print( F("::HandleSongNumber ") );
 	Serial.println( songNumber );
 #endif
+
+/*
+	AxonSongSelectMidiEvent *event = new AxonSongSelectMidiEvent();
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	event->setNetwork(0);
+#else
+	event->setNetwork(1);
+#endif
+	event->setSongNumber( songNumber );
+	
+	AxonEventManager::instance()->addToQueue( event );
+*/
 }
 
 DUMMYCLASSNAME::DUMMYCLASSNAME()
@@ -127,6 +164,20 @@ void DUMMYCLASSNAME::sendPC(uint8_t channel, uint8_t pc)
 #endif
 
 	DUMMYMIDI.sendProgramChange( pc, channel );
+}
+
+void DUMMYCLASSNAME::sendSysEx( uint8_t inLength, const uint8_t* inArray, bool inArrayContainsBoundaries )
+{
+#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
+	Serial.print( F("Axon MIDI NETWORK 1") );
+#else
+	Serial.print( F("Axon MIDI NETWORK 2") );
+#endif
+	Serial.println( F("::sendSysEx") );
+#endif
+
+	DUMMYMIDI.sendSysEx( inLength, inArray, inArrayContainsBoundaries );
 }
 
 void DUMMYCLASSNAME::read()

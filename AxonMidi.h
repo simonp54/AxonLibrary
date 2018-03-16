@@ -15,6 +15,7 @@ class AxonMidi										// this is really just a place holder, but may well end 
 		
 		void sendCC( uint8_t network, uint8_t channel, uint8_t cc, uint8_t val );
 		void sendPC( uint8_t network, uint8_t channel, uint8_t pc );
+		void sendSysEx( uint8_t network, uint8_t inLength, const uint8_t* inArray, bool inArrayContainsBoundaries );
 		void read();
 	protected:
 		AxonMidi();

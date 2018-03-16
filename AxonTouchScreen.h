@@ -17,6 +17,10 @@ class AxonTouchScreen
 		void showTunerScreen();
 		void showMainScreen();
 		void setContrast(uint8_t contrast);
+		
+		void setTunerNote( uint8_t note );
+		void setTunerString( uint8_t stringNumber );
+		void setTunerData( uint8_t tunerData );
 	protected:
 		AxonTouchScreen();
 	private:
