@@ -18,25 +18,24 @@ bool AxonAxeFXXLPlusFrontPanelChangeDecoder::decode( AxonSysExMidiEvent *event )
 	// return true if we decoded or false if we didn't decode
 	if (AxonAxeFXXLPlusChecksumDecoder::decode( event ) )
 	{
-		if (event->getSize() == 8)						// the absolute minimum of a checksummed FAS message structure *one byte payload
+		if (event->getSize() == 8)				// a front panel change message is 8 bytes in size
 		{
-			if ( (event->getByte(5)) == 0x21 )
+			if ( (event->getByte(5)) == 0x21 )		// message id   aka this IS A FRONT PANEL MESSAGE
 			{
 				AxonFASFrontPanelChangeEvent *newEvent = new AxonFASFrontPanelChangeEvent();
 				AxonEventManager::instance()->addToQueue( newEvent );
 				
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_FRONT_PANEL_CHANGE_DECODER_TYPE
-				Serial.println( "DECODED AXEFX XL+ FRONT PANEL CHANGE SYSEX MESSAGE - SUCCESS" );
+				Serial.println( F("AxonAxeFXXLPlusFrontPanelChangeDecoder::DECODED AXEFX XL+ FRONT PANEL CHANGE SYSEX MESSAGE - SUCCESS") );
 #endif
 				return true;
 			}
 		}
-#ifdef DEBUG_AXON_AXEFX_XL_PLUS_FRONT_PANEL_CHANGE_DECODER_TYPE
-		Serial.print( F("SysEx Msg Size=") );
-		Serial.println( event->getSize() );
-		Serial.println( "UNABLE TO DECODE AXEFX XL+ FRONT PANEL CHANGE SYSEX MESSAGE");
-#endif
-		return false;
 	}
+
+#ifdef DEBUG_AXON_AXEFX_XL_PLUS_FRONT_PANEL_CHANGE_DECODER_TYPE
+	Serial.println( F("AxonAxeFXXLPlusFrontPanelChangeDecoder::(some other data not FRONT PANEL CHANGE)") );
+#endif
+
 	return false;
 }

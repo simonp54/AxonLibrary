@@ -16,35 +16,27 @@ bool AxonAxeFXXLPlusChecksumDecoder::decode( AxonSysExMidiEvent *event )
 	// return true if we decoded or false if we didn't decode
 	if (AxonAxeFXXLPlusModelDecoder::decode( event ) )
 	{
-		if (event->getSize() >= 8)						// the absolute minimum of a checksummed FAS message structure *one byte payload
+		if (event->getSize() >= 8)			// the absolute minimum of a checksummed FAS message structure *one byte payload
 		{
-			if ( (event->getByte( event->getSize() - 2)) == calcChecksum( event ) )
+			if ( ( event->getByte( event->getSize() - 2 ) ) == calcChecksum( event ) )
 			{
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_CHECKSUM_DECODER_TYPE
-				Serial.println( "DECODED AXEFX XL+ CHECKSUM SYSEX MESSAGE - SUCCESS" );
+				Serial.println( F("AxonAxeFXXLPlusChecksumDecoder::CHECKSUM VALID") );
 #endif
 				return true;
 			}
 			else
 			{
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_CHECKSUM_DECODER_TYPE
-				Serial.println( "DECODED AXEFX XL+ CHECKSUM SYSEX MESSAGE - INVALID CHECKSUM");
+				Serial.println( F("AxonAxeFXXLPlusChecksumDecoder::CHECKSUM INVALID") );
 #endif
-				return false;
+				return true;			// even tho the checksum failed... the message was decoded "successfully"
 			}
 		}
-#ifdef DEBUG_AXON_AXEFX_XL_PLUS_CHECKSUM_DECODER_TYPE
-		Serial.println( "UNABLE TO DECODE AXEFX XL+ CHECKSUM SYSEX MESSAGE");
-#endif
-		return false;
 	}
 	return false;
 }
 
-
-/****************************************************
-    
- ****************************************************/
 uint8_t AxonAxeFXXLPlusChecksumDecoder::calcChecksum( AxonSysExMidiEvent *event )
 {
   uint8_t checksum = 0;

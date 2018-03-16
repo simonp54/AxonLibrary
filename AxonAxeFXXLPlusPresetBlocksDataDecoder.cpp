@@ -21,16 +21,12 @@ bool AxonAxeFXXLPlusPresetBlocksDataDecoder::decode( AxonSysExMidiEvent *event )
 	// return true if we decoded or false if we didn't decode
 	if (AxonAxeFXXLPlusModelDecoder::decode( event ) )
 	{
-#ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE
-			Serial.print( F("AxonAxeFXXLPlusPresetBlocksDataDecoder::Message Type=0x") );
-			Serial.println( event->getByte(5), HEX);
-#endif
 		if (event->getByte(5) == 0x0E)					// PRESET BLOCKS DATA MESSAGE FROM AN AXEFX XL PLUS
 		{
 			if (event->getSize() == 8)
 			{
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE
-				Serial.println( "IGNORING PRESET BLOCKS DATA REQUEST - SUCCESS" );
+				Serial.println( F("AxonAxeFXXLPlusPresetBlocksDataDecoder::IGNORING PRESET BLOCKS DATA REQUEST (size==8) - SUCCESS") );
 #endif
 				// this is a valid BUT a return of the REQUEST to retrieve the Blocks information
 				// so ignore it, BUT it is "correctly" formed...
@@ -64,15 +60,23 @@ bool AxonAxeFXXLPlusPresetBlocksDataDecoder::decode( AxonSysExMidiEvent *event )
 				AxonEventManager::instance()->addToQueue( newEvent );
 				
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE
-				Serial.println( "DECODED AXEFX XL+ PRESET BLOCKS DATA SYSEX MESSAGE - SUCCESS" );
+				Serial.println( F("AxonAxeFXXLPlusPresetBlocksDataDecoder::DECODED PRESET BLOCKS DATA MESSAGE - SUCCESS") );
+#endif
+				return true;
+			}
+			else
+			{
+#ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE
+				Serial.println( F("AxonAxeFXXLPlusPresetBlocksDataDecoder::DECODED <EMPTY> PRESET BLOCKS DATA MESSAGE - SUCCESS") );
 #endif
 				return true;
 			}
 		}
 	}
-
+	
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE
-	Serial.println( "UNABLE TO DECODE AXEFX XL+ PRESET BLOCKS DATA SYSEX MESSAGE");
+	Serial.println( F("AxonAxeFXXLPlusPresetBlocksDataDecoder::(some other data not PRESET BLOCKS DATA)") );
 #endif
+	
 	return false;
 }

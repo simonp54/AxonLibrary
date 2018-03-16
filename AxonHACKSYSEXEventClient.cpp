@@ -1,9 +1,6 @@
 #include "AxonHACKSYSEXEventClient.h"
 #include "AxonSysExMidiEvent.h"
-#include "AxonFASManufacturerDecoder.h"
-#include "AxonAxeFXXLPlusModelDecoder.h"
 #include "AxonAxeFXXLPlusTunerInfoDecoder.h"
-#include "AxonAxeFXXLPlusChecksumDecoder.h"
 #include "AxonAxeFXXLPlusFrontPanelChangeDecoder.h"
 #include "AxonAxeFXXLPlusPresetBlocksDataDecoder.h"
 #include "AxonEvent.h"
@@ -22,26 +19,17 @@ void AxonHACKSYSEXEventClient::event( AxonEvent *event )
 	{
 		AxonSysExMidiEvent *tmp2 = event;
 		
-//		AxonFASManufacturerDecoder *FASManDec = new AxonFASManufacturerDecoder();
-//		FASManDec->decode( tmp2 );
-//		delete FASManDec;
-
-//		AxonAxeFXXLPlusModelDecoder *AxeFXXLPlusModelDec = new AxonAxeFXXLPlusModelDecoder();
-//		AxeFXXLPlusModelDec->decode( tmp2 );
-//		delete AxeFXXLPlusModelDec;
-
+		Serial.println( F("Try Tuner Info") );
 		AxonAxeFXXLPlusTunerInfoDecoder *AxeFXXLPlusTunerInfoDecoder = new AxonAxeFXXLPlusTunerInfoDecoder();
 		AxeFXXLPlusTunerInfoDecoder->decode( tmp2 );
 		delete AxeFXXLPlusTunerInfoDecoder;
 	
-//		AxonAxeFXXLPlusChecksumDecoder *AxeFXXLPlusChecksumDecoder = new AxonAxeFXXLPlusChecksumDecoder();
-//		AxeFXXLPlusChecksumDecoder->decode( tmp2 );
-//		delete AxeFXXLPlusChecksumDecoder;
-
+		Serial.println( F("Try Front Panel") );
 		AxonAxeFXXLPlusFrontPanelChangeDecoder *AxeFXXLPlusFrontPanelChangeDecoder = new AxonAxeFXXLPlusFrontPanelChangeDecoder();
 		AxeFXXLPlusFrontPanelChangeDecoder->decode( tmp2 );
 		delete AxeFXXLPlusFrontPanelChangeDecoder;
 
+		Serial.println( F("Try Preset Blocks Data") );
 		AxonAxeFXXLPlusPresetBlocksDataDecoder *AxeFXXLPlusPresetBlocksDataDecoder = new AxonAxeFXXLPlusPresetBlocksDataDecoder();
 		AxeFXXLPlusPresetBlocksDataDecoder->decode( tmp2 );
 		delete AxeFXXLPlusPresetBlocksDataDecoder;

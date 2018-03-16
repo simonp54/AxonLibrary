@@ -17,7 +17,7 @@ bool AxonAxeFXXLPlusTunerInfoDecoder::decode( AxonSysExMidiEvent *event )
 	// return true if we decoded or false if we didn't decode
 	if (AxonAxeFXXLPlusModelDecoder::decode( event ) )
 	{
-		if (event->getSize() == 10)
+		if ( (event->getSize() == 10) && (event->getByte(5) == 0x0D) )
 		{
 //			AxonAxeFX_XL_Plus_TunerInfoEvent newEvent = new AxonAxeFX_XL_Plus_TunerInfoEvent();
 			
@@ -32,7 +32,7 @@ bool AxonAxeFXXLPlusTunerInfoDecoder::decode( AxonSysExMidiEvent *event )
 			AxonTouchScreen::instance()->setTunerData( event->getByte(8) );
 			
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_TUNER_INFO_DECODER_TYPE
-			Serial.println( "DECODED AXEFX XL+ TUNER SYSEX MESSAGE - SUCCESS" );
+			Serial.println( F("AxonAxeFXXLPlusTunerInfoDecoder::TUNER INFO SYSEX MESSAGE - SUCCESS") );
 #endif
 			
 			return true;
@@ -40,7 +40,8 @@ bool AxonAxeFXXLPlusTunerInfoDecoder::decode( AxonSysExMidiEvent *event )
 	}
 
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_TUNER_INFO_DECODER_TYPE
-	Serial.println( "UNABLE TO DECODE AXEFX XL+ TUNER SYSEX MESSAGE");
+	Serial.println( F("AxonAxeFXXLPlusTunerInfoDecoder::(some other data not TUNER INFO)") );
 #endif
+
 	return false;
 }
