@@ -10,8 +10,6 @@ class AxonSysExDecoder: public AxonDecoder
 		AxonSysExDecoder();
 		
 		virtual bool decode( AxonSysExMidiEvent *event );
-	protected:
-
 };
 
 #endif

@@ -25,7 +25,7 @@ bool AxonAxeFXXLPlusPresetBlocksDataDecoder::decode( AxonSysExMidiEvent *event )
 		{
 			if (event->getSize() == 8)
 			{
-#ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE
+#ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE_VERBOSE
 				Serial.println( F("AxonAxeFXXLPlusPresetBlocksDataDecoder::IGNORING PRESET BLOCKS DATA REQUEST (size==8) - SUCCESS") );
 #endif
 				// this is a valid BUT a return of the REQUEST to retrieve the Blocks information
@@ -35,12 +35,13 @@ bool AxonAxeFXXLPlusPresetBlocksDataDecoder::decode( AxonSysExMidiEvent *event )
 			
 			uint8_t blockCount = (event->getSize() - 7) / 5;
 	
-#ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE
+#ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE_VERBOSE
 			Serial.print( F("AxonAxeFXXLPlusPresetBlocksDataDecoder::blockCount=") );
 			Serial.println( blockCount );
 #endif
 			if ( blockCount > 0 )
 			{
+/*
 				AxonAxeFXXLPlusBlockListContainer *newList = new AxonAxeFXXLPlusBlockListContainer();
 				for( uint8_t i = 0; i < blockCount; i++)
 				{
@@ -57,8 +58,14 @@ bool AxonAxeFXXLPlusPresetBlocksDataDecoder::decode( AxonSysExMidiEvent *event )
 
 				AxonFASPresetBlocksDataEvent *newEvent = new AxonFASPresetBlocksDataEvent();
 				newEvent->setBlockList( newList );
-				AxonEventManager::instance()->addToQueue( newEvent );
 				
+//				if (_onSuccess)
+//				{
+//					_onSuccess->execute( newEvent );
+//				}
+				
+				AxonEventManager::instance()->addToQueue( newEvent );
+	*/			
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE
 				Serial.println( F("AxonAxeFXXLPlusPresetBlocksDataDecoder::DECODED PRESET BLOCKS DATA MESSAGE - SUCCESS") );
 #endif
@@ -74,7 +81,7 @@ bool AxonAxeFXXLPlusPresetBlocksDataDecoder::decode( AxonSysExMidiEvent *event )
 		}
 	}
 	
-#ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE
+#ifdef DEBUG_AXON_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER_TYPE_VERBOSE
 	Serial.println( F("AxonAxeFXXLPlusPresetBlocksDataDecoder::(some other data not PRESET BLOCKS DATA)") );
 #endif
 	

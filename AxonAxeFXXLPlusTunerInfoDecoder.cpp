@@ -1,6 +1,7 @@
 #include "AxonAxeFXXLPlusTunerInfoDecoder.h"
 #include "AxonDecoderTypeNumbers.h"
-#include "AxonTouchScreen.h"
+#include "AxonFASTunerInfoEvent.h"
+#include "AxonEventManager.h"
 #include "Arduino.h"
 
 #include "AxonDebugDefines.h"
@@ -19,17 +20,18 @@ bool AxonAxeFXXLPlusTunerInfoDecoder::decode( AxonSysExMidiEvent *event )
 	{
 		if ( (event->getSize() == 10) && (event->getByte(5) == 0x0D) )
 		{
-//			AxonAxeFX_XL_Plus_TunerInfoEvent newEvent = new AxonAxeFX_XL_Plus_TunerInfoEvent();
+			AxonFASTunerInfoEvent *newEvent = new AxonFASTunerInfoEvent();
 			
-//			newEvent->setNote(event->getByte(5));
-//			newEvent->setString(event->getByte(6));
-//			newEvent->setTunerData(event->getByte(7));
+			newEvent->setNote(event->getByte(6));
+			newEvent->setString(event->getByte(7));
+			newEvent->setData(event->getByte(8));
 
-//			AxonEventManager::instance()->addToQueue( newEvent );
+			if (_onSuccess)
+			{
+				_onSuccess->execute( newEvent );
+			}
 
-			AxonTouchScreen::instance()->setTunerNote( event->getByte(6) );
-			AxonTouchScreen::instance()->setTunerString( event->getByte(7) );
-			AxonTouchScreen::instance()->setTunerData( event->getByte(8) );
+			AxonEventManager::instance()->addToQueue( newEvent );
 			
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_TUNER_INFO_DECODER_TYPE
 			Serial.println( F("AxonAxeFXXLPlusTunerInfoDecoder::TUNER INFO SYSEX MESSAGE - SUCCESS") );
@@ -39,7 +41,7 @@ bool AxonAxeFXXLPlusTunerInfoDecoder::decode( AxonSysExMidiEvent *event )
 		}
 	}
 
-#ifdef DEBUG_AXON_AXEFX_XL_PLUS_TUNER_INFO_DECODER_TYPE
+#ifdef DEBUG_AXON_AXEFX_XL_PLUS_TUNER_INFO_DECODER_TYPE_VERBOSE
 	Serial.println( F("AxonAxeFXXLPlusTunerInfoDecoder::(some other data not TUNER INFO)") );
 #endif
 

@@ -2,13 +2,13 @@
  * Send Midi BANK SELECT and subsequent Program Change to select AxeFX Preset Action Class
  * VERSION 1.0 11/03/2018
  */
-#ifndef AXON_AXEFX_PRESET_REQUEST_ACTION_h
-#define AXON_AXEFX_PRESET_REQUEST_ACTION_h
+#ifndef AXON_AXEFX_PRESET_NUMBER_REQUEST_ACTION_h
+#define AXON_AXEFX_PRESET_NUMBER_REQUEST_ACTION_h
 
 #include "AxonMidiChannelBasedAction.h"
 #include "AxonEvent.h"
 
-class AxonAxeFXPresetRequestAction: public AxonMidiChannelBasedAction
+class AxonAxeFXPresetNumberRequestAction: public AxonMidiChannelBasedAction
 {
 	public:
 		void execute(AxonEvent *event);									// the execute method

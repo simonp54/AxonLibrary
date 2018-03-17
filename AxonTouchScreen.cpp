@@ -4,7 +4,6 @@
  * VERSION 1.0 10/03/2018
  */
 
-#include "Arduino.h"
 #include "AxonTouchScreen.h"
 #include "AxonGeneralStorage.h"
 
@@ -36,9 +35,11 @@ AxonTouchScreen::AxonTouchScreen()
 	delay(100);							// should do something about these delays
 	digitalWrite( _RESET_LINE, LOW );
 	delay(3500);						// should do something about these delays
-	
-	uint8_t tmp = AxonGeneralStorage::instance()->readTouchScreenContrast();
-	setContrast( tmp );
+}
+
+void AxonTouchScreen::initialise()
+{
+	setContrast( AxonGeneralStorage::instance()->readTouchScreenContrast() );
 }
 
 void AxonTouchScreen::showTunerScreen()
@@ -49,6 +50,10 @@ void AxonTouchScreen::showTunerScreen()
 void AxonTouchScreen::showMainScreen()
 {
 	_genie->WriteObject( GENIE_OBJ_FORM, 1, 0 );  // show main form
+	
+	showAxeFXPresetNumber();
+	showAxeFXSceneNumber();
+	showAxeFXPresetName();
 }
 
 void AxonTouchScreen::setContrast( uint8_t contrast )
@@ -110,50 +115,17 @@ void AxonTouchScreen::setTunerData( uint8_t tunerData )
 	}
 }
 
+void AxonTouchScreen::showAxeFXPresetNumber()
+{
+	_genie->WriteStr( 3, AxonGeneralStorage::instance()->readAxeFXPresetNumber() );
+}
 
-/*
+void AxonTouchScreen::showAxeFXSceneNumber()
+{
+	_genie->WriteStr( 7, AxonGeneralStorage::instance()->readAxeFXSceneNumber() + 1 );
+}
 
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-
-
-
-  _genie->WriteStr( 7, AxeFX_sceneNumber + 1 );
-
-  _genie->WriteStr( 2, AxeFX_presetName );
-
-  _genie->WriteStr( 3, AxeFX_presetNumber );
-
-  _genie->WriteStr( 7, AxeFX_sceneNumber + 1 );
-
-  _genie->WriteStr( 7, AxeFX_sceneNumber + 1 );
-
-
-  _genie->WriteObject( GENIE_OBJ_FORM, 1, 0 );  // show preset form
-  _genie->WriteStr( 2, AxeFX_presetName );
-  _genie->WriteStr( 3, AxeFX_presetNumber );
-  _genie->WriteStr( 7, AxeFX_sceneNumber + 1 );
-
-  _genie->WriteObject( GENIE_OBJ_STRINGS, 0, AxeFX_noteNumber );
-
-  _genie->WriteObject( GENIE_OBJ_STRINGS, 1, AxeFX_stringNumber - 1);
-
-
-*/
- 
+void AxonTouchScreen::showAxeFXPresetName()
+{
+	_genie->WriteStr( 2, AxonGeneralStorage::instance()->readAxeFXPresetName() );
+}

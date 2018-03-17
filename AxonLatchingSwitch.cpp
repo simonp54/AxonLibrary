@@ -50,7 +50,12 @@ void AxonLatchingSwitch::event( AxonEvent *event )
 			Serial.print( swEvent->getGroupID() ); 
 			Serial.println( F(", ON") );
 #endif
-			AxonEventManager::instance()->addToQueue( swEvent );
+			if (_onAction)
+			{
+				_onAction->execute( swEvent );
+			}
+
+				AxonEventManager::instance()->addToQueue( swEvent );
 
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
 			return;
@@ -69,6 +74,11 @@ void AxonLatchingSwitch::event( AxonEvent *event )
 			Serial.print( swEvent->getGroupID() );  
 			Serial.println( F(", OFF") );
 #endif
+			if (_offAction)
+			{
+				_offAction->execute( swEvent );
+			}
+
 			AxonEventManager::instance()->addToQueue( swEvent );
 
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly

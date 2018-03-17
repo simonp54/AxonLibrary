@@ -32,7 +32,6 @@ class AxonSwitchEvent: public AxonEvent
 		
 		static const uint8_t SWITCH_MIN_VALUE = 0x00;
 		static const uint8_t SWITCH_MAX_VALUE = 0x7F;
-
 };
 
 #endif

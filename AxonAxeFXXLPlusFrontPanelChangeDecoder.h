@@ -3,6 +3,7 @@
 
 #include "Arduino.h"
 #include "AxonAxeFXXLPlusChecksumDecoder.h"
+#include "AxonAction.h"
 
 class AxonAxeFXXLPlusFrontPanelChangeDecoder: public AxonAxeFXXLPlusChecksumDecoder
 {

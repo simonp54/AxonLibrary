@@ -20,6 +20,11 @@ bool AxonAxeFXXLPlusModelDecoder::decode( AxonSysExMidiEvent *event )
 		{
 			if ( (event->getByte(4) == 0x07) )
 			{
+//				if (_onSuccess)
+//				{
+//					_onSuccess->execute( event );
+//				}
+
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_MODEL_DECODER_TYPE
 				Serial.println( F("AxonAxeFXXLPlusModelDecoder::AXEFX XL+ MODEL") );
 #endif
@@ -27,7 +32,7 @@ bool AxonAxeFXXLPlusModelDecoder::decode( AxonSysExMidiEvent *event )
 			}
 			else
 			{
-#ifdef DEBUG_AXON_AXEFX_XL_PLUS_MODEL_DECODER_TYPE
+#ifdef DEBUG_AXON_AXEFX_XL_PLUS_MODEL_DECODER_TYPE_VERBOSE
 				Serial.println( F("AxonAxeFXXLPlusModelDecoder::UNHANDLED MODEL (0x") );
 				Serial.print  ( event->getByte(4), HEX );
 				Serial.println( F(") RECEIVED SYSEX MESSAGE - NO ACTION") );

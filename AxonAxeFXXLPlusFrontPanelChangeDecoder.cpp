@@ -23,6 +23,12 @@ bool AxonAxeFXXLPlusFrontPanelChangeDecoder::decode( AxonSysExMidiEvent *event )
 			if ( (event->getByte(5)) == 0x21 )		// message id   aka this IS A FRONT PANEL MESSAGE
 			{
 				AxonFASFrontPanelChangeEvent *newEvent = new AxonFASFrontPanelChangeEvent();
+				
+				if (_onSuccess)
+				{
+					_onSuccess->execute( newEvent );
+				}
+				
 				AxonEventManager::instance()->addToQueue( newEvent );
 				
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_FRONT_PANEL_CHANGE_DECODER_TYPE
@@ -33,7 +39,7 @@ bool AxonAxeFXXLPlusFrontPanelChangeDecoder::decode( AxonSysExMidiEvent *event )
 		}
 	}
 
-#ifdef DEBUG_AXON_AXEFX_XL_PLUS_FRONT_PANEL_CHANGE_DECODER_TYPE
+#ifdef DEBUG_AXON_AXEFX_XL_PLUS_FRONT_PANEL_CHANGE_DECODER_TYPE_VERBOSE
 	Serial.println( F("AxonAxeFXXLPlusFrontPanelChangeDecoder::(some other data not FRONT PANEL CHANGE)") );
 #endif
 

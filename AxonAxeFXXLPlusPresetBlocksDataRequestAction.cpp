@@ -6,7 +6,9 @@ const uint8_t AxonAxeFXXLPlusPresetBlocksDataRequestAction::_payload[] = { 0x00,
 
 void AxonAxeFXXLPlusPresetBlocksDataRequestAction::execute(AxonEvent *event)													// use the midi implementation to send the program change
 {
-	AxonMidi::instance()->sendSysEx( _network, 6, _payload, false );
+	AxonMidi::instance()->sendSysEx( _network, sizeof( _payload ), _payload, false );
 	
+#ifdef DEBUG_AXON_AXE_FX_XL_PLUS_PRESET_BLOCKS_DATA_REQUEST_ACTION
 	Serial.println( F("AxonAxeFXXLPlusPresetBlocksDataRequestAction::Sending PresetBlocksData Request") );
+#endif
 }

@@ -2,12 +2,12 @@
  * Send Midi BANK SELECT and subsequent Program Change to select AxeFX Preset Action Class
  * VERSION 1.0 11/03/2018
  */
-#include "AxonAxeFXPresetRequestAction.h"
+#include "AxonAxeFXPresetNumberRequestAction.h"
 #include "AxonGeneralStorage.h"
 #include "AxonMidi.h"
 #include "Arduino.h"
 
-void AxonAxeFXPresetRequestAction::execute(AxonEvent *event)													// use the midi implementation to send the program change
+void AxonAxeFXPresetNumberRequestAction::execute(AxonEvent *event)													// use the midi implementation to send the program change
 {
 	uint16_t pcNumber = AxonGeneralStorage::instance()->readAxeFXPresetNumber();
 	
@@ -27,8 +27,10 @@ void AxonAxeFXPresetRequestAction::execute(AxonEvent *event)													// use 
 		
 		AxonMidi::instance()->sendPC( _network, _channel, presetNumber );
 	}	
+#ifdef DEBUG_WARNINGS
 	else
 	{
-		Serial.println( F("Axon CC Action tried to Execute without valid parameters") );
+		Serial.println( F("Axon AxeFX Preset Request Action tried to Execute without valid parameters") );
 	}
+#endif
 }

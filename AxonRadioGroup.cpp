@@ -21,7 +21,7 @@ void AxonRadioGroup::eventRegister( AxonHardwareSwitchEvent *event )
 		_eventList[_eventCount] = event;
 		_eventCount++;
 	}
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 	Serial.print( F("AxonRadioGroup::eventRegister ") );
 	Serial.print( F("attach: ") );
 	Serial.print( _eventCount );
@@ -48,7 +48,7 @@ void AxonRadioGroup::eventDeregister(AxonHardwareSwitchEvent *event)				// find 
 	{
 		_eventCount--;
 	}
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 	Serial.print( F("AxonRadioGroup::eventDeregister ") );
 	Serial.print( F("attach: ") );
 	Serial.print( _eventCount );
@@ -61,7 +61,7 @@ void AxonRadioGroup::event( AxonEvent *event )
 {
 	static uint8_t lastSwitchNo = 40;
 	
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 	Serial.print( F("AxonRadioGroup::event         received:") );
 	Serial.println( event->getGroupID() );
 #endif
@@ -70,7 +70,7 @@ void AxonRadioGroup::event( AxonEvent *event )
 
 	if (event->sameType(tmp))
 	{
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 		Serial.print( F("AxonRadioGroup::event ") );
 		Serial.println( F("is a hardware switch type") );
 #endif		
@@ -84,7 +84,7 @@ void AxonRadioGroup::event( AxonEvent *event )
 
 		if ( tmp2->getSwitchState() )													// hardware switch has notified us it's ON
 		{
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 			Serial.print( F("switch ") );
 			Serial.print( tmp2->getSwitchNumber() );
 			Serial.println( F(" is ON") );
@@ -92,13 +92,13 @@ void AxonRadioGroup::event( AxonEvent *event )
 			
 			for( uint8_t i = 0; i < _eventCount; i++ )
 			{
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 				Serial.print( F("switch ") );
 				Serial.println( _eventList[i]->getSwitchNumber() );
 #endif
 				if (_eventList[i]->getSwitchNumber() == lastSwitchNo)
 				{
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 					Serial.println( F("not equal to the sending switch event -- sending FALSE SoftwareSwitchEvent1") );
 					Serial.print( F("with this number as the switch number=") );
 					Serial.println( _eventList[i]->getSwitchNumber() );
@@ -106,21 +106,33 @@ void AxonRadioGroup::event( AxonEvent *event )
 
 					AxonSoftwareSwitchEvent *SoftwareSwitchEvent1 = new AxonSoftwareSwitchEvent( _eventList[i]->getSwitchNumber() );
 					SoftwareSwitchEvent1->setSwitchState( false );
+
+					if (_offAction)
+					{
+						_offAction->execute( SoftwareSwitchEvent1 );
+					}
+					
 					AxonEventManager::instance()->addToQueue( SoftwareSwitchEvent1 );
 				}
 				
 				if (_eventList[i]->getSwitchNumber() == tmp2->getSwitchNumber())
 				{
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 					Serial.println( F("    equal to the sending switch event -- sending TRUE SoftwareSwitchEvent2") );
 					Serial.print( F("with this number as the switch number=") );
 					Serial.println( _eventList[i]->getSwitchNumber() );
 #endif
 					AxonSoftwareSwitchEvent *SoftwareSwitchEvent2 = new AxonSoftwareSwitchEvent( _eventList[i]->getSwitchNumber() );
 					SoftwareSwitchEvent2->setSwitchState( true );
+
+					if (_onAction)
+					{
+						_onAction->execute( SoftwareSwitchEvent2 );
+					}
+
 					AxonEventManager::instance()->addToQueue( SoftwareSwitchEvent2 );
 
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 					Serial.println( F("sending *radio group* switch message") );
 					Serial.print( F("with this number as the switch number=") );
 					Serial.println( _myVirtualSwitchNumber );
@@ -132,13 +144,19 @@ void AxonRadioGroup::event( AxonEvent *event )
 					// is just a number that is "understandable" in the context of the radio group only...
 					AxonSoftwareSwitchEvent *RGEvent = new AxonSoftwareSwitchEvent( _myVirtualSwitchNumber );
 					RGEvent->setVal( i );
+
+					if (_onChangeAction)
+					{
+						_onChangeAction->execute( RGEvent );
+					}
+
 					AxonEventManager::instance()->addToQueue( RGEvent );
 				}		
 			}
 			lastSwitchNo = tmp2->getSwitchNumber();
 
 		}
-#ifdef DEBUG_AXON_RADIO_GROUP
+#ifdef DEBUG_AXON_RADIO_GROUP_EVENT_CLIENT
 		else
 		{
 			Serial.print( F("switch ") );

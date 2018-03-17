@@ -16,19 +16,19 @@ AxonSysExMidiEvent::~AxonSysExMidiEvent()
 
 void AxonSysExMidiEvent::deleteData()
 {
-#ifdef DEBUG_WARNINGS
+#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
 	Serial.println( F("AxonSysExMidiEvent::deleteData") );
 #endif
 	if (_size > 0)
 	{
-#ifdef DEBUG_WARNINGS
+#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
 		Serial.print( F("buffer existed deleting memory ") );
 		Serial.print( _size );
 		Serial.println( F(" bytes") );
 #endif
 		free(_array);
 		_size = 0;
-#ifdef DEBUG_WARNINGS
+#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
 		Serial.println( F("...deleted") );
 #endif
 	}
@@ -64,7 +64,7 @@ void AxonSysExMidiEvent::copyData( uint8_t* array, uint8_t size )
 		if (_array==NULL)
 		{
 #ifdef DEBUG_WARNINGS
-			Serial.println( F("...failed to allocate") );
+			Serial.println( F("AxonSysExMidiEvent::Failed to allocate memory") );
 #endif
 			_size = 0;
 		}

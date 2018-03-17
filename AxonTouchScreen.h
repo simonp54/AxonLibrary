@@ -8,19 +8,27 @@
 #define AXON_TOUCHSCREEN_h
 
 #include "genieArduino.h"
+#include "Arduino.h"
 
 class AxonTouchScreen
 {
 	public:
 		static AxonTouchScreen *instance();							// singleton accessor method
 		
+		void initialise();
+		
 		void showTunerScreen();
 		void showMainScreen();
+		void showAxeFXPresetNumber();
+		void showAxeFXSceneNumber();
+		void showAxeFXPresetName();
+		
 		void setContrast(uint8_t contrast);
 		
 		void setTunerNote( uint8_t note );
 		void setTunerString( uint8_t stringNumber );
 		void setTunerData( uint8_t tunerData );
+		
 	protected:
 		AxonTouchScreen();
 	private:

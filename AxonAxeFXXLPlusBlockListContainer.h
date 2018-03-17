@@ -7,6 +7,7 @@ class AxonAxeFXXLPlusBlockListContainer
 {
 	public:
 		AxonAxeFXXLPlusBlockListContainer();
+		~AxonAxeFXXLPlusBlockListContainer();
 
 		void addBlock( AxonAxeFXXLPlusBlockContainer *block );
 		void removeBlock( AxonAxeFXXLPlusBlockContainer *block );

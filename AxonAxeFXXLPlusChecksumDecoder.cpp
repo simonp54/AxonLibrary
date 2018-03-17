@@ -20,6 +20,10 @@ bool AxonAxeFXXLPlusChecksumDecoder::decode( AxonSysExMidiEvent *event )
 		{
 			if ( ( event->getByte( event->getSize() - 2 ) ) == calcChecksum( event ) )
 			{
+//				if (_onSuccess)
+//				{
+//					_onSuccess->execute( event );
+//				}
 #ifdef DEBUG_AXON_AXEFX_XL_PLUS_CHECKSUM_DECODER_TYPE
 				Serial.println( F("AxonAxeFXXLPlusChecksumDecoder::CHECKSUM VALID") );
 #endif

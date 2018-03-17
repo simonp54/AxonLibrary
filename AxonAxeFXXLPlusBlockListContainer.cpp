@@ -7,6 +7,15 @@ AxonAxeFXXLPlusBlockListContainer::AxonAxeFXXLPlusBlockListContainer()
 	_blockCount = 0;
 }
 
+AxonAxeFXXLPlusBlockListContainer::~AxonAxeFXXLPlusBlockListContainer()
+{
+	for( uint8_t i = 0; i < _blockCount; i++ )
+	{
+		delete(_blockList[i]);
+	}
+	_blockCount = 0;
+}
+
 void AxonAxeFXXLPlusBlockListContainer::addBlock( AxonAxeFXXLPlusBlockContainer *block )
 {
 	if (_blockCount < _MAX_BLOCKS)

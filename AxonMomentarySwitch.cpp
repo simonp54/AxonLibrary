@@ -45,7 +45,7 @@ void AxonMomentarySwitch::event( AxonEvent *event )
 			if ( ( _startMillis > 0 ) && ( _startMillis + _interval <= millis() ) )		// is it long enough?
 			{
 				_startMillis = 0;														// stop our timer
-				
+								
 				AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
 				swEvent->setSwitchState( true );
 #ifdef DEBUG_AXON_MOMENTARY
@@ -56,6 +56,11 @@ void AxonMomentarySwitch::event( AxonEvent *event )
 				Serial.print( swEvent->getSwitchNumber() ); 
 				Serial.println( F(", ON") );
 #endif
+				if (_onAction)
+				{
+					_onAction->execute( swEvent );
+				}
+
 				AxonEventManager::instance()->addToQueue( swEvent );
 			}
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
@@ -77,6 +82,11 @@ void AxonMomentarySwitch::event( AxonEvent *event )
 				Serial.print( swEvent->getSwitchNumber() );
 				Serial.println( F(", OFF") );
 #endif
+				if (_offAction)
+				{
+					_offAction->execute( swEvent );
+				}
+
 				AxonEventManager::instance()->addToQueue( swEvent );
 			}
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly

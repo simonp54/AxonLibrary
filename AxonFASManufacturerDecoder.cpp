@@ -21,6 +21,12 @@ bool AxonFASManufacturerDecoder::decode( AxonSysExMidiEvent *event )
 		{
 //			AxonFASManufacturerEvent newEvent = new AxonFASManufacturerEvent();
 //			AxonEventManager::instance()->addToQueue( newEvent );
+
+//			if (_onSuccess)
+//			{
+//				_onSuccess->execute( newEvent );
+//			}
+
 #ifdef DEBUG_AXON_FAS_MANUFACTURER_DECODER_TYPE
 			Serial.println( F("AxonFASManufacturerDecoder::FRACTAL AUDIO SYSTEMS SYSEX MESSAGE - SUCCESS") );
 #endif
@@ -28,7 +34,7 @@ bool AxonFASManufacturerDecoder::decode( AxonSysExMidiEvent *event )
 		}
 		else
 		{
-#ifdef DEBUG_AXON_FAS_MANUFACTURER_DECODER_TYPE
+#ifdef DEBUG_AXON_FAS_MANUFACTURER_DECODER_TYPE_VERBOSE
 			Serial.println( F("AxonFASManufacturerDecoder::(some other data not FRACTAL AUDIO SYSTEMS)") );
 #endif
 		}
