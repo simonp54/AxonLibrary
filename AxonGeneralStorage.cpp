@@ -46,7 +46,7 @@ void AxonGeneralStorage::writeAFXXLPPresetNumber(uint16_t tmp)
 
 uint8_t AxonGeneralStorage::readAFXSceneNumber()
 {
-	uint16_t tmp;
+	uint8_t tmp;
 	_AS->read( AXEFX_SCENE_NUMBER_ADDR, &tmp );
 	return tmp;
 }

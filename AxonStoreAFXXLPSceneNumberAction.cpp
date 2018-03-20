@@ -1,5 +1,5 @@
 #include "AxonStoreAFXXLPSceneNumberAction.h"
-#include "AxonHardwareSwitchEvent.h"
+#include "AxonAFXXLPSceneNumberEvent.h"
 #include "AxonGeneralStorage.h"
 #include "Arduino.h"
 
@@ -9,16 +9,16 @@
 
 void AxonStoreAFXXLPSceneNumberAction::execute(AxonEvent *event)
 {
-	AxonHardwareSwitchEvent *tmp = new AxonHardwareSwitchEvent( 0 );
+	AxonAFXXLPSceneNumberEvent *tmp = new AxonAFXXLPSceneNumberEvent( );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
 
 	if (event->sameType(tmp))
 	{
-		AxonHardwareSwitchEvent *tmp2 = event;
+		AxonAFXXLPSceneNumberEvent *tmp2 = event;
 		
-		AxonGeneralStorage::instance()->writeAFXSceneNumber( tmp2->getSwitchNumber() - 16 );
+		AxonGeneralStorage::instance()->writeAFXSceneNumber( tmp2->getSceneNumber() );
 	}
 	
 	delete tmp;

@@ -14,7 +14,7 @@ class AxonEventClient
 		void setOffAction( AxonAction *action );
 		void setOnChangeAction( AxonAction *action );
 	
-		virtual AxonEventClient() { }
+//		virtual AxonEventClient() { }
 		
 		virtual void event( AxonEvent *event );
 	protected:

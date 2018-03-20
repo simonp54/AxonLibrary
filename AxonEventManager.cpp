@@ -33,7 +33,7 @@ AxonEventManager::AxonEventManager()
 
 void AxonEventManager::clientRegister( AxonEventClient *client, AxonEvent *event )
 {
-	if (_clientCount < _MAX_CLIENTS)
+	if (_clientCount < _MAX_CLIENT_REGISTRATIONS)
 	{
 		_clients[_clientCount] = client;
 		_eventFilters[_clientCount] = event;
@@ -121,7 +121,7 @@ void AxonEventManager::clientDeregister(AxonEventClient *client, AxonEvent *even
 
 void AxonEventManager::addToQueue( AxonEvent *event )
 {
-	if (_eventListCount < _MAX_CLIENTS)
+	if (_eventListCount < _MAX_QUEUE_SIZE)
 	{
 #ifdef DEBUG_EVENT_MANAGER
 		Serial.print( F("AxonEventManager::adding at index ") );
@@ -159,7 +159,7 @@ void AxonEventManager::removeTopQueue()
 		Serial.println( F(")") );
 #endif
 		_eventListCount--;
-		for( uint8_t i = 0; i < _eventListCount; i++ )
+		for( uint16_t i = 0; i < _eventListCount; i++ )
 		{
 			_eventList[i] = _eventList[i+1];
 		}
@@ -207,9 +207,12 @@ void AxonEventManager::processQueue()
 		Serial.println();
 		Serial.println();
 #endif
-#ifdef DEBUG_METRICS
-		Serial.println( _eventListCount );
-		Serial.print( F(" ") );
-#endif
 	}
+#ifdef DEBUG_METRICS
+	Serial.print( _MAX_QUEUE_SIZE );
+	Serial.print( F(" ") );
+	Serial.print( _clientCount );
+	Serial.print( F(" ") );
+	Serial.println( _eventListCount );
+#endif
 }

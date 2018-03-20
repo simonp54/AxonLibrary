@@ -30,14 +30,15 @@ class AxonEventManager
 		
 		void removeTopQueue();
 		
-		static const uint8_t _MAX_CLIENTS = 255;
+		static const uint8_t _MAX_CLIENT_REGISTRATIONS = 88;
+		static const uint16_t _MAX_QUEUE_SIZE = 22;
 		
 		uint8_t _clientCount = 0;
-		AxonEventClient *_clients[_MAX_CLIENTS];
-		AxonEvent *_eventFilters[_MAX_CLIENTS];
+		AxonEventClient *_clients[_MAX_CLIENT_REGISTRATIONS];
+		AxonEvent *_eventFilters[_MAX_CLIENT_REGISTRATIONS];
 		
-		AxonEvent *_eventList[_MAX_CLIENTS];
-		uint8_t _eventListCount = 0;
+		AxonEvent *_eventList[_MAX_QUEUE_SIZE];
+		uint16_t _eventListCount = 0;
 		
 };
 
