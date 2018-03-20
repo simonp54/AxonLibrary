@@ -16,19 +16,19 @@ AxonSysExMidiEvent::~AxonSysExMidiEvent()
 
 void AxonSysExMidiEvent::deleteData()
 {
-#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
+#ifdef DEBUG_SYSEX_MIDI_EVENT
 	Serial.println( F("AxonSysExMidiEvent::deleteData") );
 #endif
 	if (_size > 0)
 	{
-#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
+#ifdef DEBUG_SYSEX_MIDI_EVENT
 		Serial.print( F("buffer existed deleting memory ") );
 		Serial.print( _size );
 		Serial.println( F(" bytes") );
 #endif
 		free(_array);
 		_size = 0;
-#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
+#ifdef DEBUG_SYSEX_MIDI_EVENT
 		Serial.println( F("...deleted") );
 #endif
 	}
@@ -48,7 +48,7 @@ uint8_t AxonSysExMidiEvent::getByte( uint8_t pos )
 
 void AxonSysExMidiEvent::copyData( uint8_t* array, uint8_t size )
 {
-#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
+#ifdef DEBUG_SYSEX_MIDI_EVENT
 	Serial.println( F("AxonSysExMidiEvent::copyData") );
 #endif
 
@@ -56,7 +56,7 @@ void AxonSysExMidiEvent::copyData( uint8_t* array, uint8_t size )
 	
 	if (size > 0)
 	{
-#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
+#ifdef DEBUG_SYSEX_MIDI_EVENT
 		Serial.print( F("allocating memory ") );
 		Serial.println( size );
 #endif
@@ -70,11 +70,11 @@ void AxonSysExMidiEvent::copyData( uint8_t* array, uint8_t size )
 		}
 		else
 		{
-#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
+#ifdef DEBUG_SYSEX_MIDI_EVENT
 			Serial.println( F("...allocated") );
 #endif
 			memcpy( _array, array, size );
-#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
+#ifdef DEBUG_SYSEX_MIDI_EVENT
 			Serial.print( F("copied ") );
 			Serial.print( size );
 			Serial.println( F(" bytes" ) );
@@ -86,7 +86,7 @@ void AxonSysExMidiEvent::copyData( uint8_t* array, uint8_t size )
 
 bool AxonSysExMidiEvent::exactMatch(AxonEvent *event)
 {
-#ifdef DEBUG_AXON_SYSEX_MIDI_EVENT
+#ifdef DEBUG_SYSEX_MIDI_EVENT
 	Serial.println( F("AxonSysExMidiEvent::exactMatch") );
 #endif
 	if (AxonMidiEvent::exactMatch(event))

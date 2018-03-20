@@ -5,12 +5,14 @@
 #include "AxonSongSelectMidiEvent.h"
 
 #include "AxonDebugDefines.h"
+#include "AxonCheckMem.h"
+
 
 MIDI_CREATE_INSTANCE(HardwareSerial, DUMMYSERIALPORT, DUMMYMIDI);
 
 void DUMMYCLASSNAME::HandleSysEx(uint8_t* array, uint8_t size)
 {
-#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef DEBUG_MIDI_IMPLEMENTATION
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	Serial.print( F("Axon MIDI NETWORK 1") );
 #else
@@ -21,6 +23,9 @@ void DUMMYCLASSNAME::HandleSysEx(uint8_t* array, uint8_t size)
 #endif
 
 	AxonSysExMidiEvent *event = new AxonSysExMidiEvent();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	event->setNetwork(0);
 #else
@@ -33,7 +38,7 @@ void DUMMYCLASSNAME::HandleSysEx(uint8_t* array, uint8_t size)
 
 void DUMMYCLASSNAME::HandleCC( uint8_t channel, uint8_t cc, uint8_t val )
 {
-#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef DEBUG_MIDI_IMPLEMENTATION
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	Serial.print( F("Axon MIDI NETWORK 1") );
 #else
@@ -48,6 +53,9 @@ void DUMMYCLASSNAME::HandleCC( uint8_t channel, uint8_t cc, uint8_t val )
 #endif
 
 	AxonCCMidiEvent *event = new AxonCCMidiEvent();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	event->setNetwork(0);
 #else
@@ -62,7 +70,7 @@ void DUMMYCLASSNAME::HandleCC( uint8_t channel, uint8_t cc, uint8_t val )
 
 void DUMMYCLASSNAME::HandlePC( uint8_t channel, uint8_t pc )
 {
-#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef DEBUG_MIDI_IMPLEMENTATION
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	Serial.print( F("Axon MIDI NETWORK 1") );
 #else
@@ -75,6 +83,9 @@ void DUMMYCLASSNAME::HandlePC( uint8_t channel, uint8_t pc )
 #endif
 
 /*	AxonPCMidiEvent *event = new AxonPCMidiEvent();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	event->setNetwork(0);
 #else
@@ -89,7 +100,7 @@ void DUMMYCLASSNAME::HandlePC( uint8_t channel, uint8_t pc )
 
 void DUMMYCLASSNAME::HandleSongSelect( uint8_t songNumber )
 {
-#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef DEBUG_MIDI_IMPLEMENTATION
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	Serial.print( F("Axon MIDI NETWORK 1") );
 #else
@@ -101,6 +112,9 @@ void DUMMYCLASSNAME::HandleSongSelect( uint8_t songNumber )
 
 /*
 	AxonSongSelectMidiEvent *event = new AxonSongSelectMidiEvent();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	event->setNetwork(0);
 #else
@@ -132,7 +146,7 @@ DUMMYCLASSNAME::DUMMYCLASSNAME()
 
 void DUMMYCLASSNAME::sendCC(uint8_t channel, uint8_t cc, uint8_t val )
 {
-#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef DEBUG_MIDI_IMPLEMENTATION
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	Serial.print( F("Axon MIDI NETWORK 1") );
 #else
@@ -151,7 +165,7 @@ void DUMMYCLASSNAME::sendCC(uint8_t channel, uint8_t cc, uint8_t val )
 
 void DUMMYCLASSNAME::sendPC(uint8_t channel, uint8_t pc)
 {
-#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef DEBUG_MIDI_IMPLEMENTATION
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	Serial.print( F("Axon MIDI NETWORK 1") );
 #else
@@ -168,7 +182,7 @@ void DUMMYCLASSNAME::sendPC(uint8_t channel, uint8_t pc)
 
 void DUMMYCLASSNAME::sendSysEx( uint8_t inLength, const uint8_t* inArray, bool inArrayContainsBoundaries )
 {
-#ifdef DEBUG_AXON_MIDI_IMPLEMENTATION
+#ifdef DEBUG_MIDI_IMPLEMENTATION
 #ifdef INCLUDE_FOR_MIDI_NETWORK_ONE
 	Serial.print( F("Axon MIDI NETWORK 1") );
 #else

@@ -6,7 +6,7 @@
 
 AxonFASManufacturerDecoder::AxonFASManufacturerDecoder()
 {
-	_groupID = AXON_FAS_MANUFACTURER_DECODER_TYPE;
+	_groupID = AXON_FAS_MANUFACTURER_DECODER;
 }
 
 bool AxonFASManufacturerDecoder::decode( AxonSysExMidiEvent *event )
@@ -19,22 +19,14 @@ bool AxonFASManufacturerDecoder::decode( AxonSysExMidiEvent *event )
 	{
 		if ((event->getByte(1) == 0x00)  && (event->getByte(2) == 0x01) && (event->getByte(3) == 0x74) )
 		{
-//			AxonFASManufacturerEvent newEvent = new AxonFASManufacturerEvent();
-//			AxonEventManager::instance()->addToQueue( newEvent );
-
-//			if (_onSuccess)
-//			{
-//				_onSuccess->execute( newEvent );
-//			}
-
-#ifdef DEBUG_AXON_FAS_MANUFACTURER_DECODER_TYPE
+#ifdef DEBUG_FAS_MANUFACTURER_DECODER
 			Serial.println( F("AxonFASManufacturerDecoder::FRACTAL AUDIO SYSTEMS SYSEX MESSAGE - SUCCESS") );
 #endif
 			return true;
 		}
 		else
 		{
-#ifdef DEBUG_AXON_FAS_MANUFACTURER_DECODER_TYPE_VERBOSE
+#ifdef DEBUG_FAS_MANUFACTURER_DECODER_VERBOSE
 			Serial.println( F("AxonFASManufacturerDecoder::(some other data not FRACTAL AUDIO SYSTEMS)") );
 #endif
 		}

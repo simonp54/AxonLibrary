@@ -11,7 +11,7 @@ AxonSongSelectMidiEvent::AxonSongSelectMidiEvent()
 
 bool AxonSongSelectMidiEvent::exactMatch(AxonEvent *event)
 {
-#ifdef DEBUG_AXON_SONG_NUMBER_MIDI_EVENT
+#ifdef DEBUG_SONG_NUMBER_MIDI_EVENT
 	Serial.println( F("AxonSongSelectMidiEvent::exactMatch") );
 #endif
 	if (AxonMidiEvent::exactMatch(event))
@@ -20,7 +20,7 @@ bool AxonSongSelectMidiEvent::exactMatch(AxonEvent *event)
 		AxonSongSelectMidiEvent *tmp = event;
 		if (tmp->getSongNumber() == _songNumber)
 		{
-#ifdef DEBUG_AXON_SONG_NUMBER_MIDI_EVENT
+#ifdef DEBUG_SONG_NUMBER_MIDI_EVENT
 			Serial.print( _groupID );
 			Serial.print( F(":") );
 			Serial.println( _songNumber );

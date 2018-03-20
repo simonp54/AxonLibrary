@@ -6,6 +6,9 @@
 #include "AxonGeneralStorage.h"
 
 //#define DEBUG_GENERAL_STORAGE
+#include "AxonDebugDefines.h"
+#include "AxonCheckMem.h"
+
 
 AxonGeneralStorage *AxonGeneralStorage::_instance = 0;
 
@@ -14,6 +17,9 @@ AxonGeneralStorage *AxonGeneralStorage::instance()
 	if (!_instance)
 	{
 		_instance = new AxonGeneralStorage();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	}
 	return _instance;
 }
@@ -26,31 +32,31 @@ AxonGeneralStorage::AxonGeneralStorage()
 	_AS = AxonStorage::instance();
 }
 
-uint16_t AxonGeneralStorage::readAxeFXPresetNumber()
+uint16_t AxonGeneralStorage::readAFXXLPPresetNumber()
 {
 	uint16_t tmp;
 	_AS->read( AXEFX_PRESET_NUMBER_ADDR, &tmp );
 	return tmp;
 }
 
-void AxonGeneralStorage::writeAxeFXPresetNumber(uint16_t tmp)
+void AxonGeneralStorage::writeAFXXLPPresetNumber(uint16_t tmp)
 {
 	_AS->write( AXEFX_PRESET_NUMBER_ADDR, tmp );
 }
 
-uint8_t AxonGeneralStorage::readAxeFXSceneNumber()
+uint8_t AxonGeneralStorage::readAFXSceneNumber()
 {
 	uint16_t tmp;
 	_AS->read( AXEFX_SCENE_NUMBER_ADDR, &tmp );
 	return tmp;
 }
 
-void AxonGeneralStorage::writeAxeFXSceneNumber( uint8_t tmp )
+void AxonGeneralStorage::writeAFXSceneNumber( uint8_t tmp )
 {
 	_AS->write( AXEFX_SCENE_NUMBER_ADDR, tmp);
 }
 
-const char *AxonGeneralStorage::readAxeFXPresetName()
+const char *AxonGeneralStorage::readAFXXLPPresetName()
 {
 	char tmp[AXEFX_PRESET_NAME_MAXIMUM_SIZE+1];
 	_AS->read( AXEFX_PRESET_NAME_ADDR, &tmp, AXEFX_PRESET_NAME_MAXIMUM_SIZE );
@@ -58,7 +64,7 @@ const char *AxonGeneralStorage::readAxeFXPresetName()
 	return tmp;
 }
 
-void AxonGeneralStorage::writeAxeFXPresetName( const char *name )
+void AxonGeneralStorage::writeAFXXLPPresetName( const char *name )
 {
 	_AS->write( AXEFX_PRESET_NAME_ADDR, name, AXEFX_PRESET_NAME_MAXIMUM_SIZE );
 }

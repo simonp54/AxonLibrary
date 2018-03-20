@@ -11,7 +11,7 @@ AxonMidiEvent::AxonMidiEvent()
 
 bool AxonMidiEvent::exactMatch( AxonEvent *event )
 {
-#ifdef DEBUG_AXON_MIDI_EVENT
+#ifdef DEBUG_MIDI_EVENT
 	Serial.println( F("AxonMidiEvent::exactMatch") );
 	Serial.println( F("AxonMidiEvent::sameType") );
 #endif
@@ -21,7 +21,7 @@ bool AxonMidiEvent::exactMatch( AxonEvent *event )
 		AxonMidiEvent *tmp = event;
 		if (tmp->getNetwork() == _network)
 		{
-#ifdef DEBUG_AXON_MIDI_EVENT
+#ifdef DEBUG_MIDI_EVENT
 			Serial.print( _groupID );
 			Serial.print( F(":") );
 			Serial.println( _network );

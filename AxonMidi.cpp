@@ -8,6 +8,8 @@
 #include "Arduino.h"
 
 #include "AxonDebugDefines.h"
+#include "AxonCheckMem.h"
+
 
 AxonMidi *AxonMidi::_instance = 0;
 
@@ -19,6 +21,9 @@ AxonMidi *AxonMidi::instance()
 	if (!_instance)
 	{
 		_instance = new AxonMidi();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	}
 	return _instance;
 }
@@ -26,12 +31,18 @@ AxonMidi *AxonMidi::instance()
 AxonMidi::AxonMidi()
 {
 	_midiNet[0] = new AxonMidiImpl1( );
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	_midiNet[1] = new AxonMidiImpl2( );
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 }
 
 void AxonMidi::sendCC(uint8_t network, uint8_t channel, uint8_t cc, uint8_t val )
 {
-#ifdef DEBUG_AXONMIDI
+#ifdef DEBUG_MIDI
 	Serial.print( F("AxonMidi sending CC: Network=") );
 	Serial.print( network );
 	Serial.print( F(" Channel=") );
@@ -49,7 +60,7 @@ void AxonMidi::sendCC(uint8_t network, uint8_t channel, uint8_t cc, uint8_t val 
 
 void AxonMidi::sendPC(uint8_t network, uint8_t channel, uint8_t pc)
 {
-#ifdef DEBUG_AXONMIDI
+#ifdef DEBUG_MIDI
 	Serial.print( F("AxonMidi sending PC: Network=") );
 	Serial.print( network );
 	Serial.print( F(" Channel=") );
@@ -65,7 +76,7 @@ void AxonMidi::sendPC(uint8_t network, uint8_t channel, uint8_t pc)
 
 void AxonMidi::sendSysEx( uint8_t network, uint8_t inLength, const uint8_t* inArray, bool inArrayContainsBoundaries )
 {
-#ifdef DEBUG_AXONMIDI
+#ifdef DEBUG_MIDI
 	Serial.print( F("AxonMidi sending SysEx: Network=") );
 	Serial.println( network );
 #endif

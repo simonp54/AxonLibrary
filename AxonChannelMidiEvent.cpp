@@ -11,7 +11,7 @@ AxonChannelMidiEvent::AxonChannelMidiEvent()
 
 bool AxonChannelMidiEvent::exactMatch(AxonEvent *event)
 {
-#ifdef DEBUG_AXON_CHANNEL_MIDI_EVENT
+#ifdef DEBUG_CHANNEL_MIDI_EVENT
 	Serial.println( F("AxonChannelMidiEvent::exactMatch") );
 #endif
 	if (AxonMidiEvent::exactMatch(event))
@@ -20,7 +20,7 @@ bool AxonChannelMidiEvent::exactMatch(AxonEvent *event)
 		AxonChannelMidiEvent *tmp = event;
 		if (tmp->getChannel() == _channel)
 		{
-#ifdef DEBUG_AXON_CHANNEL_MIDI_EVENT
+#ifdef DEBUG_CHANNEL_MIDI_EVENT
 			Serial.print( _groupID );
 			Serial.print( F(":") );
 			Serial.println( _channel );

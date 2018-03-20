@@ -10,6 +10,8 @@
 #include "AxonHardwareSwitchEvent.h"
 
 #include "AxonDebugDefines.h"
+#include "AxonCheckMem.h"
+
 
 AxonExprScanner *AxonExprScanner::_instance = 0;
 AnalogPin *AxonExprScanner::_EXPR_pedal[];
@@ -22,6 +24,9 @@ AxonExprScanner *AxonExprScanner::instance()
 	if (!_instance)
 	{
 		_instance = new AxonExprScanner();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	}
 	return _instance;
 }
@@ -37,6 +42,9 @@ AxonExprScanner::AxonExprScanner()
 		_curr_value[i] = 0;
 
 		_EXPR_pedal[i] = new AnalogPin(_EXPRESSION_PINS[i]);
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	}
 	
 	_lastCheckMillis = millis();
@@ -64,6 +72,9 @@ void AxonExprScanner::check()
 			// notify the event occurred
 			AxonHardwareSwitchEvent *event = new AxonHardwareSwitchEvent( i+30 );
 			event->setVal( _curr_value[i] );
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 			AxonEventManager::instance()->addToQueue( event );
 		}
 		// copy across the values from current to "previous" for next service round

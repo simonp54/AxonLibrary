@@ -11,7 +11,7 @@ AxonPCMidiEvent::AxonPCMidiEvent()
 
 bool AxonPCMidiEvent::exactMatch(AxonEvent *event)
 {
-#ifdef DEBUG_AXON_PC_MIDI_EVENT
+#ifdef DEBUG_PC_MIDI_EVENT
 	Serial.println( F("AxonPCMidiEvent::exactMatch" ) );
 #endif
 	if (AxonChannelMidiEvent::exactMatch(event))
@@ -20,7 +20,7 @@ bool AxonPCMidiEvent::exactMatch(AxonEvent *event)
 		AxonPCMidiEvent *tmp = event;
 		if (tmp->getPC() == _pc)
 		{
-#ifdef DEBUG_AXON_PC_MIDI_EVENT
+#ifdef DEBUG_PC_MIDI_EVENT
 			Serial.print( _groupID );
 			Serial.print( F(":") );
 			Serial.println( _pc );

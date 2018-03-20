@@ -6,9 +6,9 @@
 #ifndef AXON_KEYSCANNER_h
 #define AXON_KEYSCANNER_h
 
-#include "AxonEventClient.h"
+#include "Arduino.h"
 
-class AxonKeyScanner: public AxonEventClient
+class AxonKeyScanner
 {
   public:
 		static AxonKeyScanner *instance();

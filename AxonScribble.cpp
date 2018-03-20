@@ -9,7 +9,9 @@
 #include "Wire.h"
 #include "U8g2lib.h"      // graphics library for scribble screens
 
-//#define AXONSCRIBBLE_DEBUG
+#include "AxonDebugDefines.h"
+#include "AxonCheckMem.h"
+
 AxonScribble *AxonScribble::_instance = 0;
 const uint8_t AxonScribble::_MUX_ADDR_OFFSET = 0x70;
 
@@ -18,6 +20,9 @@ AxonScribble *AxonScribble::instance()
 	if (!_instance)
 	{
 		_instance = new AxonScribble();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	}
 	return _instance;
 }

@@ -17,6 +17,7 @@ class AxonEventManager
 	
 		void clientRegister( AxonEventClient *client, AxonEvent *event );
 		void clientDeregister( AxonEventClient *client );
+		void clientDeregister( AxonEventClient *client, AxonEvent *event );
 		
 		void addToQueue( AxonEvent *event );
 		

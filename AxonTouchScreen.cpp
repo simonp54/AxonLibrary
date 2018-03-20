@@ -8,6 +8,8 @@
 #include "AxonGeneralStorage.h"
 
 #include "AxonDebugDefines.h"
+#include "AxonCheckMem.h"
+
 
 AxonTouchScreen *AxonTouchScreen::_instance = 0;
 
@@ -16,6 +18,9 @@ AxonTouchScreen *AxonTouchScreen::instance()
 	if (!_instance)
 	{
 		_instance = new AxonTouchScreen();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	}
 	return _instance;
 }
@@ -39,7 +44,7 @@ AxonTouchScreen::AxonTouchScreen()
 
 void AxonTouchScreen::initialise()
 {
-	setContrast( AxonGeneralStorage::instance()->readTouchScreenContrast() );
+	contrastSet();
 }
 
 void AxonTouchScreen::showTunerScreen()
@@ -51,16 +56,25 @@ void AxonTouchScreen::showMainScreen()
 {
 	_genie->WriteObject( GENIE_OBJ_FORM, 1, 0 );  // show main form
 	
-	showAxeFXPresetNumber();
-	showAxeFXSceneNumber();
-	showAxeFXPresetName();
+	showAFXXLPPresetNumber();
+	showAFXSceneNumber();
+	showAFXXLPPresetName();
 }
 
-void AxonTouchScreen::setContrast( uint8_t contrast )
+void AxonTouchScreen::contrastUp()
 {
-	_genie->WriteContrast( (contrast & 0x0F) );				// only use 0..15 values
+	_genie->WriteContrast( _contrast.up() );				// only use 0..15 values
 }
 
+void AxonTouchScreen::contrastDown()
+{
+	_genie->WriteContrast( _contrast.down() );				// only use 0..15 values
+}
+
+void AxonTouchScreen::contrastSet()
+{
+	_genie->WriteContrast( _contrast.get() );
+}
 
 void AxonTouchScreen::setTunerNote( uint8_t note )
 {
@@ -96,7 +110,7 @@ void AxonTouchScreen::setTunerData( uint8_t tunerData )
 
 		_genie->WriteObject( GENIE_OBJ_GAUGE, 0, pitch );
 
-		if (pitch >= 61)
+		if (pitch >= 62)
 		{
 			_genie->WriteObject( GENIE_OBJ_LED, 0, 1 );
 		}
@@ -104,7 +118,7 @@ void AxonTouchScreen::setTunerData( uint8_t tunerData )
 		{
 			_genie->WriteObject( GENIE_OBJ_LED, 0, 0 );
 		}
-		if (pitch <= 65)
+		if (pitch <= 64)
 		{
 			_genie->WriteObject( GENIE_OBJ_LED, 1, 1 );
 		}
@@ -115,17 +129,17 @@ void AxonTouchScreen::setTunerData( uint8_t tunerData )
 	}
 }
 
-void AxonTouchScreen::showAxeFXPresetNumber()
+void AxonTouchScreen::showAFXXLPPresetNumber()
 {
-	_genie->WriteStr( 3, AxonGeneralStorage::instance()->readAxeFXPresetNumber() );
+	_genie->WriteStr( 3, AxonGeneralStorage::instance()->readAFXXLPPresetNumber() );
 }
 
-void AxonTouchScreen::showAxeFXSceneNumber()
+void AxonTouchScreen::showAFXSceneNumber()
 {
-	_genie->WriteStr( 7, AxonGeneralStorage::instance()->readAxeFXSceneNumber() + 1 );
+	_genie->WriteStr( 7, AxonGeneralStorage::instance()->readAFXSceneNumber() + 1 );
 }
 
-void AxonTouchScreen::showAxeFXPresetName()
+void AxonTouchScreen::showAFXXLPPresetName()
 {
-	_genie->WriteStr( 2, AxonGeneralStorage::instance()->readAxeFXPresetName() );
+	_genie->WriteStr( 2, AxonGeneralStorage::instance()->readAFXXLPPresetName() );
 }

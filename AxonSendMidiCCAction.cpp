@@ -7,7 +7,8 @@
 #include "AxonSwitchEvent.h"
 #include "Arduino.h"
 
-//#define DEBUG_SEND_MIDI_CC_ACTION
+#include "AxonDebugDefines.h"
+#include "AxonCheckMem.h"
 
 void AxonSendMidiCCAction::setCC( uint8_t cc )
 {
@@ -45,12 +46,18 @@ void AxonSendMidiCCAction::execute( AxonEvent *event )		// use the midi implemen
 	if (!_fixVal)
 	{
 		AxonSwitchEvent *tmp = new AxonSwitchEvent( 0 );		// number doesn't matter here
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 		if (event->sameType( tmp ))
 		{
 			AxonSwitchEvent *tmp2 = event;
 			setVal( tmp2->getVal() );
 		}
 		delete tmp;
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	}
 
 #ifdef DEBUG_SEND_MIDI_CC_ACTION

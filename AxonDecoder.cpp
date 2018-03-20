@@ -5,12 +5,12 @@
 
 AxonDecoder::AxonDecoder( )
 {
-	_groupID = AXON_DECODER_TYPE;
+	_groupID = AXON_DECODER;
 }
 
 bool AxonDecoder::sameType( AxonDecoder *decoder )
 {
-#ifdef DEBUG_AXON_DECODER
+#ifdef DEBUG_DECODER
 	Serial.print( F(" matching ") );
 	Serial.print( decoder->getGroupID(), BIN );
 	Serial.print( F(" vs ") );

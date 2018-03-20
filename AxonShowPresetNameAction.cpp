@@ -7,5 +7,5 @@
 
 void AxonShowPresetNameAction::execute(AxonEvent *event)
 {
-	AxonTouchScreen::instance()->showAxeFXPresetName();
+	AxonTouchScreen::instance()->showAFXXLPPresetName();
 }

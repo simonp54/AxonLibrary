@@ -4,5 +4,5 @@
 
 void AxonShowSceneNumberAction::execute(AxonEvent *event)
 {
-	AxonTouchScreen::instance()->showAxeFXSceneNumber();
+	AxonTouchScreen::instance()->showAFXSceneNumber();
 }

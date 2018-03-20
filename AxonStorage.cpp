@@ -7,8 +7,8 @@
 #include "AxonStorage.h"
 #include "wire.h"
 
-//#define AXONSTORAGE_DEBUG
-//#define AXONSTORAGE_DEBUG_BOUNDS_CHECK
+#include "AxonDebugDefines.h"
+#include "AxonCheckMem.h"
 
 AxonStorage *AxonStorage::_instance = 0;
 
@@ -35,6 +35,9 @@ AxonStorage *AxonStorage::instance()
 	if (!_instance)
 	{
 		_instance = new AxonStorage();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	}
 	return _instance;
 }

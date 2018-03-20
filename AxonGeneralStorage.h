@@ -15,14 +15,14 @@ class AxonGeneralStorage
 		static AxonGeneralStorage *instance();
 //		void FORMAT();
 		
-		uint16_t readAxeFXPresetNumber();
-		void writeAxeFXPresetNumber( uint16_t tmp );
+		uint16_t readAFXXLPPresetNumber();
+		void writeAFXXLPPresetNumber( uint16_t tmp );
 		
-		uint8_t readAxeFXSceneNumber();
-		void writeAxeFXSceneNumber( uint8_t tmp );
+		uint8_t readAFXSceneNumber();
+		void writeAFXSceneNumber( uint8_t tmp );
 		
-		const char *readAxeFXPresetName();
-		void writeAxeFXPresetName( const char *name );
+		const char *readAFXXLPPresetName();
+		void writeAFXXLPPresetName( const char *name );
 
 		uint8_t readTouchScreenContrast();
 		void writeTouchScreenContrast( uint8_t tmp );

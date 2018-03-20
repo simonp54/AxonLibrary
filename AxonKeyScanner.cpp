@@ -6,8 +6,12 @@
 #include "AxonKeyScanner.h"
 #include "AxonHardwareSwitchEvent.h"
 #include "Wire.h"
+#include "AxonEventManager.h"
 
-//#define AXONKEYSCANNER_DEBUG
+#include "AxonDebugDefines.h"
+#include "AxonCheckMem.h"
+
+
 
 AxonKeyScanner *AxonKeyScanner::_instance = 0;
 
@@ -18,6 +22,9 @@ AxonKeyScanner *AxonKeyScanner::instance()
 	if (!_instance)
 	{
 		_instance = new AxonKeyScanner();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 	}
 	return _instance;
 }
@@ -81,6 +88,9 @@ void AxonKeyScanner::check()
 				// notify the event occurred
 				AxonHardwareSwitchEvent *event = new AxonHardwareSwitchEvent( (i*8)+j );
 				event->setSwitchState( (_rowScan[i] & _SW_COLUMN_MASK[j]) == _SW_COLUMN_MASK[j] );
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 				AxonEventManager::instance()->addToQueue( event );
 			}
 		}

@@ -6,7 +6,7 @@
 
 AxonSysExDecoder::AxonSysExDecoder()
 {
-	_groupID = AXON_SYSEX_DECODER_TYPE;
+	_groupID = AXON_SYSEX_DECODER;
 }
 
 bool AxonSysExDecoder::decode( AxonSysExMidiEvent *event )

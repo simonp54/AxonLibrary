@@ -6,13 +6,11 @@
 #define AXON_CONTRAST_DOWN_ACTION_h
 
 #include "AxonAction.h"
-#include "Arduino.h"
 
 class AxonContrastDownAction: public AxonAction							// Midi base Action class derived from AxonAction
 {
 	public:
 		void execute(AxonEvent *event);									// the execute method
-	protected:
 };
 
 #endif

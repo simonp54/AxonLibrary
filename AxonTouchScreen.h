@@ -8,6 +8,7 @@
 #define AXON_TOUCHSCREEN_h
 
 #include "genieArduino.h"
+#include "AxonContrastType.h"
 #include "Arduino.h"
 
 class AxonTouchScreen
@@ -19,11 +20,13 @@ class AxonTouchScreen
 		
 		void showTunerScreen();
 		void showMainScreen();
-		void showAxeFXPresetNumber();
-		void showAxeFXSceneNumber();
-		void showAxeFXPresetName();
-		
-		void setContrast(uint8_t contrast);
+		void showAFXXLPPresetNumber();
+		void showAFXSceneNumber();
+		void showAFXXLPPresetName();
+			
+		void contrastUp();
+		void contrastDown();
+		void contrastSet();
 		
 		void setTunerNote( uint8_t note );
 		void setTunerString( uint8_t stringNumber );
@@ -31,8 +34,11 @@ class AxonTouchScreen
 		
 	protected:
 		AxonTouchScreen();
+
 	private:
 		static AxonTouchScreen *_instance;
+		
+		AxonContrastType _contrast;
 
 		static const uint8_t _RESET_LINE = 4;		// internal parameters
 
