@@ -11,26 +11,29 @@ AxonCCMidiEvent::AxonCCMidiEvent()
 
 bool AxonCCMidiEvent::exactMatch(AxonEvent *event)
 {
-#ifdef DEBUG_CC_MIDI_EVENT
+#ifdef DEBUG_CC_MIDI_EVENT_VERBOSE
 	Serial.println( F("AxonCCMidiEvent::exactMatch" ) );
 #endif
-	if (AxonChannelMidiEvent::exactMatch(event))
+	if (AxonCCMidiEvent::sameType(event))
 	{
+		if (AxonChannelMidiEvent::exactMatch(event))
+		{
+			AxonCCMidiEvent *tmp = event;
 
-		AxonCCMidiEvent *tmp = event;
-		if (tmp->getCC() == _cc)
-		{
+			if (tmp->getCC() == _cc)
+			{
 #ifdef DEBUG_CC_MIDI_EVENT
-			Serial.print( _groupID );
-			Serial.print( F(":") );
-			Serial.println( _cc );
-			Serial.println( F(" cc matches (AKA EXACTMATCH)") );
+				Serial.print( _groupID );
+				Serial.print( F(":") );
+				Serial.println( _cc );
+				Serial.println( F(" cc matches (AKA EXACTMATCH)") );
 #endif
-			return true;
-		}
-		else
-		{
-			return false;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 	else

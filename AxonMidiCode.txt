@@ -82,7 +82,7 @@ void DUMMYCLASSNAME::HandlePC( uint8_t channel, uint8_t pc )
 	Serial.println( pc );
 #endif
 
-/*	AxonPCMidiEvent *event = new AxonPCMidiEvent();
+	AxonPCMidiEvent *event = new AxonPCMidiEvent();
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
@@ -95,7 +95,6 @@ AxonCheckMem::instance()->check();
 	event->setPC(pc);
 	
 	AxonEventManager::instance()->addToQueue( event );
-*/
 }
 
 void DUMMYCLASSNAME::HandleSongSelect( uint8_t songNumber )
@@ -110,7 +109,6 @@ void DUMMYCLASSNAME::HandleSongSelect( uint8_t songNumber )
 	Serial.println( songNumber );
 #endif
 
-/*
 	AxonSongSelectMidiEvent *event = new AxonSongSelectMidiEvent();
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
@@ -123,7 +121,6 @@ AxonCheckMem::instance()->check();
 	event->setSongNumber( songNumber );
 	
 	AxonEventManager::instance()->addToQueue( event );
-*/
 }
 
 DUMMYCLASSNAME::DUMMYCLASSNAME()

@@ -123,7 +123,7 @@ void AxonEventManager::addToQueue( AxonEvent *event )
 {
 	if (_eventListCount < _MAX_QUEUE_SIZE)
 	{
-#ifdef DEBUG_EVENT_MANAGER
+#ifdef DEBUG_EVENT_MANAGER_VERBOSE
 		Serial.print( F("AxonEventManager::adding at index ") );
 		Serial.println( _eventListCount );
 #endif
@@ -142,7 +142,7 @@ AxonCheckMem::instance()->check();
 		Serial.println();
 #endif
 	}
-#ifdef DEBUG_EVENT_MANAGER
+#ifdef DEBUG_EVENT_MANAGER_VERBOSE
 	Serial.print( F("AxonEventManager::added event to queue ") );
 	Serial.print( F("    total queue size: ") );
 	Serial.println( _eventListCount );
@@ -153,7 +153,7 @@ void AxonEventManager::removeTopQueue()
 {
 	if (_eventListCount > 0)
 	{
-#ifdef DEBUG_EVENT_MANAGER
+#ifdef DEBUG_EVENT_MANAGER_VERBOSE
 		Serial.print( F("AxonEventManager::Queue size was (") );
 		Serial.print( _eventListCount );
 		Serial.println( F(")") );
@@ -164,7 +164,7 @@ void AxonEventManager::removeTopQueue()
 			_eventList[i] = _eventList[i+1];
 		}
 	}
-#ifdef DEBUG_EVENT_MANAGER
+#ifdef DEBUG_EVENT_MANAGER_VERBOSE
 	Serial.print( F("AxonEventManager::event Queue size now (") );
 	Serial.print( _eventListCount );
 	Serial.println( F(")") );
@@ -177,7 +177,7 @@ void AxonEventManager::processQueue()
 //	while (_eventListCount > 0)
 	{
 
-#ifdef DEBUG_EVENT_MANAGER
+#ifdef DEBUG_EVENT_MANAGER_VERBOSE
 		Serial.println();
 		Serial.println();
 		Serial.println( F("AxonEventManager::processList START") );
@@ -202,7 +202,7 @@ void AxonEventManager::processQueue()
 		removeTopQueue();
 
 		delete( event );
-#ifdef DEBUG_EVENT_MANAGER
+#ifdef DEBUG_EVENT_MANAGER_VERBOSE
 		Serial.println( F("AxonEventManager::processList END") );
 		Serial.println();
 		Serial.println();
