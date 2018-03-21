@@ -43,7 +43,7 @@ class AxonExprScanner
 		
 		uint64_t _lastCheckMillis;										// throttle timing
 		
-		AxonAction *_onExprChange[_NUMBER_OF_EXPR_PEDALS] = {0};
+		AxonAction *_onExpr1Change[_NUMBER_OF_EXPR_PEDALS] = 0;
 };
 
 #endif

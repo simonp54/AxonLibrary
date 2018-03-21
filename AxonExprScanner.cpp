@@ -75,6 +75,11 @@ void AxonExprScanner::check()
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
+			if (_onExprChange[i])
+			{
+				_onExprChange[i]->execute( event );
+			}
+
 			AxonEventManager::instance()->addToQueue( event );
 		}
 		// copy across the values from current to "previous" for next service round
