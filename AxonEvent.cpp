@@ -10,21 +10,28 @@ AxonEvent::AxonEvent( )
 
 bool AxonEvent::sameType( AxonEvent *event )
 {
-#ifdef DEBUG_EVENT
-	Serial.print( F(" matching ") );
-	Serial.print( event->getGroupID(), BIN );
-	Serial.print( F(" vs ") );
-	Serial.print( _groupID, BIN );
-	Serial.print( F(" ") );	
-	(( event->getGroupID() & _groupID) == event->getGroupID()) ? Serial.println( F("MATCH") ): Serial.println( );
-#endif
-	
 	if ((event->getGroupID() & _groupID) == event->getGroupID())
 	{
+#ifdef DEBUG_EVENT
+		Serial.print( F(" matching ") );
+		Serial.print( event->getGroupID(), BIN );
+		Serial.print( F(" vs ") );
+		Serial.print( _groupID, BIN );
+		Serial.print( F(" ") );	
+		Serial.println( F("SAME TYPE") );
+#endif
 		return true;
 	}
 	else
 	{
+#ifdef DEBUG_EVENT_VERBOSE
+		Serial.print( F(" matching ") );
+		Serial.print( event->getGroupID(), BIN );
+		Serial.print( F(" vs ") );
+		Serial.print( _groupID, BIN );
+		Serial.print( F(" ") );	
+		Serial.println( F("DIFFERENT TYPE") );
+#endif
 		return false;
 	}
 }

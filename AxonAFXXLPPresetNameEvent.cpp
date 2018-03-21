@@ -37,8 +37,8 @@ bool AxonAFXXLPPresetNameEvent::exactMatch( AxonEvent *event )
 #ifdef DEBUG_FAS_PRESET_NUMBER_EVENT_TYPE
 			Serial.print( _groupID );
 			Serial.print( F(":") );
-			Serial.println( _presetNumber );
-			Serial.println( F(" presetNumber matches (AKA EXACTMATCH)") );
+			Serial.println( _presetName );
+			Serial.println( F(" presetName matches (AKA EXACTMATCH)") );
 #endif
 			return true;
 		}

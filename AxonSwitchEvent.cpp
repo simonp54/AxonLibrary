@@ -16,7 +16,7 @@ bool AxonSwitchEvent::exactMatch( AxonEvent *event )
 	Serial.println( F("AxonSwitchEvent::exactMatch") );
 	Serial.println( F("AxonSwitchEvent::sameType") );
 #endif
-	if (sameType(event))
+	if (AxonSwitchEvent::sameType(event))
 	{
 #ifdef DEBUG_SWITCH_EVENT
 		Serial.println( F(" Group matches") );

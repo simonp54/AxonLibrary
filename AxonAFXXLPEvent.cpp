@@ -14,5 +14,5 @@ bool AxonAFXXLPEvent::exactMatch( AxonEvent *event )
 	Serial.println( F("AxonAFXXLPEvent::exactMatch") );
 	Serial.println( F("AxonAFXXLPEvent::sameType") );
 #endif
-	return sameType( event );
+	return AxonAFXXLPEvent::sameType( event );
 }

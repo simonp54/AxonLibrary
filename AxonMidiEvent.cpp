@@ -15,7 +15,7 @@ bool AxonMidiEvent::exactMatch( AxonEvent *event )
 	Serial.println( F("AxonMidiEvent::exactMatch") );
 	Serial.println( F("AxonMidiEvent::sameType") );
 #endif
-	if (sameType(event))
+	if (AxonMidiEvent::sameType(event))
 	{
 
 		AxonMidiEvent *tmp = event;

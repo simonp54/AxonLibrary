@@ -188,7 +188,7 @@ void AxonEventManager::processQueue()
 		for( uint8_t i = 0; i < _clientCount; i++ )
 		{
 			//if filter matches this clients interest...
-			if ( event->exactMatch( _eventFilters[i] ) )
+			if ( _eventFilters[i]->exactMatch( event ) )
 			{
 #ifdef DEBUG_EVENT_MANAGER
 				Serial.print( F("AxonEventManager::processList - found interested client (") );

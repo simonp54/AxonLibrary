@@ -27,7 +27,7 @@ void AxonActionEventClient::setOnChangeAction( AxonAction *action )
 
 void AxonActionEventClient::event( AxonEvent *event )
 {
-#ifdef DEBUG_ACTION_CLIENT
+#ifdef DEBUG_ACTION_EVENT_CLIENT
 	Serial.print( F("AxonActionEventClient::event         received:") );
 	Serial.println( event->getGroupID() );
 #endif
@@ -38,7 +38,7 @@ AxonCheckMem::instance()->check();
 
 	if (event->sameType(tmp))
 	{
-#ifdef DEBUG_ACTION_CLIENT
+#ifdef DEBUG_ACTION_EVENT_CLIENT
 		Serial.print( F("AxonActionEventClient::event ") );
 		Serial.println( F("is a switch type") );
 #endif		
@@ -48,7 +48,7 @@ AxonCheckMem::instance()->check();
 		{
 			if (_onAction)
 			{
-#ifdef DEBUG_ACTION_CLIENT
+#ifdef DEBUG_ACTION_EVENT_CLIENT
 		Serial.print( F("AxonActionEventClient::event " ));
 		Serial.println( F("execute ON Action") );
 		Serial.print( F("with switch value=") );
@@ -56,7 +56,7 @@ AxonCheckMem::instance()->check();
 #endif		
 				_onAction->execute(tmp2);
 			}
-#ifdef DEBUG_ACTION_CLIENT
+#ifdef DEBUG_ACTION_EVENT_CLIENT
 			else
 			{
 				Serial.print( F("AxonActionEventClient::event " ) );
@@ -68,7 +68,7 @@ AxonCheckMem::instance()->check();
 		{
 			if (_offAction)
 			{
-#ifdef DEBUG_ACTION_CLIENT
+#ifdef DEBUG_ACTION_EVENT_CLIENT
 		Serial.print( F("AxonActionEventClient::event ") );
 		Serial.println( F("execute OFF Action") );
 		Serial.print( F("with switch value=") );
@@ -76,7 +76,7 @@ AxonCheckMem::instance()->check();
 #endif
 				_offAction->execute(tmp2);
 			}
-#ifdef DEBUG_ACTION_CLIENT
+#ifdef DEBUG_ACTION_EVENT_CLIENT
 			else
 			{
 				Serial.print( F("AxonActionEventClient::event ") );
@@ -86,7 +86,7 @@ AxonCheckMem::instance()->check();
 		}
 		if (_onChangeAction)
 		{
-#ifdef DEBUG_ACTION_CLIENT
+#ifdef DEBUG_ACTION_EVENT_CLIENT
 			Serial.print( F("AxonActionEventClient::event ") );
 			Serial.println( F("execute CHANGE Action") );
 			Serial.print( F("with switch value=") );
@@ -94,7 +94,7 @@ AxonCheckMem::instance()->check();
 #endif
 			_onChangeAction->execute(tmp2);
 		}
-#ifdef DEBUG_ACTION_CLIENT
+#ifdef DEBUG_ACTION_EVENT_CLIENT
 		else
 		{
 			Serial.print( F("AxonActionEventClient::event ") );
@@ -102,7 +102,7 @@ AxonCheckMem::instance()->check();
 		}
 #endif		
 	}
-#ifdef DEBUG_ACTION_CLIENT
+#ifdef DEBUG_ACTION_EVENT_CLIENT
 	else
 	{
 		Serial.print( F("AxonActionEventClient::event ") );
