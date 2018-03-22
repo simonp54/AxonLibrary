@@ -130,7 +130,7 @@ DUMMYCLASSNAME::DUMMYCLASSNAME()
 	DUMMYMIDI.setHandleControlChange( DUMMYCLASSNAME::HandleCC );
 	DUMMYMIDI.setHandleSongSelect( DUMMYCLASSNAME::HandleSongSelect );
 	DUMMYMIDI.setHandleSystemExclusive( DUMMYCLASSNAME::HandleSysEx );
-#else INCLUDE_FOR_MIDI_NETWORK_TWO
+#else
 	DUMMYMIDI.setHandleProgramChange( DUMMYCLASSNAME::HandlePC );
 	DUMMYMIDI.setHandleControlChange( DUMMYCLASSNAME::HandleCC );
 	DUMMYMIDI.setHandleSongSelect( DUMMYCLASSNAME::HandleSongSelect );
