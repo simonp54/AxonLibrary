@@ -21,7 +21,7 @@ void AxonAFXXLPPresetNameEvent::setPresetName( const char *name )
 
 bool AxonAFXXLPPresetNameEvent::exactMatch( AxonEvent *event )
 {
-#ifdef DEBUG_FAS_PRESET_NUMBER_EVENT_TYPE;
+#ifdef DEBUG_FAS_PRESET_NUMBER_EVENT_TYPE
 	Serial.println( F("AxonAFXXLPPresetNameEvent::exactMatch") );
 	Serial.println( F("AxonAFXXLPPresetNameEvent::sameType") );
 #endif
