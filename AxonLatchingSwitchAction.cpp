@@ -1,7 +1,7 @@
 /*
- * AxonLatchingSwitchEventClient - an object that watches a switch "Subject"... and executes configured commands for "on" and "off"
+ * AxonLatchingSwitchAction - an object that watches a switch "Subject"... and executes configured commands for "on" and "off"
  */
-#include "AxonLatchingSwitchEventClient.h"
+#include "AxonLatchingSwitchAction.h"
 #include "AxonHardwareSwitchEvent.h"
 #include "AxonSoftwareSwitchEvent.h"
 #include "Arduino.h"
@@ -10,33 +10,27 @@
 #include "AxonCheckMem.h"
 
 
-AxonLatchingSwitchEventClient::AxonLatchingSwitchEventClient( uint8_t hardwareSwitchNumber )
+AxonLatchingSwitchAction::AxonLatchingSwitchAction()
 {
-	if ((hardwareSwitchNumber>=0)  && (hardwareSwitchNumber<=23))
-	{
-		_hardwareSwitchEvent = new AxonHardwareSwitchEvent( hardwareSwitchNumber );
-		
-		AxonEventManager::instance()->clientRegister( this, _hardwareSwitchEvent );
-	}
+#ifdef DEBUG_LATCHING_SWITCH_ACTION
+	Serial.println( F("AxonLatchingSwitchAction::ctor") );
+#endif
 }
 
-AxonLatchingSwitchEventClient::~AxonLatchingSwitchEventClient()
+AxonLatchingSwitchAction::~AxonLatchingSwitchAction()
 {
-	if (_hardwareSwitchEvent)
-	{
-		AxonEventManager::instance()->clientDeregister( this );
-	
-		delete _hardwareSwitchEvent;
+#ifdef DEBUG_LATCHING_SWITCH_ACTION
+	Serial.println( F("AxonLatchingSwitchAction::dtor") );
+#endif
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-	}
 }
 
-void AxonLatchingSwitchEventClient::event( AxonEvent *event )
+void AxonLatchingSwitchAction::execute( AxonAction *sender, AxonEvent *event )
 {
-#ifdef DEBUG_LATCHING
-	Serial.print( F("AxonLatchingSwitchEventClient::event ") );
+#ifdef DEBUG_LATCHING_SWITCH_ACTION
+	Serial.print( F("AxonLatchingSwitchAction::event ") );
 	Serial.println( event->getGroupID() );
 #endif
 	AxonHardwareSwitchEvent *tmp = new AxonHardwareSwitchEvent( 0 );  // switchnumber irrelevant
@@ -46,14 +40,14 @@ AxonCheckMem::instance()->check();
 
 	if (event->sameType(tmp))
 	{
-#ifdef DEBUG_LATCHING
-		Serial.print( F("AxonLatchingSwitchEventClient::event ") );
+#ifdef DEBUG_LATCHING_SWITCH_ACTION
+		Serial.print( F("AxonLatchingSwitchAction::event ") );
 		Serial.println( F("event is a hardware switch type") );
 #endif		
 		AxonHardwareSwitchEvent *tmp2 = event;	// effectively a type cast to gain access to specific features of this object type
 		
-#ifdef DEBUG_LATCHING
-		Serial.print( F("AxonLatchingSwitchEventClient::event ") );
+#ifdef DEBUG_LATCHING_SWITCH_ACTION
+		Serial.print( F("AxonLatchingSwitchAction::event ") );
 		Serial.println( tmp2->getSwitchState() );
 #endif		
 	
@@ -72,23 +66,23 @@ AxonCheckMem::instance()->check();
 			_switchState = true;										// AKA ON
 			_ignoreSubsequentDown = true;
 
-			AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
-			swEvent->setSwitchState( true );
+			if (_onAction)
+			{
+				AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
+				swEvent->setSwitchState( true );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-#ifdef DEBUG_LATCHING
-			Serial.print( F("AxonLatchingSwitchEventClient::event ") );
-			Serial.print( F("creating Software Switch Event ") );
-			Serial.print( swEvent->getGroupID() ); 
-			Serial.println( F(", ON") );
+#ifdef DEBUG_LATCHING_SWITCH_ACTION
+				Serial.print( F("AxonLatchingSwitchAction::event ") );
+				Serial.print( F("creating Software Switch Event ") );
+				Serial.print( swEvent->getGroupID() ); 
+				Serial.println( F(", ON") );
 #endif
-			if (_onAction)
-			{
-				_onAction->execute( NULL, swEvent );
+				_onAction->execute( this, swEvent );
+				
+				delete swEvent;
 			}
-
-				AxonEventManager::instance()->addToQueue( swEvent );
 
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
@@ -102,23 +96,23 @@ AxonCheckMem::instance()->check();
 			_switchState = false;										// AKA OFF
 			_ignoreSubsequentDown = true;
 
-			AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
-			swEvent->setSwitchState( false );
+			if (_offAction)
+			{
+				AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
+				swEvent->setSwitchState( false );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-#ifdef DEBUG_LATCHING
-			Serial.print( F("AxonLatchingSwitchEventClient::event ") );
-			Serial.print( F("creating Software Switch Event ") );
-			Serial.print( swEvent->getGroupID() );  
-			Serial.println( F(", OFF") );
+#ifdef DEBUG_LATCHING_SWITCH_ACTION
+				Serial.print( F("AxonLatchingSwitchAction::event ") );
+				Serial.print( F("creating Software Switch Event ") );
+				Serial.print( swEvent->getGroupID() );  
+				Serial.println( F(", OFF") );
 #endif
-			if (_offAction)
-			{
-				_offAction->execute( NULL, swEvent );
+				_offAction->execute( this, swEvent );
+				
+				delete swEvent;
 			}
-
-			AxonEventManager::instance()->addToQueue( swEvent );
 
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
 #ifdef DEBUG_OBJECT_CREATE_DESTROY

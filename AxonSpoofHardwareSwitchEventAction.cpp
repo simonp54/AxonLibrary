@@ -10,7 +10,7 @@
 #include "AxonCheckMem.h"
 
 
-void AxonSpoofHardwareSwitchEventAction::execute(AxonEvent *event)
+void AxonSpoofHardwareSwitchEventAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonHardwareSwitchEvent *newEvent = new AxonHardwareSwitchEvent( _switchNumber );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY

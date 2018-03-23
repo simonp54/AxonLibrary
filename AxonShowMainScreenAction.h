@@ -11,7 +11,7 @@
 class AxonShowMainScreenAction: public AxonAction							// Midi base Action class derived from AxonAction
 {
 	public:
-		void execute(AxonEvent *event);									// the execute method
+		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
 	protected:
 };
 

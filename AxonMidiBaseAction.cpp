@@ -14,7 +14,7 @@ void AxonMidiBaseAction::setNetwork( uint8_t network )
 }
 
 
-void AxonMidiBaseAction::execute(AxonEvent *event)													// use the midi implementation to send the program change
+void AxonMidiBaseAction::execute( AxonAction *sender, AxonEvent *event)													// use the midi implementation to send the program change
 {
 	Serial.println( F("AxonMidiBaseAction tried to Execute... (nonsense)") );
 }

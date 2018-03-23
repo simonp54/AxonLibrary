@@ -14,7 +14,7 @@ class AxonSpoofHardwareSwitchEventAction: public AxonAction							// Midi base A
 		void setSwitchNumber( uint8_t switchNumber ) { _switchNumber = switchNumber; }
 		void setSwitchState( bool switchState ) { _switchState = switchState; }
 	
-		void execute(AxonEvent *event);									// the execute method
+		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
 	protected:
 		uint8_t _switchNumber;
 		bool _switchState;

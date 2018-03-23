@@ -25,7 +25,7 @@ void AxonActionEventClient::setOnChangeAction( AxonAction *action )
 	_onChangeAction = action;
 }
 
-void AxonActionEventClient::event( AxonEvent *event )
+void AxonActionEventClient::event( AxonAction *sender, AxonEvent *event )
 {
 #ifdef DEBUG_ACTION_EVENT_CLIENT
 	Serial.print( F("AxonActionEventClient::event         received:") );
@@ -54,7 +54,7 @@ AxonCheckMem::instance()->check();
 		Serial.print( F("with switch value=") );
 		Serial.println( tmp2->getVal() );
 #endif		
-				_onAction->execute(tmp2);
+				_onAction->execute( NULL, tmp2);
 			}
 #ifdef DEBUG_ACTION_EVENT_CLIENT
 			else
@@ -74,7 +74,7 @@ AxonCheckMem::instance()->check();
 		Serial.print( F("with switch value=") );
 		Serial.println( tmp2->getVal() );
 #endif
-				_offAction->execute(tmp2);
+				_offAction->execute( NULL, tmp2);
 			}
 #ifdef DEBUG_ACTION_EVENT_CLIENT
 			else
@@ -92,7 +92,7 @@ AxonCheckMem::instance()->check();
 			Serial.print( F("with switch value=") );
 			Serial.println( tmp2->getVal() );
 #endif
-			_onChangeAction->execute(tmp2);
+			_onChangeAction->execute( NULL, tmp2);
 		}
 #ifdef DEBUG_ACTION_EVENT_CLIENT
 		else

@@ -1,7 +1,7 @@
 /*
- * AxonMomentarySwitchEventClient - an object that watches a switch "Subject"... and executes configured commands for "on" and "off"
+ * AxonMomentarySwitchAction - an object that watches a switch "Subject"... and executes configured commands for "on" and "off"
  */
-#include "AxonMomentarySwitchEventClient.h"
+#include "AxonMomentarySwitchAction.h"
 #include "AxonHardwareSwitchEvent.h"
 #include "AxonSoftwareSwitchEvent.h"
 #include "Arduino.h"
@@ -10,54 +10,48 @@
 #include "AxonCheckMem.h"
 
 
-AxonMomentarySwitchEventClient::AxonMomentarySwitchEventClient( uint8_t hardwareSwitchNumber )
+AxonMomentarySwitchAction::AxonMomentarySwitchAction()
 {
-	if ((hardwareSwitchNumber>=0)  && (hardwareSwitchNumber<=23))
-	{
-		_hardwareSwitchEvent = new AxonHardwareSwitchEvent( hardwareSwitchNumber );
+#ifdef DEBUG_MOMENTARY_SWITCH_ACTION
+	Serial.println( F("AxonMomentarySwitchAction::ctor") );
+#endif
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-		
-		AxonEventManager::instance()->clientRegister( this, _hardwareSwitchEvent );
-	}
 }
 
-AxonMomentarySwitchEventClient::~AxonMomentarySwitchEventClient()
+AxonMomentarySwitchAction::~AxonMomentarySwitchAction()
 {
-	if (_hardwareSwitchEvent)
-	{
-		AxonEventManager::instance()->clientDeregister( this );
-
-		delete _hardwareSwitchEvent;
+#ifdef DEBUG_MOMENTARY_SWITCH_ACTION
+	Serial.println( F("AxonMomentarySwitchAction::dtor") );
+#endif
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-	}
 }
 
-void AxonMomentarySwitchEventClient::setInterval( uint16_t interval )
+void AxonMomentarySwitchAction::setInterval( uint16_t interval )
 {
 	_interval = interval;
 }
 
-uint16_t AxonMomentarySwitchEventClient::getInterval()
+uint16_t AxonMomentarySwitchAction::getInterval()
 {
 	return _interval;
 }
 
-void AxonMomentarySwitchEventClient::event( AxonEvent *event )
+void AxonMomentarySwitchAction::execute( AxonAction *sender, AxonEvent *event )
 {
-#ifdef DEBUG_MOMENTARY
-	Serial.print( F("AxonMomentarySwitchEventClient::event         received:") );
+#ifdef DEBUG_MOMENTARY_SWITCH_ACTION
+	Serial.print( F("AxonMomentarySwitchAction::event         received:") );
 	Serial.println( event->getGroupID() );
 #endif
 	AxonHardwareSwitchEvent *tmp = new AxonHardwareSwitchEvent( 0 );		// switch number not important for subsequent check
 
 	if (event->sameType(tmp))
 	{
-#ifdef DEBUG_MOMENTARY
-		Serial.print( F("AxonMomentarySwitchEventClient::event ") );
+#ifdef DEBUG_MOMENTARY_SWITCH_ACTION
+		Serial.print( F("AxonMomentarySwitchAction::event ") );
 		Serial.println( F("is a hardware switch type") );
 #endif		
 		AxonHardwareSwitchEvent *tmp2 = event;											// this is now safe to do!	
@@ -74,25 +68,25 @@ void AxonMomentarySwitchEventClient::event( AxonEvent *event )
 			{
 				_startMillis = 0;														// stop our timer
 								
-				AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
-				swEvent->setSwitchState( true );
+				if (_onAction)
+				{
+					AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
+					swEvent->setSwitchState( true );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-#ifdef DEBUG_MOMENTARY
-				Serial.print( F("AxonMomentarySwitchEventClient::event ") );
-				Serial.print( F("creating Software Switch Event ") );
+#ifdef DEBUG_MOMENTARY_SWITCH_ACTION
+					Serial.print( F("AxonMomentarySwitchAction::event ") );
+					Serial.print( F("creating Software Switch Event ") );
 #endif
-#ifdef DEBUG_MOMENTARY_JUST_ONOFFS
-				Serial.print( swEvent->getSwitchNumber() ); 
-				Serial.println( F(", ON") );
+#ifdef DEBUG_MOMENTARY_SWITCH_ACTION
+					Serial.print( swEvent->getSwitchNumber() ); 
+					Serial.println( F(", ON") );
 #endif
-				if (_onAction)
-				{
-					_onAction->execute( NULL, swEvent );
-				}
+					_onAction->execute( this, swEvent );
 
-				AxonEventManager::instance()->addToQueue( swEvent );
+					delete swEvent;
+				}
 			}
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
@@ -106,25 +100,25 @@ AxonCheckMem::instance()->check();
 			_switchState = false;
 			if (_startMillis == 0)														// the timer expired (it would be greater than 0 if still running
 			{																			// and its impossible to get here unless it was started
-				AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
-				swEvent->setSwitchState( false );
+				if (_offAction)
+				{
+					AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
+					swEvent->setSwitchState( false );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-#ifdef DEBUG_MOMENTARY
-				Serial.print( F("AxonMomentarySwitchEventClient::event ") );
-				Serial.print( F("creating Software Switch Event ") );
+#ifdef DEBUG_MOMENTARY_SWITCH_ACTION
+					Serial.print( F("AxonMomentarySwitchAction::event ") );
+					Serial.print( F("creating Software Switch Event ") );
 #endif
-#ifdef DEBUG_MOMENTARY_JUST_ONOFFS
-				Serial.print( swEvent->getSwitchNumber() );
-				Serial.println( F(", OFF") );
+#ifdef DEBUG_MOMENTARY_SWITCH_ACTION
+					Serial.print( swEvent->getSwitchNumber() );
+					Serial.println( F(", OFF") );
 #endif
-				if (_offAction)
-				{
-					_offAction->execute( NULL, swEvent );
+					_offAction->execute( this, swEvent );
+					
+					delete swEvent;
 				}
-
-				AxonEventManager::instance()->addToQueue( swEvent );
 			}
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
@@ -132,10 +126,10 @@ AxonCheckMem::instance()->check();
 #endif
 			return;
 		}
-#ifdef DEBUG_MOMENTARY
+#ifdef DEBUG_MOMENTARY_SWITCH_ACTION
 		else
 		{
-			Serial.print( F("AxonMomentarySwitchEventClient::event ") );
+			Serial.print( F("AxonMomentarySwitchAction::event ") );
 			Serial.println( F("is NOT a hardware switch type") );
 		}
 #endif

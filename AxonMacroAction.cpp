@@ -32,10 +32,10 @@ void AxonMacroAction::remove(AxonAction *action)	// remove an action from the li
 	}
 }
 
-void AxonMacroAction::execute(AxonEvent *event)		// iterate through the actions "executing" their Execute methods
+void AxonMacroAction::execute( AxonAction *sender, AxonEvent *event)		// iterate through the actions "executing" their Execute methods
 {
 	for( uint8_t i = 0; i < _count; i++ )			// as above...
 	{
-		_list[i]->execute(event);
+		_list[i]->execute(this, event);
 	}
 }

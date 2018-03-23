@@ -11,7 +11,7 @@
 class AxonAFXXLPPresetNumberRequestAction: public AxonMidiChannelBasedAction
 {
 	public:
-		void execute(AxonEvent *event);									// the execute method
+		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
 	private:
 		static const uint8_t _BANK_SELECT_MIDI_SPEC = 0;
 		uint16_t _currentBank = 0xFF;   // initialised to way outside what the AFX has for first time setting

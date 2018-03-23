@@ -33,7 +33,7 @@ AxonCheckMem::instance()->check();
 				// if an ACTION handler has been setup then call the execute
 				if (_onSuccess)
 				{
-					_onSuccess->execute( newEvent );
+					_onSuccess->execute( NULL, newEvent );
 				}
 				
 				AxonEventManager::instance()->addToQueue( newEvent );

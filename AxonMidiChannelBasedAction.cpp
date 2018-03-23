@@ -13,7 +13,7 @@ void AxonMidiChannelBasedAction::setChannel( uint8_t channel )
 	}
 }
 
-void AxonMidiChannelBasedAction::execute(AxonEvent *event)													// use the midi implementation to send the program change
+void AxonMidiChannelBasedAction::execute( AxonAction *sender, AxonEvent *event)													// use the midi implementation to send the program change
 {
 	Serial.println( F("AxonMidiChannelBasedAction tried to Execute... (nonsense)") );
 }

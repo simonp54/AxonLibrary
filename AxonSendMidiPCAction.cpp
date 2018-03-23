@@ -15,7 +15,7 @@ void AxonSendMidiPCAction::setPC( uint8_t pc )
 }
 
 
-void AxonSendMidiPCAction::execute(AxonEvent *event)													// use the midi implementation to send the program change
+void AxonSendMidiPCAction::execute( AxonAction *sender, AxonEvent *event)													// use the midi implementation to send the program change
 {
 	if ( (_network != 0xFF) && (_channel != 0xFF) && (_pc != 0xFF) )
 	{

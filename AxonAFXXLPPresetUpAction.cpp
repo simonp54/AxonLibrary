@@ -6,7 +6,7 @@
 #include "AxonGeneralStorage.h"
 #include "Arduino.h"
 
-void AxonAFXXLPPresetUpAction::execute(AxonEvent *event)
+void AxonAFXXLPPresetUpAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	uint16_t tmp = AxonGeneralStorage::instance()->readAFXXLPPresetNumber();
 	

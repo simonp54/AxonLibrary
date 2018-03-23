@@ -7,7 +7,7 @@
 #include "AxonCheckMem.h"
 
 
-void AxonStoreAFXXLPSceneNumberAction::execute(AxonEvent *event)
+void AxonStoreAFXXLPSceneNumberAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonAFXXLPSceneNumberEvent *tmp = new AxonAFXXLPSceneNumberEvent( );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY

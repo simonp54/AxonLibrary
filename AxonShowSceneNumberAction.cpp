@@ -2,7 +2,7 @@
 #include "AxonTouchScreen.h"
 #include "Arduino.h"
 
-void AxonShowSceneNumberAction::execute(AxonEvent *event)
+void AxonShowSceneNumberAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonTouchScreen::instance()->showAFXSceneNumber();
 }

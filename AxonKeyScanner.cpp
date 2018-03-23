@@ -93,9 +93,10 @@ AxonCheckMem::instance()->check();
 #endif
 				if (_onKeyScan[(i*8)+j])
 				{
-					_onKeyScan[(i*8)+j]->execute( event );
+					_onKeyScan[(i*8)+j]->execute( NULL, event );
 				}
 
+				// replace the following line with "delete event;" when/if we remove the event manager
 				AxonEventManager::instance()->addToQueue( event );
 			}
 		}

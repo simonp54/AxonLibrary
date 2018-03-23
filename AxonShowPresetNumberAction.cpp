@@ -7,7 +7,7 @@
 #include "AxonTouchScreen.h"
 #include "Arduino.h"
 
-void AxonShowPresetNumberAction::execute(AxonEvent *event)
+void AxonShowPresetNumberAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonTouchScreen::instance()->showAFXXLPPresetNumber();
 }
