@@ -48,7 +48,7 @@ AxonCheckMem::instance()->check();
 
 void AxonAFXXLPSysExEventClient::event( AxonEvent *event )
 {
-#ifdef DEBUG_AXE_FX_SYSEX_EVENT_CLIENT
+#ifdef DEBUG_AXE_FX_XL_PLUS_SYSEX_EVENT_CLIENT
 	Serial.print( F("AxonAFXXLPSysExEventClient::event         received:") );
 	Serial.println( event->getGroupID(), BIN );
 #endif

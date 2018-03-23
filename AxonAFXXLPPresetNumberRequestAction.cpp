@@ -7,7 +7,7 @@
 #include "AxonMidi.h"
 #include "Arduino.h"
 
-void AxonAFXXLPPresetNumberRequestAction::execute(AxonEvent *event)													// use the midi implementation to send the program change
+void AxonAFXXLPPresetNumberRequestAction::execute( AxonAction *sender, AxonEvent *event)													// use the midi implementation to send the program change
 {
 	uint16_t pcNumber = AxonGeneralStorage::instance()->readAFXXLPPresetNumber();
 	

@@ -11,7 +11,7 @@
 class AxonStoreAFXXLPPresetNumberAction: public AxonAction
 {
 	public:
-		void execute(AxonEvent *event);									// the execute method
+		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
 	protected:
 };
 

@@ -6,7 +6,7 @@
 #include "AxonTouchScreen.h"
 #include "Arduino.h"
 
-void AxonContrastSetAction::execute(AxonEvent *event)
+void AxonContrastSetAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonTouchScreen::instance()->contrastSet( );
 }

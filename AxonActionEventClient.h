@@ -15,7 +15,7 @@ class AxonActionEventClient : public AxonEventClient
 		void setOffAction( AxonAction *action );
 		void setOnChangeAction( AxonAction *action );
 
-		void event( AxonEvent *event );
+		void event( AxonAction *sender, AxonEvent *event );
 	private:
 		AxonAction *_onAction = 0;
 		AxonAction *_offAction = 0;

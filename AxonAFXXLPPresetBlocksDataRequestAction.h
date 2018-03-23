@@ -7,7 +7,7 @@
 class AxonAFXXLPPresetBlocksDataRequestAction: public AxonMidiBaseAction	
 {
 	public:
-		void execute(AxonEvent *event);									// the execute method
+		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
 	protected:
 		static const uint8_t _payload[];
 };

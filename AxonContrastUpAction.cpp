@@ -5,7 +5,7 @@
 #include "AxonContrastUpAction.h"
 #include "AxonTouchScreen.h"
 
-void AxonContrastUpAction::execute(AxonEvent *event)
+void AxonContrastUpAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonTouchScreen::instance()->contrastUp();
 }

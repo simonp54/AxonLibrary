@@ -42,15 +42,9 @@ AxonCheckMem::instance()->check();
 	
 				// if an ACTION handler has been setup then call the execute
 				
-				if ((_onScene1Rxd) && (event->getByte(6) == 0)) { _onScene1Rxd->execute( newEvent ); }
-				if ((_onScene2Rxd) && (event->getByte(6) == 1)) { _onScene2Rxd->execute( newEvent ); }
-				if ((_onScene3Rxd) && (event->getByte(6) == 2)) { _onScene3Rxd->execute( newEvent ); }
-				if ((_onScene4Rxd) && (event->getByte(6) == 3)) { _onScene4Rxd->execute( newEvent ); }
-				if ((_onScene5Rxd) && (event->getByte(6) == 4)) { _onScene5Rxd->execute( newEvent ); }
-				if ((_onScene6Rxd) && (event->getByte(6) == 5)) { _onScene6Rxd->execute( newEvent ); }
-				if ((_onScene7Rxd) && (event->getByte(6) == 6)) { _onScene7Rxd->execute( newEvent ); }
-				if ((_onScene8Rxd) && (event->getByte(6) == 7)) { _onScene8Rxd->execute( newEvent ); }
-				if (_onSuccess) { _onSuccess->execute( newEvent ); }
+				if (_onSceneRxd) { _onSceneRxd->execute( NULL, newEvent ); }
+
+				if (_onSuccess) { _onSuccess->execute( NULL, newEvent ); }
 				
 				AxonEventManager::instance()->addToQueue( newEvent );
 

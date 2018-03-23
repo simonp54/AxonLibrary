@@ -2,7 +2,7 @@
 #include "AxonAFXXLPTunerInfoEvent.h"
 #include "AxonTouchScreen.h"
 
-void AxonAFXXLPTunerInfoAction::execute(AxonEvent *event)
+void AxonAFXXLPTunerInfoAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonAFXXLPTunerInfoEvent *tmp = new AxonAFXXLPTunerInfoEvent();
 	

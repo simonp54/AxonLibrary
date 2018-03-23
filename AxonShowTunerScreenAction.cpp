@@ -6,7 +6,7 @@
 #include "AxonTouchScreen.h"
 #include "Arduino.h"
 
-void AxonShowTunerScreenAction::execute(AxonEvent *event)
+void AxonShowTunerScreenAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonTouchScreen::instance()->showTunerScreen();
 }

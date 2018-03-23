@@ -20,20 +20,13 @@ class AxonAFXXLPSysExEventClient : public AxonEventClient
 		AxonAFXXLPSysExEventClient();
 		~AxonAFXXLPSysExEventClient();
 	
-		void onTunerInfoRxd( AxonAction *action )			{ _AFXXLPTunerInfoDecoder->onSuccess( action ); 		}
-		void onFrontPanelChangeRxd( AxonAction *action )	{ _AFXXLPFrontPanelChangeDecoder->onSuccess( action );	}
-		void onPresetBlocksDataRxd( AxonAction *action )	{ _AFXXLPPresetBlocksDataDecoder->onSuccess( action ); 	}
-		void onPresetNumberRxd( AxonAction *action )		{ _AFXXLPPresetNumberDecoder->onSuccess( action ); 		}
-		void onPresetNameRxd( AxonAction *action )			{ _AFXXLPPresetNameDecoder->onSuccess( action ); 		}
-		void onSceneNumberRxd( AxonAction *action )			{ _AFXXLPSceneNumberDecoder->onSuccess( action ); 		}
-		void onScene1Rxd( AxonAction *action )				{ _AFXXLPSceneNumberDecoder->onScene1Rxd( action ); 	}
-		void onScene2Rxd( AxonAction *action ) 				{ _AFXXLPSceneNumberDecoder->onScene2Rxd( action ); 	}
-		void onScene3Rxd( AxonAction *action ) 				{ _AFXXLPSceneNumberDecoder->onScene3Rxd( action ); 	}
-		void onScene4Rxd( AxonAction *action ) 				{ _AFXXLPSceneNumberDecoder->onScene4Rxd( action ); 	}
-		void onScene5Rxd( AxonAction *action ) 				{ _AFXXLPSceneNumberDecoder->onScene5Rxd( action ); 	}
-		void onScene6Rxd( AxonAction *action ) 				{ _AFXXLPSceneNumberDecoder->onScene6Rxd( action ); 	}
-		void onScene7Rxd( AxonAction *action ) 				{ _AFXXLPSceneNumberDecoder->onScene7Rxd( action ); 	}
-		void onScene8Rxd( AxonAction *action ) 				{ _AFXXLPSceneNumberDecoder->onScene8Rxd( action ); 	}
+		void onTunerInfoRxd( AxonAction *action )			{ _AFXXLPTunerInfoDecoder->onSuccess( action ); 			}
+		void onFrontPanelChangeRxd( AxonAction *action )	{ _AFXXLPFrontPanelChangeDecoder->onSuccess( action );		}
+		void onPresetBlocksDataRxd( AxonAction *action )	{ _AFXXLPPresetBlocksDataDecoder->onSuccess( action ); 		}
+		void onPresetNumberRxd( AxonAction *action )		{ _AFXXLPPresetNumberDecoder->onSuccess( action ); 			}
+		void onPresetNameRxd( AxonAction *action )			{ _AFXXLPPresetNameDecoder->onSuccess( action ); 			}
+		void onSceneNumberRxd( AxonAction *action )			{ _AFXXLPSceneNumberDecoder->onSuccess( action ); 			}
+		void onSceneRxd( AxonAction *action )				{ _AFXXLPSceneNumberDecoder->onSceneRxd( action ); 	}
 		
 		virtual void event( AxonEvent *event );
 		

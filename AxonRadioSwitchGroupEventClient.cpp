@@ -156,7 +156,7 @@ AxonCheckMem::instance()->check();
 
 					if (_offAction)
 					{
-						_offAction->execute( SoftwareSwitchEvent1 );
+						_offAction->execute( NULL, SoftwareSwitchEvent1 );
 					}
 					
 					AxonEventManager::instance()->addToQueue( SoftwareSwitchEvent1 );
@@ -178,7 +178,7 @@ AxonCheckMem::instance()->check();
 
 					if (_onAction)
 					{
-						_onAction->execute( SoftwareSwitchEvent2 );
+						_onAction->execute( NULL, SoftwareSwitchEvent2 );
 					}
 
 					AxonEventManager::instance()->addToQueue( SoftwareSwitchEvent2 );
@@ -201,7 +201,7 @@ AxonCheckMem::instance()->check();
 
 					if (_onChangeAction)
 					{
-						_onChangeAction->execute( RGEvent );
+						_onChangeAction->execute( NULL, RGEvent );
 					}
 
 					AxonEventManager::instance()->addToQueue( RGEvent );

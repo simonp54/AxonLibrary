@@ -22,7 +22,7 @@ bool AxonAFXXLPChecksumDecoder::decode( AxonSysExMidiEvent *event )
 			{
 //				if (_onSuccess)
 //				{
-//					_onSuccess->execute( event );
+//					_onSuccess->execute( NULL, event );
 //				}
 #ifdef DEBUG_AXEFX_XL_PLUS_CHECKSUM_DECODER
 				Serial.println( F("AxonAFXXLPChecksumDecoder::CHECKSUM VALID") );

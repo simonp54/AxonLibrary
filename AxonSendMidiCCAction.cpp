@@ -41,7 +41,7 @@ void AxonSendMidiCCAction::setVal( uint8_t val )
 	}
 }
 
-void AxonSendMidiCCAction::execute( AxonEvent *event )		// use the midi implementation to send the control change
+void AxonSendMidiCCAction::execute( AxonAction *sender, AxonEvent *event )		// use the midi implementation to send the control change
 {
 	if (!_fixVal)
 	{

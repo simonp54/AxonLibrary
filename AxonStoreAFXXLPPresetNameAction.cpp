@@ -11,7 +11,7 @@
 #include "AxonCheckMem.h"
 
 
-void AxonStoreAFXXLPPresetNameAction::execute(AxonEvent *event)
+void AxonStoreAFXXLPPresetNameAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonAFXXLPPresetNameEvent *tmp = new AxonAFXXLPPresetNameEvent();
 #ifdef DEBUG_OBJECT_CREATE_DESTROY

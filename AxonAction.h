@@ -11,7 +11,7 @@
 class AxonAction						// the generic definition of an AxonAction (doesn't ever exist but is the base type for generic coding)
 {
 	public:
-		virtual void execute(AxonEvent *event) = 0;		// pure virtual function definition of the Execute method (aka doesn't exist here and never will)
+		virtual void execute( AxonAction *sender, AxonEvent *event ) = 0;		// pure virtual function definition of the Execute method (aka doesn't exist here and never will)
 };
 
 #endif

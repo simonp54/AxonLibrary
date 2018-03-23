@@ -5,7 +5,7 @@
 #include "AxonShowPresetNameAction.h"
 #include "AxonTouchScreen.h"
 
-void AxonShowPresetNameAction::execute(AxonEvent *event)
+void AxonShowPresetNameAction::execute( AxonAction *sender, AxonEvent *event)
 {
 	AxonTouchScreen::instance()->showAFXXLPPresetName();
 }

@@ -77,7 +77,7 @@ AxonCheckMem::instance()->check();
 #endif
 			if (_onExprChange[i])
 			{
-				_onExprChange[i]->execute( event );
+				_onExprChange[i]->execute( NULL, event );
 			}
 
 			AxonEventManager::instance()->addToQueue( event );

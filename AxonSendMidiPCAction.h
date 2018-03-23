@@ -12,7 +12,7 @@ class AxonSendMidiPCAction: public AxonMidiChannelBasedAction			// Midi Program 
 {
 	public:
 		void setPC( uint8_t PC );
-		void execute(AxonEvent *event);									// the execute method
+		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
 	private:
 		uint8_t _pc = 0xFF;												// storage for the program change number
 };

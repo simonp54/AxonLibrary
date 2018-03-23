@@ -15,7 +15,7 @@ class AxonSendMidiCCAction: public AxonMidiChannelBasedAction					// Midi Contro
 		void setCC( uint8_t cc );
 		void setVal( uint8_t val );
 		void fixVal( bool fix ) { _fixVal = fix; }
-		void execute( AxonEvent *event );								// the execute method
+		void execute(  AxonAction *sender, AxonEvent *event );								// the execute method
 	private:
 		bool _fixVal = false;											// in general the value changes with "event input"
 																		// but if this is true, ignore event input value

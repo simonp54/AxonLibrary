@@ -12,7 +12,7 @@ class AxonMidiBaseAction: public AxonAction							// Midi base Action class deri
 {
 	public:
 		void setNetwork( uint8_t network );
-		void execute(AxonEvent *event);									// the execute method
+		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
 	protected:
 		uint8_t _network = 0xFF;										// storage for network
 };
