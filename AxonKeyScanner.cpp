@@ -91,6 +91,11 @@ void AxonKeyScanner::check()
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
+				if (_onKeyScan[i])
+				{
+					_onKeyScan[i]->execute( event );
+				}
+
 				AxonEventManager::instance()->addToQueue( event );
 			}
 		}
