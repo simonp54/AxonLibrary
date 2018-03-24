@@ -17,7 +17,7 @@ class AxonCheckMem
 	protected:
 	    AxonCheckMem();							// constructor
 	private:
-		static const uint8_t _QUICKEST_RECHECK_INTERVAL = 1000;
+		static const uint8_t _QUICKEST_RECHECK_INTERVAL = 250;
 	
 		uint64_t _lastCheckMillis;								// throttle timing
 
