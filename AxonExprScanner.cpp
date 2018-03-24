@@ -6,9 +6,7 @@
 
 #include "Arduino.h"
 #include "AxonExprScanner.h"
-#include "AxonEventManager.h"
 #include "AxonHardwareSwitchEvent.h"
-
 #include "AxonDebugDefines.h"
 #include "AxonCheckMem.h"
 
@@ -80,7 +78,7 @@ AxonCheckMem::instance()->check();
 				_onExprChange[i]->execute( NULL, event );
 			}
 
-			AxonEventManager::instance()->addToQueue( event );
+			delete event;
 		}
 		// copy across the values from current to "previous" for next service round
 		_prev_value[i] = _curr_value[i];

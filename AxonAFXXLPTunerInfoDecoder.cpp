@@ -1,7 +1,6 @@
 #include "AxonAFXXLPTunerInfoDecoder.h"
 #include "AxonDecoderTypeNumbers.h"
 #include "AxonAFXXLPTunerInfoEvent.h"
-#include "AxonEventManager.h"
 #include "Arduino.h"
 
 #include "AxonDebugDefines.h"
@@ -36,7 +35,7 @@ AxonCheckMem::instance()->check();
 				_onSuccess->execute( NULL, newEvent );
 			}
 
-			AxonEventManager::instance()->addToQueue( newEvent );
+			delete newEvent;
 			
 #ifdef DEBUG_AXEFX_XL_PLUS_TUNER_INFO_DECODER
 			Serial.println( F("AxonAFXXLPTunerInfoDecoder::TUNER INFO SYSEX MESSAGE - SUCCESS") );

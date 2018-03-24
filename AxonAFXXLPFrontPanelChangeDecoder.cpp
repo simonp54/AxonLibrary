@@ -1,7 +1,6 @@
 #include "AxonAFXXLPFrontPanelChangeDecoder.h"
 #include "AxonDecoderTypeNumbers.h"
 #include "AxonAFXXLPFrontPanelChangeEvent.h"
-#include "AxonEventManager.h"
 #include "Arduino.h"
 
 #include "AxonDebugDefines.h"
@@ -33,7 +32,7 @@ AxonCheckMem::instance()->check();
 					_onSuccess->execute( NULL, newEvent );
 				}
 				
-				AxonEventManager::instance()->addToQueue( newEvent );
+				delete newEvent;
 				
 #ifdef DEBUG_AXEFX_XL_PLUS_FRONT_PANEL_CHANGE_DECODER
 				Serial.println( F("AxonAFXXLPFrontPanelChangeDecoder::DECODED AXEFX XL+ FRONT PANEL CHANGE SYSEX MESSAGE - SUCCESS") );

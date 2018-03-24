@@ -2,7 +2,6 @@
 #include "AxonAFXXLPBlockListContainer.h"
 #include "AxonAFXXLPBlockContainer.h"
 #include "AxonAFXXLPPresetBlocksDataEvent.h"
-#include "AxonEventManager.h"
 #include "AxonDecoderTypeNumbers.h"
 
 #include "Arduino.h"
@@ -74,7 +73,7 @@ AxonCheckMem::instance()->check();
 //					_onSuccess->execute( this, newEvent );
 //				}
 				
-				AxonEventManager::instance()->addToQueue( newEvent );
+				delete newEvent;
 	*/			
 #ifdef DEBUG_AXEFX_XL_PLUS_PRESET_BLOCKS_DATA_DECODER
 				Serial.println( F("AxonAFXXLPPresetBlocksDataDecoder::DECODED PRESET BLOCKS DATA MESSAGE - SUCCESS") );
