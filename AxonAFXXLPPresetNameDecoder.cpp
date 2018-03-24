@@ -1,6 +1,5 @@
 #include "AxonAFXXLPPresetNameDecoder.h"
 #include "AxonAFXXLPPresetNameEvent.h"
-#include "AxonEventManager.h"
 #include "AxonGeneralStorage.h"
 
 #include "AxonDecoderTypeNumbers.h"
@@ -47,13 +46,12 @@ AxonCheckMem::instance()->check();
 					_onSuccess->execute( NULL, newEvent );
 				}
 				
-				AxonEventManager::instance()->addToQueue( newEvent );
-
 #ifdef DEBUG_AXEFX_XL_PLUS_PRESET_NUMBER_DECODER
 				Serial.print( F("AxonAFXXLPPresetNameDecoder::DECODED AXEFX XL+ PRESET NAME <") );
 				Serial.print( tmpName );
 				Serial.println( F("> SYSEX MESSAGE - SUCCESS") );
 #endif
+				delete newEvent;
 				return true;
 			}
 		}

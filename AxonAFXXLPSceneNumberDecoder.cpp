@@ -1,7 +1,5 @@
 #include "AxonAFXXLPSceneNumberDecoder.h"
-//#include "AxonHardwareSwitchEvent.h"
 #include "AxonAFXXLPSceneNumberEvent.h"
-#include "AxonEventManager.h"
 
 #include "AxonDecoderTypeNumbers.h"
 
@@ -45,14 +43,13 @@ AxonCheckMem::instance()->check();
 				if (_onSceneRxd) { _onSceneRxd->execute( NULL, newEvent ); }
 
 				if (_onSuccess) { _onSuccess->execute( NULL, newEvent ); }
-				
-				AxonEventManager::instance()->addToQueue( newEvent );
 
 #ifdef DEBUG_AXEFX_XL_PLUS_SCENE_NUMBER_DECODER
 				Serial.print( F("AxonAFXXLPSceneNumberDecoder::DECODED AXEFX XL+ SCENE NUMBER <") );
 				Serial.print( newEvent->getSceneNumber() );
 				Serial.println( F("> SYSEX MESSAGE - SUCCESS") );
 #endif
+				delete newEvent;
 				return true;
 			}
 		}

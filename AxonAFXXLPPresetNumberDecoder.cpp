@@ -1,6 +1,5 @@
 #include "AxonAFXXLPPresetNumberDecoder.h"
 #include "AxonAFXXLPPresetNumberEvent.h"
-#include "AxonEventManager.h"
 
 #include "AxonDecoderTypeNumbers.h"
 
@@ -35,14 +34,13 @@ AxonCheckMem::instance()->check();
 				{
 					_onSuccess->execute( NULL, newEvent );
 				}
-				
-				AxonEventManager::instance()->addToQueue( newEvent );
 
 #ifdef DEBUG_AXEFX_XL_PLUS_PRESET_NUMBER_DECODER
 				Serial.print( F("AxonAFXXLPPresetNumberDecoder::DECODED AXEFX XL+ PRESET NUMBER <") );
 				Serial.print( newEvent->getPresetNumber() );
 				Serial.println( F("> SYSEX MESSAGE - SUCCESS") );
 #endif
+				delete newEvent;
 				return true;
 			}
 		}

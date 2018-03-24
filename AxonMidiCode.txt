@@ -1,4 +1,3 @@
-#include "AxonEventManager.h"
 #include "AxonCCMidiEvent.h"
 #include "AxonPCMidiEvent.h"
 #include "AxonSysExMidiEvent.h"
