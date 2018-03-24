@@ -14,6 +14,7 @@ class AxonMomentarySwitchAction : public AxonAction
 
 		void setOnAction( AxonAction *action ) { _onAction = action; }
 		void setOffAction( AxonAction *action ) { _offAction = action; }
+		void setChangeAction( AxonAction *action ) { _changeAction = action; }
 		
 		void setInterval( uint16_t interval );
 		uint16_t getInterval();
@@ -25,6 +26,7 @@ class AxonMomentarySwitchAction : public AxonAction
 
 		AxonAction *_onAction = 0;
 		AxonAction *_offAction = 0;
+		AxonAction *_changeAction = 0;
 };
 
 #endif

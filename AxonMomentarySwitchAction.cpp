@@ -68,25 +68,30 @@ void AxonMomentarySwitchAction::execute( AxonAction *sender, AxonEvent *event )
 			{
 				_startMillis = 0;														// stop our timer
 								
-				if (_onAction)
-				{
-					AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
-					swEvent->setSwitchState( true );
+				AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
+				swEvent->setSwitchState( true );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-					Serial.print( F("AxonMomentarySwitchAction::event ") );
-					Serial.print( F("creating Software Switch Event ") );
+				Serial.print( F("AxonMomentarySwitchAction::event ") );
+				Serial.print( F("creating Software Switch Event ") );
 #endif
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-					Serial.print( swEvent->getSwitchNumber() ); 
-					Serial.println( F(", ON") );
+				Serial.print( swEvent->getSwitchNumber() ); 
+				Serial.println( F(", ON") );
 #endif
+				if (_onAction)
+				{
 					_onAction->execute( this, swEvent );
-
-					delete swEvent;
 				}
+				
+				if (_changeAction)
+				{
+					_changeAction->execute( this, swEvent );
+				}
+				delete swEvent;
+				
 			}
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
@@ -100,25 +105,30 @@ AxonCheckMem::instance()->check();
 			_switchState = false;
 			if (_startMillis == 0)														// the timer expired (it would be greater than 0 if still running
 			{																			// and its impossible to get here unless it was started
-				if (_offAction)
-				{
-					AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
-					swEvent->setSwitchState( false );
+				AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
+				swEvent->setSwitchState( false );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-					Serial.print( F("AxonMomentarySwitchAction::event ") );
-					Serial.print( F("creating Software Switch Event ") );
+				Serial.print( F("AxonMomentarySwitchAction::event ") );
+				Serial.print( F("creating Software Switch Event ") );
 #endif
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-					Serial.print( swEvent->getSwitchNumber() );
-					Serial.println( F(", OFF") );
+				Serial.print( swEvent->getSwitchNumber() );
+				Serial.println( F(", OFF") );
 #endif
+				if (_offAction)
+				{
 					_offAction->execute( this, swEvent );
-					
-					delete swEvent;
 				}
+				
+				if (_changeAction)
+				{
+					_changeAction->execute( this, swEvent );
+				}
+				delete swEvent;
+				
 			}
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
 #ifdef DEBUG_OBJECT_CREATE_DESTROY

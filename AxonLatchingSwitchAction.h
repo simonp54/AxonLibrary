@@ -15,6 +15,7 @@ class AxonLatchingSwitchAction : public AxonAction
 		
 		void setOnAction( AxonAction *action ) { _onAction = action; }
 		void setOffAction( AxonAction *action ) { _offAction = action; }
+		void setChangeAction( AxonAction *action ) { _changeAction = action; }
 
 		void execute( AxonAction *sender, AxonEvent *event );
 	private:
@@ -23,6 +24,7 @@ class AxonLatchingSwitchAction : public AxonAction
 		
 		AxonAction *_onAction = 0;
 		AxonAction *_offAction = 0;
+		AxonAction *_changeAction = 0;
 };
 
 #endif

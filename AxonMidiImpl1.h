@@ -6,6 +6,7 @@
 #define AXON_MIDI_IMPL_1_h
 
 #include "AxonMidiWrap.h"
+#include "AxonAction.h"
 #include "Arduino.h"
 
 class AxonMidiImpl1: public AxonMidiWrap
@@ -16,7 +17,7 @@ class AxonMidiImpl1: public AxonMidiWrap
 		void sendCC( uint8_t channel, uint8_t cc, uint8_t val );
 		void sendPC( uint8_t channel, uint8_t pc );
 		void sendSysEx( uint8_t inLength, const uint8_t* inArray, bool inArrayContainsBoundaries );
-
+		
 		void read();
 	protected:
 	private:

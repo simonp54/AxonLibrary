@@ -6,6 +6,7 @@
 #define AXON_MIDI_IMPL_2_h
 
 #include "AxonMidiWrap.h"
+#include "AxonAction.h"
 #include "Arduino.h"
 
 class AxonMidiImpl2: public AxonMidiWrap

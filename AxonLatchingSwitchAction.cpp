@@ -66,23 +66,28 @@ AxonCheckMem::instance()->check();
 			_switchState = true;										// AKA ON
 			_ignoreSubsequentDown = true;
 
-			if (_onAction)
-			{
-				AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
-				swEvent->setSwitchState( true );
+			AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
+			swEvent->setSwitchState( true );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
 #ifdef DEBUG_LATCHING_SWITCH_ACTION
-				Serial.print( F("AxonLatchingSwitchAction::event ") );
-				Serial.print( F("creating Software Switch Event ") );
-				Serial.print( swEvent->getGroupID() ); 
-				Serial.println( F(", ON") );
+			Serial.print( F("AxonLatchingSwitchAction::event ") );
+			Serial.print( F("creating Software Switch Event ") );
+			Serial.print( swEvent->getGroupID() ); 
+			Serial.println( F(", ON") );
 #endif
+			if (_onAction)
+			{
 				_onAction->execute( this, swEvent );
-				
-				delete swEvent;
 			}
+			
+			if (_changeAction)
+			{
+				_changeAction->execute( this, swEvent );
+			}
+				
+			delete swEvent;
 
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
@@ -96,23 +101,27 @@ AxonCheckMem::instance()->check();
 			_switchState = false;										// AKA OFF
 			_ignoreSubsequentDown = true;
 
-			if (_offAction)
-			{
-				AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
-				swEvent->setSwitchState( false );
+			AxonSoftwareSwitchEvent *swEvent = new AxonSoftwareSwitchEvent(tmp2->getSwitchNumber());
+			swEvent->setSwitchState( false );
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
 #ifdef DEBUG_LATCHING_SWITCH_ACTION
-				Serial.print( F("AxonLatchingSwitchAction::event ") );
-				Serial.print( F("creating Software Switch Event ") );
-				Serial.print( swEvent->getGroupID() );  
-				Serial.println( F(", OFF") );
+			Serial.print( F("AxonLatchingSwitchAction::event ") );
+			Serial.print( F("creating Software Switch Event ") );
+			Serial.print( swEvent->getGroupID() );  
+			Serial.println( F(", OFF") );
 #endif
+			if (_offAction)
+			{
 				_offAction->execute( this, swEvent );
-				
-				delete swEvent;
 			}
+				
+			if (_changeAction)
+			{
+				_changeAction->execute( this, swEvent );
+			}
+			delete swEvent;
 
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
