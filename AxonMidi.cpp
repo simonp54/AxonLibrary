@@ -91,3 +91,35 @@ void AxonMidi::read()
 	_midiNet[0]->read();
 	_midiNet[1]->read();
 }
+
+void AxonMidi::internal_sysExAction( AxonSysExMidiEvent *event)
+{
+	if (_sysExAction)
+	{
+		_sysExAction->execute( NULL, event );
+	}
+}
+
+void AxonMidi::internal_songSelectAction( AxonSongSelectMidiEvent *event )
+{
+	if (_songSelectAction)
+	{
+		_songSelectAction->execute( NULL, event );
+	}
+}
+
+void AxonMidi::internal_ccAction( AxonCCMidiEvent *event )
+{
+	if (_ccAction)
+	{
+		_ccAction->execute( NULL, event );
+	}
+}
+
+void AxonMidi::internal_pcAction( AxonPCMidiEvent *event )
+{
+	if (_pcAction)
+	{
+		_pcAction->execute( NULL, event );
+	}
+}

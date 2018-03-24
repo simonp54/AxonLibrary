@@ -3,6 +3,7 @@
 #include "AxonPCMidiEvent.h"
 #include "AxonSysExMidiEvent.h"
 #include "AxonSongSelectMidiEvent.h"
+#include "AxonMidi.h"
 
 #include "AxonDebugDefines.h"
 #include "AxonCheckMem.h"
@@ -33,7 +34,9 @@ AxonCheckMem::instance()->check();
 #endif
 	event->copyData( array, size );
 	
-	AxonEventManager::instance()->addToQueue( event );
+	AxonMidi::instance()->internal_sysExAction( event );
+	
+	delete event;
 }
 
 void DUMMYCLASSNAME::HandleCC( uint8_t channel, uint8_t cc, uint8_t val )
@@ -65,7 +68,9 @@ AxonCheckMem::instance()->check();
 	event->setCC(cc);
 	event->setVal(val);
 	
-	AxonEventManager::instance()->addToQueue( event );
+	AxonMidi::instance()->internal_ccAction( event );
+	
+	delete event;
 }
 
 void DUMMYCLASSNAME::HandlePC( uint8_t channel, uint8_t pc )
@@ -94,7 +99,9 @@ AxonCheckMem::instance()->check();
 	event->setChannel(channel);
 	event->setPC(pc);
 	
-	AxonEventManager::instance()->addToQueue( event );
+	AxonMidi::instance()->internal_pcAction( event );
+	
+	delete event;
 }
 
 void DUMMYCLASSNAME::HandleSongSelect( uint8_t songNumber )
@@ -120,7 +127,9 @@ AxonCheckMem::instance()->check();
 #endif
 	event->setSongNumber( songNumber );
 	
-	AxonEventManager::instance()->addToQueue( event );
+	AxonMidi::instance()->internal_songSelectAction( event );
+	
+	delete event;
 }
 
 DUMMYCLASSNAME::DUMMYCLASSNAME()

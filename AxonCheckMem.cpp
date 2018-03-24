@@ -32,15 +32,11 @@ AxonCheckMem::AxonCheckMem()
 
 
 /*
- *  CALLED BY THE CLIENT TO SERVICE THE KEYBOARD (AS FREQUENTLY AS POSSIBLE)
- *  BUT internally limited to the fastest that seems stable (20ms)
+ *  CALLED BY THE CLIENT TO SERVICE (AS FREQUENTLY AS POSSIBLE)
+ *  BUT internally limited
  */
 void AxonCheckMem::check()
 {
-	if ( _lastCheckMillis + _QUICKEST_RECHECK_INTERVAL > millis() )
-	{
-		return;			// do nothing... its too soon.
-	}
 
 /* This function places the current value of the heap and stack pointers in the
    variables. You can call it from any place in your code and save the data for
@@ -63,8 +59,11 @@ void AxonCheckMem::check()
 	if (_stackptr < _stackmin) {_stackmin = _stackptr;}
 	
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
-	Serial.printf( "%d %d %d %d %d %d\n", _heapmax, _heapptr, _heapmin, _stackmax, _stackptr, _stackmin);
+	if ( _lastCheckMillis + _QUICKEST_RECHECK_INTERVAL < millis() )
+	{
+		Serial.printf( "%d %d %d %d %d %d\n", _heapmax, _heapptr, _heapmin, _stackmax, _stackptr, _stackmin);
+		_lastCheckMillis = millis();			// store the "last time" we ran this service routine
+	}
 #endif
 	
-	_lastCheckMillis = millis();			// store the "last time" we ran this service routine
 }
