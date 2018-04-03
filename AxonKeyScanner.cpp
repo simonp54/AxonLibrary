@@ -48,6 +48,12 @@ AxonKeyScanner::AxonKeyScanner()
 }
 
 
+void AxonKeyScanner::setOnKeyScan( uint8_t index, AxonAction *action )
+{
+	_onKeyScan[constrain( index, 0, _NUMBER_OF_ROWS * _NUMBER_OF_COLUMNS )] = action;
+}
+
+
 /*
  *  CALLED BY THE CLIENT TO SERVICE THE KEYBOARD (AS FREQUENTLY AS POSSIBLE)
  *  BUT internally limited to the fastest that seems stable (20ms)
