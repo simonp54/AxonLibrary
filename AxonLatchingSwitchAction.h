@@ -6,25 +6,18 @@
 
 #include "AxonAction.h"
 #include "AxonHardwareSwitchEvent.h"
+#include "AxonMultiOnOffChangeAction.h"
 
-class AxonLatchingSwitchAction : public AxonAction
+class AxonLatchingSwitchAction : public AxonMultiOnOffChangeAction
 {
 	public:
 		AxonLatchingSwitchAction();
 		~AxonLatchingSwitchAction();
 		
-		void setOnAction( AxonAction *action ) { _onAction = action; }
-		void setOffAction( AxonAction *action ) { _offAction = action; }
-		void setChangeAction( AxonAction *action ) { _changeAction = action; }
-
 		void execute( AxonAction *sender, AxonEvent *event );
 	private:
 		bool _switchState = false;
 		bool _ignoreSubsequentDown = false;
-		
-		AxonAction *_onAction = 0;
-		AxonAction *_offAction = 0;
-		AxonAction *_changeAction = 0;
 };
 
 #endif

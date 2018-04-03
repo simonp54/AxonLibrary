@@ -77,15 +77,8 @@ AxonCheckMem::instance()->check();
 			Serial.print( swEvent->getGroupID() ); 
 			Serial.println( F(", ON") );
 #endif
-			if (_onAction)
-			{
-				_onAction->execute( this, swEvent );
-			}
-			
-			if (_changeAction)
-			{
-				_changeAction->execute( this, swEvent );
-			}
+			executeOnActions( this, swEvent );
+			executeChangeActions( this, swEvent );
 				
 			delete swEvent;
 
@@ -112,15 +105,9 @@ AxonCheckMem::instance()->check();
 			Serial.print( swEvent->getGroupID() );  
 			Serial.println( F(", OFF") );
 #endif
-			if (_offAction)
-			{
-				_offAction->execute( this, swEvent );
-			}
-				
-			if (_changeAction)
-			{
-				_changeAction->execute( this, swEvent );
-			}
+			executeOffActions( this, swEvent );
+			executeChangeActions( this, swEvent );
+			
 			delete swEvent;
 
 			delete tmp;     // THIS IS NOT A DUPLICATE of the delete lower down... but releases the memory correctly

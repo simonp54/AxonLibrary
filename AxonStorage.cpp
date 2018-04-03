@@ -283,6 +283,48 @@ bool AxonStorage::read( uint32_t fromAddr, uint16_t *data )
 }
 
 /*
+ * "format" a section of FRAM memory.
+ */
+bool AxonStorage::format( uint32_t toAddr, uint8_t val, uint32_t bytesToWrite )
+{
+	// ok to write out to FRAM now
+	uint32_t FRAMoffset = (toAddr & _FRAM_ADDRESS_MASK);											// the bottom two bytes of the address give the FRAM memory unit address
+	uint8_t FRAMmodule = AxonStorage::_FRAM_ADDRESSES[((toAddr & _FRAM_MODULE_MASK) >> 16)];		// the low half of the top byte (3) gives the FRAM module number
+
+#ifdef AXONSTORAGE_DEBUG
+	Serial.printf( "writing to FRAMmodule 0x%2.2X, at address 0x%5.5lX\n", FRAMmodule, FRAMoffset);
+	Serial.printf( "%d\n", bytesToWrite );
+#endif
+	
+	_FRAMStartWrite( FRAMmodule, FRAMoffset );
+
+	for( uint32_t bytecounter = 0; bytecounter < bytesToWrite; bytecounter++)
+	{
+#ifdef AXONSTORAGE_DEBUG
+		Serial.printf( "0x%X ", *(const uint8_t *)data );
+#endif
+		Wire.write( val );
+
+		if ((bytecounter+1) % _WIRE_BUFFER_SIZE == 0)				// the WIRE library has a buffer of about 30 bytes
+																	// so we need to start a new WIRE transmission every so often
+		{
+#ifdef AXONSTORAGE_DEBUG
+		Serial.println( );
+#endif
+			// start a new I2C transaction because of buffer size
+			Wire.endTransmission();
+			_FRAMStartWrite( FRAMmodule, FRAMoffset + bytecounter + 1 );
+		}
+	}
+	Wire.endTransmission();
+#ifdef AXONSTORAGE_DEBUG
+		Serial.println( );
+#endif
+	
+	return(true);
+}
+
+/*
  *  RETURN THE ERROR CODE IF REQUESTED BY CLIENT
  */
 uint8_t AxonStorage::getError()

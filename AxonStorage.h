@@ -26,6 +26,8 @@ class AxonStorage
 		bool write( uint32_t toAddr, const void *data, uint32_t bytesToWrite );
 		bool write( uint32_t toAddr, uint8_t data );
 		bool write( uint32_t toAddr, uint16_t data );
+		
+		bool format( uint32_t toAddr, uint8_t value, uint32_t bytesToWrite );
 		uint8_t getError();
 	protected:
 		AxonStorage();

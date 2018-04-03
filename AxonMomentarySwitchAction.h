@@ -4,17 +4,13 @@
 #ifndef AXON_MOMENTARY_SWITCH_ACTION_h
 #define AXON_MOMENTARY_SWITCH_ACTION_h
 
-#include "AxonAction.h" 
+#include "AxonMultiOnOffChangeAction.h"
 
-class AxonMomentarySwitchAction : public AxonAction
+class AxonMomentarySwitchAction : public AxonMultiOnOffChangeAction
 {
 	public:
 		AxonMomentarySwitchAction();
 		~AxonMomentarySwitchAction();
-
-		void setOnAction( AxonAction *action ) { _onAction = action; }
-		void setOffAction( AxonAction *action ) { _offAction = action; }
-		void setChangeAction( AxonAction *action ) { _changeAction = action; }
 		
 		void setInterval( uint16_t interval );
 		uint16_t getInterval();
@@ -23,10 +19,6 @@ class AxonMomentarySwitchAction : public AxonAction
 		bool _switchState = false;
 		uint64_t _startMillis = 0;
 		uint16_t _interval = 0;
-
-		AxonAction *_onAction = 0;
-		AxonAction *_offAction = 0;
-		AxonAction *_changeAction = 0;
 };
 
 #endif
