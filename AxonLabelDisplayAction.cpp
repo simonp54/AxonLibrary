@@ -3,6 +3,8 @@
  */
 #include "AxonLabelDisplayAction.h"
 #include "AxonSoftwareSwitchEvent.h"
+#include "AxonListManager.h"
+
 #include "Arduino.h"
 
 #include "AxonDebugDefines.h"
@@ -21,20 +23,25 @@ void AxonLabelDisplayAction::setOffLabel( const char *label )
 	snprintf( _offLabel, 6, "%s", label );
 }
 
-AxonLabelDisplayAction::AxonLabelDisplayAction( uint8_t screenNumber, const char *onLabel, const char *offLabel )
+AxonLabelDisplayAction::AxonLabelDisplayAction( uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4 )
 {
+	// param1 is used as screenNumber
+	// param2 is the list identifier
+	// param3 is an index into that list for the on label
+	// param4 is an index into that list for the off lable
+	
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
 	Serial.println( F("AxonLabelDisplayAction::ctor") );
 #endif
-	if ((screenNumber >= 0) && (screenNumber <= 23))
+	if ((param1 >= 0) && (param1 <= 23))
 	{
-		_row = screenNumber >> 3;
-		_col = screenNumber - (_row << 3);
+		_row = param1 >> 3;
+		_col = param1 - (_row << 3);
 		_row++;
 		_col++;
 	}
-	setOnLabel( onLabel );
-	setOffLabel( offLabel );
+	setOnLabel( AxonListManager::instance()->getScribbleStripListItem(param2,param3) );
+	setOffLabel( AxonListManager::instance()->getScribbleStripListItem(param2,param4) );
 	
 	AxonScribble::instance()->selectSingle( _row, _col );
 	AxonScribble::instance()->centreText( _offLabel );

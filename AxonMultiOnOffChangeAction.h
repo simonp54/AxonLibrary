@@ -19,7 +19,7 @@ class AxonMultiOnOffChangeAction: public AxonAction						// the generic definiti
 		
 		virtual void execute( AxonAction *sender, AxonEvent *event ) = 0;		// pure virtual function definition of the Execute method (aka doesn't exist here and never will)
 	private:
-		static const uint8_t _maxActions = 36;
+		static const uint8_t _maxActions = 8;
 		
 		AxonAction *_onAction[_maxActions];
 		AxonAction *_offAction[_maxActions];

@@ -13,6 +13,7 @@
 
 //#define DEBUG_U2BABY_MEMORY_MAP_ACTION
 
+//#define DEBUG_SURFACES
 //#define DEBUG_KEY_SCANNER
 //#define DEBUG_EVENT
 //#define DEBUG_MIDI_EVENT

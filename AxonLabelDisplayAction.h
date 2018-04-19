@@ -11,7 +11,7 @@
 class AxonLabelDisplayAction : public AxonAction
 {
 	public:
-		AxonLabelDisplayAction( uint8_t screenNumber, const char *onLabel, const char *offLabel );
+		AxonLabelDisplayAction( uint8_t param1 = 0x00, uint8_t param2 = 0x00, uint8_t param3 = 0x00, uint8_t param4 = 0x00 );
 		~AxonLabelDisplayAction();
 		void setOnLabel( const char *label );
 		void setOffLabel( const char *label );

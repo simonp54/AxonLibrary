@@ -61,8 +61,13 @@ void AxonCheckMem::check()
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 	if ( _lastCheckMillis + _QUICKEST_RECHECK_INTERVAL < millis() )
 	{
-		Serial.printf( "%d %d %d %d %d %d\n", _heapmax, _heapptr, _heapmin, _stackmax, _stackptr, _stackmin);
+//		for (uint8_t i = 0; i<4; i++)
+//		{
+//			Serial.printf( "%d %d %d %d %d %d\n", _heapmax, _heapptr, _heapmin, _stackmax, _stackptr, _stackmin);
+			Serial.printf( "0 %d %d\n", _heapptr, _stackptr );
+//		}
 		_lastCheckMillis = millis();			// store the "last time" we ran this service routine
+//		delay(250);
 	}
 #endif
 	
