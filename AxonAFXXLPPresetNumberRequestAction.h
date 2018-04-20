@@ -11,6 +11,7 @@
 class AxonAFXXLPPresetNumberRequestAction: public AxonMidiChannelBasedAction
 {
 	public:
+		AxonAFXXLPPresetNumberRequestAction( uint8_t network, uint8_t channel ): AxonMidiChannelBasedAction( network, channel ) {};
 		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
 	private:
 		static const uint8_t _BANK_SELECT_MIDI_SPEC = 0;

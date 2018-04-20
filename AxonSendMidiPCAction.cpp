@@ -6,8 +6,8 @@
 #include "AxonMidi.h"
 #include "Arduino.h"
 
-void AxonSendMidiPCAction::setPC( uint8_t pc )
-{
+AxonSendMidiPCAction::AxonSendMidiPCAction( uint8_t network, uint8_t channel, uint8_t pc ): AxonMidiChannelBasedAction( network, channel )
+{	
 	if ( (pc >= 0) && (pc <= 127) )
 	{
 		_pc = pc;

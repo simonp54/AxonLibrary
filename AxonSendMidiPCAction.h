@@ -11,9 +11,10 @@
 class AxonSendMidiPCAction: public AxonMidiChannelBasedAction			// Midi Program Change Action class derived from AxonAction
 {
 	public:
-		void setPC( uint8_t PC );
+		AxonSendMidiPCAction( uint8_t network, uint8_t channel, uint8_t pc );
+
 		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
-	private:
+	protected:
 		uint8_t _pc = 0xFF;												// storage for the program change number
 };
 

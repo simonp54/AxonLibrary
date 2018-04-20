@@ -12,15 +12,12 @@
 class AxonSendMidiCCAction: public AxonMidiChannelBasedAction					// Midi Control Change action class derived from AxonMidiChannelBasedAction
 {
 	public:
-		void setCC( uint8_t cc );
-		void setVal( uint8_t val );
-		void fixVal( bool fix ) { _fixVal = fix; }
+		AxonSendMidiCCAction( uint8_t network, uint8_t channel, uint8_t cc );
+
 		void execute(  AxonAction *sender, AxonEvent *event );								// the execute method
-	private:
-		bool _fixVal = false;											// in general the value changes with "event input"
-																		// but if this is true, ignore event input value
-		uint8_t _cc = 0xFF;												// storage for the control change number
-		uint8_t _val = 0xFF;											// the value to send to the controller
+	protected:
+		uint8_t _cc = 0xFF;					// storage for the control change number
+		uint8_t _val = 0xFF;				// storage for the last used value
 };
 
 #endif

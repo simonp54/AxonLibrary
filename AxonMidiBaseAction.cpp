@@ -5,7 +5,7 @@
 #include "AxonMidiBaseAction.h"
 #include "Arduino.h"
 
-void AxonMidiBaseAction::setNetwork( uint8_t network )
+AxonMidiBaseAction::AxonMidiBaseAction( uint8_t network )
 {
 	if ( (network >= 0) && (network <= 1) )
 	{

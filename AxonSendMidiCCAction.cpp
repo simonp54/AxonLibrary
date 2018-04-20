@@ -10,8 +10,8 @@
 #include "AxonDebugDefines.h"
 #include "AxonCheckMem.h"
 
-void AxonSendMidiCCAction::setCC( uint8_t cc )
-{
+AxonSendMidiCCAction::AxonSendMidiCCAction( uint8_t network, uint8_t channel, uint8_t cc ) : AxonMidiChannelBasedAction( network, channel )
+{	
 	if ( (cc >= 0) && (cc <= 127) )
 	{
 		_cc = cc;
@@ -23,42 +23,29 @@ void AxonSendMidiCCAction::setCC( uint8_t cc )
 	}
 }
 
-void AxonSendMidiCCAction::setVal( uint8_t val )
-{
-#ifdef DEBUG_SEND_MIDI_CC_ACTION
-	Serial.print( F("AxonSendMidiCCAction::setVal val=") );
-	Serial.println( val );
-#endif
-
-	if ( (val >= 0) && (val <= 127) )
-	{
-		_val = val;
-	}
-	else
-	{
-		Serial.print( F("AxonSendMidiCCAction::setVal bad  val=") );
-		Serial.println( val );
-	}
-}
-
 void AxonSendMidiCCAction::execute( AxonAction *sender, AxonEvent *event )		// use the midi implementation to send the control change
 {
-	if (!_fixVal)
+	AxonSwitchEvent *tmp = new AxonSwitchEvent( 0 );		// number doesn't matter here
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
+	if (event->sameType( tmp ))
 	{
-		AxonSwitchEvent *tmp = new AxonSwitchEvent( 0 );		// number doesn't matter here
-#ifdef DEBUG_OBJECT_CREATE_DESTROY
-AxonCheckMem::instance()->check();
-#endif
-		if (event->sameType( tmp ))
+		AxonSwitchEvent *tmp2 = event;
+		if ( (tmp2->getVal() >= 0) && (tmp2->getVal() <= 127) )
 		{
-			AxonSwitchEvent *tmp2 = event;
-			setVal( tmp2->getVal() );
+			_val = tmp2->getVal();
 		}
-		delete tmp;
+		else
+		{
+			Serial.print( F("AxonSendMidiCCAction::setVal bad  val=") );
+			Serial.println( tmp2->getVal() );
+		}
+	}
+	delete tmp;
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-	}
 
 #ifdef DEBUG_SEND_MIDI_CC_ACTION
 	Serial.println( F("AxonSendMidiCCAction::execute") );

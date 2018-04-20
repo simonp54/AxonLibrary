@@ -11,7 +11,7 @@
 class AxonMidiChannelBasedAction: public AxonMidiBaseAction							// Midi base Action class derived from AxonAction
 {
 	public:
-		void setChannel( uint8_t channel );
+		AxonMidiChannelBasedAction( uint8_t network, uint8_t channel );
 		void execute( AxonAction *sender, AxonEvent *event);									// the execute method
 	protected:
 		uint8_t _channel = 0xFF;										// storage for the channel

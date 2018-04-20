@@ -5,8 +5,8 @@
 #include "AxonMidiChannelBasedAction.h"
 #include "Arduino.h"
 
-void AxonMidiChannelBasedAction::setChannel( uint8_t channel )
-{
+AxonMidiChannelBasedAction::AxonMidiChannelBasedAction( uint8_t network, uint8_t channel ) : AxonMidiBaseAction( network )
+{	
 	if ( (channel > 0) && (channel <= 16) )
 	{
 		_channel = channel;
