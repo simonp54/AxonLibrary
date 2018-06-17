@@ -42,7 +42,7 @@ void AxonActionManager::format()
 
 uint8_t AxonActionManager::defineAction( uint16_t actionNumber, const uint8_t *actionDefinitionBuffer, uint8_t bufferSize )
 {
-	if ((actionNumber < 0) or (actionNumber >= 1024))
+	if ((actionNumber < 0) or (actionNumber >= _maxActionItems))
 	{
 		return (INVALID_ACTION_NUMBER);
 	}	
@@ -86,7 +86,7 @@ void AxonActionManager::__REMOVE__check_written( uint16_t actionNumber )
 	Serial.println( buffer[4] );
 
 	Serial.print( "Name:");
-	for(uint8_t i = 5; i < _actionItemSize; i++)
+	for(uint8_t i = 5; i <= _actionItemSize; i++)
 	{
 		Serial.print( char(buffer[i]) );
 	}

@@ -9,7 +9,7 @@ class AxonActionManager
 		static AxonActionManager *_instance;
 		
 		static const uint32_t _baseAddress = 0x30000;
-		static const uint8_t _maxActionItems = 1024;
+		static const uint16_t _maxActionItems = 1024;
 		static const uint8_t _actionItemSize = 25;
 	public:
 		static const uint8_t NO_ERROR;
