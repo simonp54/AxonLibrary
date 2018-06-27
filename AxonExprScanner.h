@@ -7,7 +7,7 @@
 #ifndef AXON_EXPRSCANNER_h
 #define AXON_EXPRSCANNER_h
 
-#include "AxonAction.h"
+#include "AxonLogicBlock.h"
 #include "AnalogPin.h"
 
 #define _URGH_CALIB_MIN 0
@@ -20,10 +20,7 @@ class AxonExprScanner
   public:
 		static AxonExprScanner *instance();
 		
-		void setOnExpr1Change( AxonAction *action ) { _onExprChange[0] = action; }
-		void setOnExpr2Change( AxonAction *action ) { _onExprChange[1] = action; }
-		void setOnExpr3Change( AxonAction *action ) { _onExprChange[2] = action; }
-		void setOnExpr4Change( AxonAction *action ) { _onExprChange[3] = action; }
+		void setOnExprScan( uint8_t index, AxonLogicBlock *logicBlock );
 
 		static const uint8_t _NUMBER_OF_EXPR_PEDALS = 4;
 				
@@ -43,7 +40,7 @@ class AxonExprScanner
 		
 		uint64_t _lastCheckMillis;										// throttle timing
 		
-		AxonAction *_onExprChange[_NUMBER_OF_EXPR_PEDALS] = {0};
+		AxonLogicBlock *_onExprScan[_NUMBER_OF_EXPR_PEDALS] = {0};
 };
 
 #endif

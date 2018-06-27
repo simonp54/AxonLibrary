@@ -48,9 +48,9 @@ AxonKeyScanner::AxonKeyScanner()
 }
 
 
-void AxonKeyScanner::setOnKeyScan( uint8_t index, AxonAction *action )
+void AxonKeyScanner::setOnKeyScan( uint8_t index, AxonLogicBlock *logicBlock )
 {
-	_onKeyScan[constrain( index, 0, _NUMBER_OF_ROWS * _NUMBER_OF_COLUMNS )] = action;
+	_onKeyScan[constrain( index, 0, _NUMBER_OF_ROWS * _NUMBER_OF_COLUMNS )] = logicBlock;
 }
 
 

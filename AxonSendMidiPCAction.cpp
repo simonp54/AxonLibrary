@@ -23,6 +23,6 @@ void AxonSendMidiPCAction::execute( AxonAction *sender, AxonEvent *event)							
 	}
 	else
 	{
-		Serial.println( F("Axon CC Action tried to Execute without valid parameters") );
+		Serial.println( F("Axon PC Action tried to Execute without valid parameters") );
 	}
 }

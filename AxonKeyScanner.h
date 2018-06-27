@@ -7,14 +7,14 @@
 #define AXON_KEYSCANNER_h
 
 #include "Arduino.h"
-#include "AxonAction.h"
+#include "AxonLogicBlock.h"
 
 class AxonKeyScanner
 {
   public:
 		static AxonKeyScanner *instance();
 		
-		void setOnKeyScan( uint8_t index, AxonAction *action );
+		void setOnKeyScan( uint8_t index, AxonLogicBlock *logicBlock );
 				
 		void check();							// the servicing routine that needs to be called every time through a program loop
 	protected:
@@ -35,7 +35,7 @@ class AxonKeyScanner
 		
 		uint64_t _lastCheckMillis;								// throttle timing
 		
-		AxonAction *_onKeyScan[_NUMBER_OF_ROWS * _NUMBER_OF_COLUMNS] = {0};
+		AxonLogicBlock *_onKeyScan[_NUMBER_OF_ROWS * _NUMBER_OF_COLUMNS] = {0};
 };
 
 #endif

@@ -1,6 +1,10 @@
 #include "AxonLogicManager.h"
 #include "AxonStorage.h"
 
+#include "AxonLatchingSwitchLogicBlock.h"
+#include "AxonMomentarySwitchLogicBlock.h"
+#include "AxonVariableSwitchLogicBlock.h"
+
 #include "AxonDebugDefines.h"
 #include "AxonCheckMem.h"
 
@@ -9,6 +13,7 @@ AxonLogicManager *AxonLogicManager::_instance = 0;
 const uint8_t AxonLogicManager::NO_ERROR = 0;
 const uint8_t AxonLogicManager::INVALID_LOGIC_NUMBER = 1;
 const uint8_t AxonLogicManager::UNABLE_TO_WRITE = 2;
+const uint8_t AxonLogicManager::UNABLE_TO_READ = 3;
 
 AxonLogicManager *AxonLogicManager::instance()
 {
@@ -37,41 +42,106 @@ AxonCheckMem::instance()->check();
 
 void AxonLogicManager::format()
 {
-	AxonStorage::instance()->format( _baseAddress, 0x00, (_maxLogicItems * _logicItemSize) );
+	AxonStorage::instance()->format( _baseAddress, 0x00, _maxLogicItems * sizeof(AxonLogicInfo_t) );
 }
 
-uint8_t AxonLogicManager::defineLogic( uint16_t logicNumber, const uint8_t *logicDefinitionBuffer, uint8_t bufferSize )
+uint8_t AxonLogicManager::defineLogic( uint16_t logicNumber, const AxonLogicInfo_t *logicInfo )
 {
-	if ((logicNumber < 0) or (logicNumber >= _maxLogicItems))
+	if ((logicNumber < 1) or (logicNumber > _maxLogicItems))
 	{
 		return (INVALID_LOGIC_NUMBER);
 	}	
 	
-	if (AxonStorage::instance()->write( _baseAddress + (logicNumber * _logicItemSize), logicDefinitionBuffer, bufferSize ) != AxonStorage::NO_ERROR)
+	if (AxonStorage::instance()->write( _baseAddress + ((logicNumber-1) * sizeof(AxonLogicInfo_t)), logicInfo, sizeof( AxonLogicInfo_t ) ) )
 	{
-		return (UNABLE_TO_WRITE);
+		return( NO_ERROR );
 	}
+	return (UNABLE_TO_WRITE);
 }
+
+uint8_t AxonLogicManager::getLogicBuffer( uint16_t logicNumber, AxonLogicInfo_t *logicInfo )
+{
+	if ((logicNumber < 1) or (logicNumber > _maxLogicItems))
+	{
+		return( INVALID_LOGIC_NUMBER );
+	}	
+	
+	if (AxonStorage::instance()->read( _baseAddress + ((logicNumber-1) * sizeof(AxonLogicInfo_t)), logicInfo, sizeof( AxonLogicInfo_t ) ) )
+	{
+		return( NO_ERROR );
+	}
+	return( UNABLE_TO_READ );
+}
+
+
+AxonLogicBlock *AxonLogicManager::createLogic( uint16_t logicNumber )
+{
+	AxonLogicInfo_t logicInfo;
+	AxonLogicBlock *axonLogicBlock = NULL;
+	
+	if (getLogicBuffer( logicNumber, &logicInfo ) == NO_ERROR)
+	{
+		switch (logicInfo.logicCode)
+		{
+			case AxonMomentarySwitchLogicBlock_t:
+				axonLogicBlock = new AxonMomentarySwitchLogicBlock();
+				break;
+			
+			case AxonLatchingSwitchLogicBlock_t:
+				axonLogicBlock = new AxonLatchingSwitchLogicBlock();
+				break;
+				
+			case AxonVariableSwitchLogicBlock_t:
+				axonLogicBlock = new AxonVariableSwitchLogicBlock();
+				break;
+				
+			default:
+				Serial.println( F(" ERROR: logicCode not supported") );
+				break;
+		}
+		
+		if (axonLogicBlock)
+		{
+			for( uint8_t i = 0; i < AxonLogicManager::actionSlotsPerLogicBlock; i++)
+			{
+				if (logicInfo.actionSlot[i] != 0)
+				{
+					uint8_t flags = (logicInfo.actionSlot[i]>>8) & 0xFC;
+					uint16_t actionNumber = logicInfo.actionSlot[i] & 0x03FF;
+					
+					if ((flags & 0x80) == 0x80) { Serial.println("setOnAction"); axonLogicBlock->setOnAction( actionNumber ); }
+					if ((flags & 0x40) == 0x40) { Serial.println("setOffAction"); axonLogicBlock->setOffAction( actionNumber ); }
+					if ((flags & 0x20) == 0x20) { Serial.println("setChangeAction"); axonLogicBlock->setChangeAction( actionNumber ); }
+				}
+			}
+		}
+	}
+	
+	return( axonLogicBlock );
+}
+
 
 void AxonLogicManager::__REMOVE__check_written( uint16_t logicNumber )
 {
-	uint8_t buffer[_logicItemSize+1] = {0};
-	
-	uint16_t tmpLogicNumber = constrain( logicNumber, 0, _maxLogicItems );
-	
-	AxonStorage::instance()->read( _baseAddress + (tmpLogicNumber * _logicItemSize), &buffer, _logicItemSize );
-	
-	Serial.print( "LogicType:" );
-	Serial.println( buffer[0], HEX );
-	
-	for(uint8_t i = 1; i <= _logicItemSize/2; i++)
+	AxonLogicInfo_t logicInfo;
+		
+	if (getLogicBuffer( logicNumber, &logicInfo ) == NO_ERROR)
 	{
-		Serial.print( "Action");
-		Serial.print( i );
-		Serial.print( ":" );
+		Serial.print( "LogicCode:" );
+		Serial.println( logicInfo.logicCode, HEX );
+		
+		for(uint8_t i = 0; i < AxonLogicManager::actionSlotsPerLogicBlock; i++)
+		{
+			Serial.print( "Action");
+			Serial.print( i );
+			Serial.print( ":" );
 
-		uint16_t tmp = ((buffer[(i*2)-1])<<8) | (buffer[(i*2)]);
-		Serial.print( tmp, HEX );
-		Serial.println();
+			Serial.print( logicInfo.actionSlot[i], HEX );
+			Serial.println();
+		}
+	}
+	else
+	{
+		Serial.println( "ERROR whilst reading LogicBuffer" );
 	}
 }

@@ -115,7 +115,7 @@ bool AxonStorage::write( uint32_t toAddr, const void *data, uint32_t bytesToWrit
 	for( uint32_t bytecounter = 0; bytecounter < bytesToWrite; bytecounter++)
 	{
 #ifdef AXONSTORAGE_DEBUG
-		Serial.printf( "0x%X ", *(const uint8_t *)data );
+		Serial.printf( "0x%X ", *(const uint8_t *)byteptr );
 #endif
 		Wire.write( *byteptr++ );
 
@@ -300,17 +300,11 @@ bool AxonStorage::format( uint32_t toAddr, uint8_t val, uint32_t bytesToWrite )
 
 	for( uint32_t bytecounter = 0; bytecounter < bytesToWrite; bytecounter++)
 	{
-#ifdef AXONSTORAGE_DEBUG
-		Serial.printf( "0x%X ", *(const uint8_t *)data );
-#endif
 		Wire.write( val );
 
 		if ((bytecounter+1) % _WIRE_BUFFER_SIZE == 0)				// the WIRE library has a buffer of about 30 bytes
 																	// so we need to start a new WIRE transmission every so often
 		{
-#ifdef AXONSTORAGE_DEBUG
-		Serial.println( );
-#endif
 			// start a new I2C transaction because of buffer size
 			Wire.endTransmission();
 			_FRAMStartWrite( FRAMmodule, FRAMoffset + bytecounter + 1 );

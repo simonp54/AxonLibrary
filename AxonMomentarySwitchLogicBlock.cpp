@@ -1,7 +1,7 @@
 /*
- * AxonMomentarySwitchAction - an object that watches a switch "Subject"... and executes configured commands for "on" and "off"
+ * AxonMomentarySwitchLogicBlock
  */
-#include "AxonMomentarySwitchAction.h"
+#include "AxonMomentarySwitchLogicBlock.h"
 #include "AxonHardwareSwitchEvent.h"
 #include "AxonSoftwareSwitchEvent.h"
 #include "Arduino.h"
@@ -10,40 +10,40 @@
 #include "AxonCheckMem.h"
 
 
-AxonMomentarySwitchAction::AxonMomentarySwitchAction()
+AxonMomentarySwitchLogicBlock::AxonMomentarySwitchLogicBlock()
 {
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-	Serial.println( F("AxonMomentarySwitchAction::ctor") );
+	Serial.println( F("AxonMomentarySwitchLogicBlock::ctor") );
 #endif
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
 }
 
-AxonMomentarySwitchAction::~AxonMomentarySwitchAction()
+AxonMomentarySwitchLogicBlock::~AxonMomentarySwitchLogicBlock()
 {
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-	Serial.println( F("AxonMomentarySwitchAction::dtor") );
+	Serial.println( F("AxonMomentarySwitchLogicBlock::dtor") );
 #endif
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
 }
 
-void AxonMomentarySwitchAction::setInterval( uint16_t interval )
+void AxonMomentarySwitchLogicBlock::setInterval( uint16_t interval )
 {
 	_interval = interval;
 }
 
-uint16_t AxonMomentarySwitchAction::getInterval()
+uint16_t AxonMomentarySwitchLogicBlock::getInterval()
 {
 	return _interval;
 }
 
-void AxonMomentarySwitchAction::execute( AxonAction *sender, AxonEvent *event )
+void AxonMomentarySwitchLogicBlock::execute( AxonAction *sender, AxonEvent *event )
 {
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-	Serial.print( F("AxonMomentarySwitchAction::event         received:") );
+	Serial.print( F("AxonMomentarySwitchLogicBlock::event         received:") );
 	Serial.println( event->getGroupID() );
 #endif
 	AxonHardwareSwitchEvent *tmp = new AxonHardwareSwitchEvent( 0 );		// switch number not important for subsequent check
@@ -51,7 +51,7 @@ void AxonMomentarySwitchAction::execute( AxonAction *sender, AxonEvent *event )
 	if (event->sameType(tmp))
 	{
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-		Serial.print( F("AxonMomentarySwitchAction::event ") );
+		Serial.print( F("AxonMomentarySwitchLogicBlock::event ") );
 		Serial.println( F("is a hardware switch type") );
 #endif		
 		AxonHardwareSwitchEvent *tmp2 = event;											// this is now safe to do!	
@@ -74,7 +74,7 @@ void AxonMomentarySwitchAction::execute( AxonAction *sender, AxonEvent *event )
 AxonCheckMem::instance()->check();
 #endif
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-				Serial.print( F("AxonMomentarySwitchAction::event ") );
+				Serial.print( F("AxonMomentarySwitchLogicBlock::event ") );
 				Serial.print( F("creating Software Switch Event ") );
 #endif
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
@@ -104,7 +104,7 @@ AxonCheckMem::instance()->check();
 AxonCheckMem::instance()->check();
 #endif
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-				Serial.print( F("AxonMomentarySwitchAction::event ") );
+				Serial.print( F("AxonMomentarySwitchLogicBlock::event ") );
 				Serial.print( F("creating Software Switch Event ") );
 #endif
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
@@ -125,7 +125,7 @@ AxonCheckMem::instance()->check();
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
 		else
 		{
-			Serial.print( F("AxonMomentarySwitchAction::event ") );
+			Serial.print( F("AxonMomentarySwitchLogicBlock::event ") );
 			Serial.println( F("is NOT a hardware switch type") );
 		}
 #endif

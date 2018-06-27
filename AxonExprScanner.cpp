@@ -48,6 +48,10 @@ AxonCheckMem::instance()->check();
 	_lastCheckMillis = millis();
 }
 
+void AxonExprScanner::setOnExprScan( uint8_t index, AxonLogicBlock *logicBlock )
+{
+	_onExprScan[constrain( index, 0, (_NUMBER_OF_EXPR_PEDALS - 1) )] = logicBlock;
+}
 
 /*
  *  CALLED BY THE CLIENT TO SERVICE THE EXPRESSION PEDALS (AS FREQUENTLY AS POSSIBLE)
@@ -73,9 +77,9 @@ void AxonExprScanner::check()
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-			if (_onExprChange[i])
+			if (_onExprScan[i])
 			{
-				_onExprChange[i]->execute( NULL, event );
+				_onExprScan[i]->execute( NULL, event );
 			}
 
 			delete event;

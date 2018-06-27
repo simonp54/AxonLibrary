@@ -1,7 +1,7 @@
 /*
- * AxonLatchingSwitchAction - an object that watches a switch "Subject"... and executes configured commands for "on" and "off"
+ * AxonLatchingSwitchLogicBlock
  */
-#include "AxonLatchingSwitchAction.h"
+#include "AxonLatchingSwitchLogicBlock.h"
 #include "AxonHardwareSwitchEvent.h"
 #include "AxonSoftwareSwitchEvent.h"
 #include "Arduino.h"
@@ -10,27 +10,27 @@
 #include "AxonCheckMem.h"
 
 
-AxonLatchingSwitchAction::AxonLatchingSwitchAction()
+AxonLatchingSwitchLogicBlock::AxonLatchingSwitchLogicBlock()
 {
 #ifdef DEBUG_LATCHING_SWITCH_ACTION
-	Serial.println( F("AxonLatchingSwitchAction::ctor") );
+	Serial.println( F("AxonLatchingSwitchLogicBlock::ctor") );
 #endif
 }
 
-AxonLatchingSwitchAction::~AxonLatchingSwitchAction()
+AxonLatchingSwitchLogicBlock::~AxonLatchingSwitchLogicBlock()
 {
 #ifdef DEBUG_LATCHING_SWITCH_ACTION
-	Serial.println( F("AxonLatchingSwitchAction::dtor") );
+	Serial.println( F("AxonLatchingSwitchLogicBlock::dtor") );
 #endif
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
 }
 
-void AxonLatchingSwitchAction::execute( AxonAction *sender, AxonEvent *event )
+void AxonLatchingSwitchLogicBlock::execute( AxonAction *sender, AxonEvent *event )
 {
 #ifdef DEBUG_LATCHING_SWITCH_ACTION
-	Serial.print( F("AxonLatchingSwitchAction::event ") );
+	Serial.print( F("AxonLatchingSwitchLogicBlock::event ") );
 	Serial.println( event->getGroupID() );
 #endif
 	AxonHardwareSwitchEvent *tmp = new AxonHardwareSwitchEvent( 0 );  // switchnumber irrelevant
@@ -41,13 +41,13 @@ AxonCheckMem::instance()->check();
 	if (event->sameType(tmp))
 	{
 #ifdef DEBUG_LATCHING_SWITCH_ACTION
-		Serial.print( F("AxonLatchingSwitchAction::event ") );
+		Serial.print( F("AxonLatchingSwitchLogicBlock::event ") );
 		Serial.println( F("event is a hardware switch type") );
 #endif		
 		AxonHardwareSwitchEvent *tmp2 = event;	// effectively a type cast to gain access to specific features of this object type
 		
 #ifdef DEBUG_LATCHING_SWITCH_ACTION
-		Serial.print( F("AxonLatchingSwitchAction::event ") );
+		Serial.print( F("AxonLatchingSwitchLogicBlock::event ") );
 		Serial.println( tmp2->getSwitchState() );
 #endif		
 	
@@ -72,7 +72,7 @@ AxonCheckMem::instance()->check();
 AxonCheckMem::instance()->check();
 #endif
 #ifdef DEBUG_LATCHING_SWITCH_ACTION
-			Serial.print( F("AxonLatchingSwitchAction::event ") );
+			Serial.print( F("AxonLatchingSwitchLogicBlock::event ") );
 			Serial.print( F("creating Software Switch Event ") );
 			Serial.print( swEvent->getGroupID() ); 
 			Serial.println( F(", ON") );
@@ -100,7 +100,7 @@ AxonCheckMem::instance()->check();
 AxonCheckMem::instance()->check();
 #endif
 #ifdef DEBUG_LATCHING_SWITCH_ACTION
-			Serial.print( F("AxonLatchingSwitchAction::event ") );
+			Serial.print( F("AxonLatchingSwitchLogicBlock::event ") );
 			Serial.print( F("creating Software Switch Event ") );
 			Serial.print( swEvent->getGroupID() );  
 			Serial.println( F(", OFF") );
