@@ -21,6 +21,7 @@ class AxonExprScanner
 		static AxonExprScanner *instance();
 		
 		void setOnExprScan( uint8_t index, AxonLogicBlock *logicBlock );
+		void unlinkAllExprScan();
 
 		static const uint8_t _NUMBER_OF_EXPR_PEDALS = 4;
 				

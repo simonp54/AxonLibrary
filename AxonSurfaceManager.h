@@ -7,12 +7,14 @@
 class AxonSurfaceManager
 {
 	public:
+		static const uint8_t maxSurfaceItems = 32;
 		static const uint8_t hardwareInterfacesPerSystem = 26;
 	private:
 		static AxonSurfaceManager *_instance;
 		
 		static const uint32_t _baseAddress = 0x5A800;
-		static const uint16_t _maxSurfaceItems = 32;
+		
+		uint8_t _currentSurfaceNumber = 1;
 		
 		AxonLogicBlock *_logicBlockList[hardwareInterfacesPerSystem] = { NULL };
 		
@@ -35,12 +37,13 @@ class AxonSurfaceManager
 			uint16_t hardwareInterface[hardwareInterfacesPerSystem];
 		};
 		
-		uint8_t defineSurface( uint16_t surfaceNumber, const AxonSurfaceInfo_t *surfaceInfo );
-		uint8_t getSurfaceBuffer( uint16_t surfaceNumber, AxonSurfaceInfo_t *surfaceInfo );
+		uint8_t defineSurface( uint8_t surfaceNumber, const AxonSurfaceInfo_t *surfaceInfo );
+		uint8_t getSurfaceBuffer( uint8_t surfaceNumber, AxonSurfaceInfo_t *surfaceInfo );
 		
-		void loadSurface( uint16_t surfaceNumber );
+		void loadSurface( uint8_t surfaceNumber );
+		uint8_t getSurfaceNumber() { return _currentSurfaceNumber; }
 		
-		void __REMOVE__check_written( uint16_t surfaceNumber );
+		void __REMOVE__check_written( uint8_t surfaceNumber );
 	protected:
 	    AxonSurfaceManager();							// constructor
 };

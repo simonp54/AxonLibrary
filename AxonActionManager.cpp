@@ -10,6 +10,9 @@
 #include "AxonContrastSetAction.h"
 #include "AxonContrastUpAction.h"
 
+#include "AxonNextSurfaceAction.h"
+#include "AxonPreviousSurfaceAction.h"
+
 #include "AxonDebugDefines.h"
 #include "AxonCheckMem.h"
 
@@ -118,44 +121,58 @@ void AxonActionManager::executeAction( uint16_t actionSlot, AxonEvent *event )
 		{
 			switch (actionInfo.actionCode)
 			{
-				case AxonSendMidiCCAction_t:
+				case AxonSendMidiCCActionCode:
 				{
 					AxonAction *tmp = new AxonSendMidiCCAction( actionInfo.param1, actionInfo.param2, actionInfo.param3 );
 					tmp->execute( NULL, event );
 					delete tmp;
 					break;
 				}
-				case AxonSendMidiFixedCCAction_t:
+				case AxonSendMidiFixedCCActionCode:
 				{
 					AxonAction *tmp = new AxonSendMidiFixedCCAction( actionInfo.param1, actionInfo.param2, actionInfo.param3, actionInfo.param4 );
 					tmp->execute( NULL, event );
 					delete tmp;
 					break;
 				}
-				case AxonSendMidiPCAction_t:
+				case AxonSendMidiPCActionCode:
 				{
 					AxonAction *tmp = new AxonSendMidiPCAction( actionInfo.param1, actionInfo.param2, actionInfo.param3 );
 					tmp->execute( NULL, event );
 					delete tmp;
 					break;
 				}
-				case AxonContrastDownAction_t:
+				case AxonContrastDownActionCode:
 				{
 					AxonAction *tmp = new AxonContrastDownAction();
 					tmp->execute( NULL, event );
 					delete tmp;
 					break;
 				}
-				case AxonContrastSetAction_t:
+				case AxonContrastSetActionCode:
 				{
 					AxonAction *tmp = new AxonContrastSetAction();
 					tmp->execute( NULL, event );
 					delete tmp;
 					break;
 				}
-				case AxonContrastUpAction_t:
+				case AxonContrastUpActionCode:
 				{
 					AxonAction *tmp = new AxonContrastUpAction();
+					tmp->execute( NULL, event );
+					delete tmp;
+					break;
+				}
+				case AxonNextSurfaceActionCode:
+				{
+					AxonAction *tmp = new AxonNextSurfaceAction();
+					tmp->execute( NULL, event );
+					delete tmp;
+					break;
+				}
+				case AxonPreviousSurfaceActionCode:
+				{
+					AxonAction *tmp = new AxonPreviousSurfaceAction();
 					tmp->execute( NULL, event );
 					delete tmp;
 					break;

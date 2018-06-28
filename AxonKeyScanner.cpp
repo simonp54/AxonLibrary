@@ -53,6 +53,14 @@ void AxonKeyScanner::setOnKeyScan( uint8_t index, AxonLogicBlock *logicBlock )
 	_onKeyScan[constrain( index, 0, _NUMBER_OF_ROWS * _NUMBER_OF_COLUMNS )] = logicBlock;
 }
 
+void AxonKeyScanner::unlinkAllKeyScan()
+{
+	for(uint8_t i = 0; i < _NUMBER_OF_ROWS * _NUMBER_OF_COLUMNS; i++)
+	{
+		_onKeyScan[i] = NULL;
+	}
+}
+
 
 /*
  *  CALLED BY THE CLIENT TO SERVICE THE KEYBOARD (AS FREQUENTLY AS POSSIBLE)

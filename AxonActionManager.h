@@ -57,30 +57,32 @@ class AxonActionManager
 		
 		
 	public:
-		static const uint8_t AxonSendMidiCCAction_t                          = 1;
-		static const uint8_t AxonSendMidiFixedCCAction_t					 = 2;
-		static const uint8_t AxonSendMidiPCAction_t                          = 3;
+		static const uint8_t AxonSendMidiCCActionCode                       = 1;
+		static const uint8_t AxonSendMidiFixedCCActionCode					= 2;
+		static const uint8_t AxonSendMidiPCActionCode                       = 3;
 
-		static const uint8_t AxonContrastDownAction_t                        = 11;
-		static const uint8_t AxonContrastSetAction_t                         = 12;
-		static const uint8_t AxonContrastUpAction_t                          = 13;
-/*		static const uint8_t AxonShowMainScreenAction_t                      = 14;
-		static const uint8_t AxonShowPresetNameAction_t                      = 15;
-		static const uint8_t AxonShowPresetNumberAction_t                    = 16;
-		static const uint8_t AxonShowSceneNumberAction_t                     = 17;
-		static const uint8_t AxonShowTunerScreenAction_t                     = 18;
+		static const uint8_t AxonContrastDownActionCode                     = 11;
+		static const uint8_t AxonContrastSetActionCode                      = 12;
+		static const uint8_t AxonContrastUpActionCode                       = 13;
+		static const uint8_t AxonNextSurfaceActionCode						= 14;
+		static const uint8_t AxonPreviousSurfaceActionCode					= 15;
+/*		static const uint8_t AxonShowMainScreenActionCode                   = xxx;
+		static const uint8_t AxonShowPresetNameActionCode                   = xxx;
+		static const uint8_t AxonShowPresetNumberActionCode                 = xxx;
+		static const uint8_t AxonShowSceneNumberActionCode                  = xxx;
+		static const uint8_t AxonShowTunerScreenActionCode                  = xxx;
 
-		static const uint8_t AxonAFXXLPPresetBlocksDataRequestAction_t       = 21;
-		static const uint8_t AxonAFXXLPPresetDownAction_t                    = 22;
-		static const uint8_t AxonAFXXLPPresetNameRequestAction_t             = 23;
-		static const uint8_t AxonAFXXLPPresetNumberRequestAction_t           = 24;
-		static const uint8_t AxonAFXXLPPresetUpAction_t                      = 25;
-		static const uint8_t AxonAFXXLPSceneNumberRequestAction_t            = 26;
-		static const uint8_t AxonAFXXLPSysExAction_t                         = 27;
-		static const uint8_t AxonAFXXLPTunerInfoAction_t                     = 28;
-		static const uint8_t AxonStoreAFXXLPPresetNameAction_t               = 29;
-		static const uint8_t AxonStoreAFXXLPPresetNumberAction_t             = 30;
-		static const uint8_t AxonStoreAFXXLPSceneNumberAction_t              = 31;
+		static const uint8_t AxonAFXXLPPresetBlocksDataRequestActionCode    = xxx;
+		static const uint8_t AxonAFXXLPPresetDownActionCode                 = xxx;
+		static const uint8_t AxonAFXXLPPresetNameRequestActionCode          = xxx;
+		static const uint8_t AxonAFXXLPPresetNumberRequestActionCode        = xxx;
+		static const uint8_t AxonAFXXLPPresetUpActionCode                   = xxx;
+		static const uint8_t AxonAFXXLPSceneNumberRequestActionCode         = xxx;
+		static const uint8_t AxonAFXXLPSysExActionCode                      = xxx;
+		static const uint8_t AxonAFXXLPTunerInfoActionCode                  = xxx;
+		static const uint8_t AxonStoreAFXXLPPresetNameActionCode            = xxx;
+		static const uint8_t AxonStoreAFXXLPPresetNumberActionCode          = xxx;
+		static const uint8_t AxonStoreAFXXLPSceneNumberActionCode           = xxx;
 */
 };
 

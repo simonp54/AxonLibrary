@@ -42,31 +42,31 @@ AxonCheckMem::instance()->check();
 
 void AxonLogicManager::format()
 {
-	AxonStorage::instance()->format( _baseAddress, 0x00, _maxLogicItems * sizeof(AxonLogicInfo_t) );
+	AxonStorage::instance()->format( _baseAddress, 0x00, maxLogicItems * sizeof(AxonLogicInfo_t) );
 }
 
-uint8_t AxonLogicManager::defineLogic( uint16_t logicNumber, const AxonLogicInfo_t *logicInfo )
+uint8_t AxonLogicManager::defineLogic( uint16_t logicSlot, const AxonLogicInfo_t *logicInfo )
 {
-	if ((logicNumber < 1) or (logicNumber > _maxLogicItems))
+	if ((logicSlot < 1) or (logicSlot > maxLogicItems))
 	{
 		return (INVALID_LOGIC_NUMBER);
 	}	
 	
-	if (AxonStorage::instance()->write( _baseAddress + ((logicNumber-1) * sizeof(AxonLogicInfo_t)), logicInfo, sizeof( AxonLogicInfo_t ) ) )
+	if (AxonStorage::instance()->write( _baseAddress + ((logicSlot-1) * sizeof(AxonLogicInfo_t)), logicInfo, sizeof( AxonLogicInfo_t ) ) )
 	{
 		return( NO_ERROR );
 	}
 	return (UNABLE_TO_WRITE);
 }
 
-uint8_t AxonLogicManager::getLogicBuffer( uint16_t logicNumber, AxonLogicInfo_t *logicInfo )
+uint8_t AxonLogicManager::getLogicBuffer( uint16_t logicSlot, AxonLogicInfo_t *logicInfo )
 {
-	if ((logicNumber < 1) or (logicNumber > _maxLogicItems))
+	if ((logicSlot < 1) or (logicSlot > maxLogicItems))
 	{
 		return( INVALID_LOGIC_NUMBER );
 	}	
 	
-	if (AxonStorage::instance()->read( _baseAddress + ((logicNumber-1) * sizeof(AxonLogicInfo_t)), logicInfo, sizeof( AxonLogicInfo_t ) ) )
+	if (AxonStorage::instance()->read( _baseAddress + ((logicSlot-1) * sizeof(AxonLogicInfo_t)), logicInfo, sizeof( AxonLogicInfo_t ) ) )
 	{
 		return( NO_ERROR );
 	}
@@ -74,24 +74,24 @@ uint8_t AxonLogicManager::getLogicBuffer( uint16_t logicNumber, AxonLogicInfo_t 
 }
 
 
-AxonLogicBlock *AxonLogicManager::createLogic( uint16_t logicNumber )
+AxonLogicBlock *AxonLogicManager::createLogic( uint16_t logicSlot )
 {
 	AxonLogicInfo_t logicInfo;
 	AxonLogicBlock *axonLogicBlock = NULL;
 	
-	if (getLogicBuffer( logicNumber, &logicInfo ) == NO_ERROR)
+	if (getLogicBuffer( logicSlot, &logicInfo ) == NO_ERROR)
 	{
 		switch (logicInfo.logicCode)
 		{
-			case AxonMomentarySwitchLogicBlock_t:
+			case AxonMomentarySwitchLogicBlockCode:
 				axonLogicBlock = new AxonMomentarySwitchLogicBlock();
 				break;
 			
-			case AxonLatchingSwitchLogicBlock_t:
+			case AxonLatchingSwitchLogicBlockCode:
 				axonLogicBlock = new AxonLatchingSwitchLogicBlock();
 				break;
 				
-			case AxonVariableSwitchLogicBlock_t:
+			case AxonVariableSwitchLogicBlockCode:
 				axonLogicBlock = new AxonVariableSwitchLogicBlock();
 				break;
 				
@@ -109,9 +109,9 @@ AxonLogicBlock *AxonLogicManager::createLogic( uint16_t logicNumber )
 					uint8_t flags = (logicInfo.actionSlot[i]>>8) & 0xFC;
 					uint16_t actionNumber = logicInfo.actionSlot[i] & 0x03FF;
 					
-					if ((flags & 0x80) == 0x80) { Serial.println("setOnAction"); axonLogicBlock->setOnAction( actionNumber ); }
-					if ((flags & 0x40) == 0x40) { Serial.println("setOffAction"); axonLogicBlock->setOffAction( actionNumber ); }
-					if ((flags & 0x20) == 0x20) { Serial.println("setChangeAction"); axonLogicBlock->setChangeAction( actionNumber ); }
+					if ((flags & 0x80) == 0x80) { axonLogicBlock->setOnAction( actionNumber ); }
+					if ((flags & 0x40) == 0x40) { axonLogicBlock->setOffAction( actionNumber ); }
+					if ((flags & 0x20) == 0x20) { axonLogicBlock->setChangeAction( actionNumber ); }
 				}
 			}
 		}
@@ -121,11 +121,11 @@ AxonLogicBlock *AxonLogicManager::createLogic( uint16_t logicNumber )
 }
 
 
-void AxonLogicManager::__REMOVE__check_written( uint16_t logicNumber )
+void AxonLogicManager::__REMOVE__check_written( uint16_t logicSlot )
 {
 	AxonLogicInfo_t logicInfo;
 		
-	if (getLogicBuffer( logicNumber, &logicInfo ) == NO_ERROR)
+	if (getLogicBuffer( logicSlot, &logicInfo ) == NO_ERROR)
 	{
 		Serial.print( "LogicCode:" );
 		Serial.println( logicInfo.logicCode, HEX );

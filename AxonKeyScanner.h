@@ -15,6 +15,7 @@ class AxonKeyScanner
 		static AxonKeyScanner *instance();
 		
 		void setOnKeyScan( uint8_t index, AxonLogicBlock *logicBlock );
+		void unlinkAllKeyScan();
 				
 		void check();							// the servicing routine that needs to be called every time through a program loop
 	protected:

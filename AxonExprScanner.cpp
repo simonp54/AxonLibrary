@@ -53,6 +53,14 @@ void AxonExprScanner::setOnExprScan( uint8_t index, AxonLogicBlock *logicBlock )
 	_onExprScan[constrain( index, 0, (_NUMBER_OF_EXPR_PEDALS - 1) )] = logicBlock;
 }
 
+void AxonExprScanner::unlinkAllExprScan()
+{
+	for(uint8_t i = 0; i < _NUMBER_OF_EXPR_PEDALS; i++)
+	{
+		_onExprScan[i] = NULL;
+	}
+}
+
 /*
  *  CALLED BY THE CLIENT TO SERVICE THE EXPRESSION PEDALS (AS FREQUENTLY AS POSSIBLE)
  *  BUT internally limited to the fastest that seems stable

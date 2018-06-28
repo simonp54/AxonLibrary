@@ -41,12 +41,12 @@ AxonCheckMem::instance()->check();
 
 void AxonSurfaceManager::format()
 {
-	AxonStorage::instance()->format( _baseAddress, 0x00, (_maxSurfaceItems * sizeof(AxonSurfaceInfo_t)) );
+	AxonStorage::instance()->format( _baseAddress, 0x00, (maxSurfaceItems * sizeof(AxonSurfaceInfo_t)) );
 }
 
-uint8_t AxonSurfaceManager::defineSurface( uint16_t surfaceNumber, const AxonSurfaceInfo_t *surfaceInfo )
+uint8_t AxonSurfaceManager::defineSurface( uint8_t surfaceNumber, const AxonSurfaceInfo_t *surfaceInfo )
 {
-	if ((surfaceNumber < 1) or (surfaceNumber > _maxSurfaceItems))
+	if ((surfaceNumber < 1) or (surfaceNumber > maxSurfaceItems))
 	{
 		return( INVALID_SURFACE_NUMBER );
 	}	
@@ -58,9 +58,9 @@ uint8_t AxonSurfaceManager::defineSurface( uint16_t surfaceNumber, const AxonSur
 	return( UNABLE_TO_WRITE );
 }
 
-uint8_t AxonSurfaceManager::getSurfaceBuffer( uint16_t surfaceNumber, AxonSurfaceInfo_t *surfaceInfo )
+uint8_t AxonSurfaceManager::getSurfaceBuffer( uint8_t surfaceNumber, AxonSurfaceInfo_t *surfaceInfo )
 {
-	if ((surfaceNumber < 1) or (surfaceNumber > _maxSurfaceItems))
+	if ((surfaceNumber < 1) or (surfaceNumber > maxSurfaceItems))
 	{
 		return( INVALID_SURFACE_NUMBER );
 	}	
@@ -84,12 +84,19 @@ void AxonSurfaceManager::dropAllLogicBlocks()
 }
 
 
-void AxonSurfaceManager::loadSurface( uint16_t surfaceNumber )
+void AxonSurfaceManager::loadSurface( uint8_t surfaceNumber )
 {	
+Serial.print(F("AxonSurfaceManager::loadSurface("));
+Serial.print( surfaceNumber );
+Serial.println( F(")") );
 	AxonSurfaceInfo_t surfaceInfo;
 	
 	if (getSurfaceBuffer( surfaceNumber, &surfaceInfo ) == NO_ERROR )
 	{
+		_currentSurfaceNumber = surfaceNumber;
+		AxonKeyScanner::instance()->unlinkAllKeyScan();
+		AxonExprScanner::instance()->unlinkAllExprScan();
+		
 		dropAllLogicBlocks();
 		
 		//AxonDisplayManager::instance()->dropAll();
@@ -137,7 +144,7 @@ void AxonSurfaceManager::loadSurface( uint16_t surfaceNumber )
 }
 
 
-void AxonSurfaceManager::__REMOVE__check_written( uint16_t surfaceNumber )
+void AxonSurfaceManager::__REMOVE__check_written( uint8_t surfaceNumber )
 {
 	AxonSurfaceInfo_t surfaceInfo;
 		
