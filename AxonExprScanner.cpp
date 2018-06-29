@@ -85,7 +85,7 @@ void AxonExprScanner::check()
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-			if (_onExprScan[i])
+			if (_onExprScan[i] != NULL)
 			{
 				_onExprScan[i]->execute( NULL, event );
 			}

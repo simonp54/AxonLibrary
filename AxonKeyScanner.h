@@ -36,7 +36,7 @@ class AxonKeyScanner
 		
 		uint64_t _lastCheckMillis;								// throttle timing
 		
-		AxonLogicBlock *_onKeyScan[_NUMBER_OF_ROWS * _NUMBER_OF_COLUMNS] = {0};
+		AxonLogicBlock *_onKeyScan[_NUMBER_OF_ROWS * _NUMBER_OF_COLUMNS] = { NULL };
 };
 
 #endif

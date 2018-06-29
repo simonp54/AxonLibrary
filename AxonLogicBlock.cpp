@@ -1,6 +1,32 @@
 #include "AxonLogicBlock.h"
 #include "AxonActionManager.h"
 
+AxonLogicBlock::~AxonLogicBlock()
+{
+Serial.println("Dtor");
+	if (_displayBlock != NULL)
+	{
+Serial.println("delete displayBlock");
+		delete( _displayBlock );
+	}
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
+}
+
+void AxonLogicBlock::setDisplayBlock( AxonDisplayBlock *displayBlock )
+{
+Serial.println("settingDisplayBlock");
+	if (_displayBlock != NULL)
+	{
+Serial.println("deleting existing displayblock object");
+		delete( _displayBlock );
+	}
+Serial.println("pointing to the passed displayblock object");
+	_displayBlock = displayBlock;
+}
+
+
 void AxonLogicBlock::setOnAction( uint16_t actionNumber )
 {
 	if (_onActionCount < _maxActions)
@@ -49,6 +75,12 @@ void AxonLogicBlock::executeChangeActions( AxonAction *sender, AxonEvent *event 
 	for( uint8_t i = 0; i < _changeActionCount; i++ )
 	{
 		AxonActionManager::instance()->executeAction( _changeAction[i], event );
+	}
+
+	if (_displayBlock != NULL)
+	{
+Serial.println("execute displayBlock");
+		_displayBlock->execute( sender, event );
 	}
 }
 

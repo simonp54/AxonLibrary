@@ -65,6 +65,7 @@ void AxonCheckMem::check()
 //		{
 //			Serial.printf( "%d %d %d %d %d %d\n", _heapmax, _heapptr, _heapmin, _stackmax, _stackptr, _stackmin);
 			Serial.printf( "0 %d %d\n", _heapptr, _stackptr );
+//			Serial.printf( "%d %d\n", _heapptr, _stackptr );
 //		}
 		_lastCheckMillis = millis();			// store the "last time" we ran this service routine
 //		delay(250);

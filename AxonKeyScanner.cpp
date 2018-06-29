@@ -104,7 +104,7 @@ void AxonKeyScanner::check()
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-				if (_onKeyScan[(i*8)+j])
+				if (_onKeyScan[(i*8)+j] != NULL)
 				{
 					_onKeyScan[(i*8)+j]->execute( NULL, event );
 				}

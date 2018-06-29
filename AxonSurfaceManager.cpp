@@ -14,6 +14,9 @@ const uint8_t AxonSurfaceManager::INVALID_SURFACE_NUMBER = 1;
 const uint8_t AxonSurfaceManager::UNABLE_TO_WRITE = 2;
 const uint8_t AxonSurfaceManager::UNABLE_TO_READ = 3;
 
+const uint8_t AxonSurfaceManager::_mapHardwareInterface[] = { 0, 1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 255, 255, 255, 255 };
+
+
 AxonSurfaceManager *AxonSurfaceManager::instance()
 {
 	if (!_instance)
@@ -76,9 +79,10 @@ void AxonSurfaceManager::dropAllLogicBlocks()
 {
 	for( uint8_t i = 0; i < hardwareInterfacesPerSystem; i++ )
 	{
-		if (_logicBlockList[i])
+		if (_logicBlockList[i] != NULL)
 		{
 			delete( _logicBlockList[i] );
+			_logicBlockList[i] = NULL;
 		}
 	}
 }
@@ -86,9 +90,6 @@ void AxonSurfaceManager::dropAllLogicBlocks()
 
 void AxonSurfaceManager::loadSurface( uint8_t surfaceNumber )
 {	
-Serial.print(F("AxonSurfaceManager::loadSurface("));
-Serial.print( surfaceNumber );
-Serial.println( F(")") );
 	AxonSurfaceInfo_t surfaceInfo;
 	
 	if (getSurfaceBuffer( surfaceNumber, &surfaceInfo ) == NO_ERROR )
@@ -99,44 +100,23 @@ Serial.println( F(")") );
 		
 		dropAllLogicBlocks();
 		
-		//AxonDisplayManager::instance()->dropAll();
-		
 		for(uint8_t i = 0; i < hardwareInterfacesPerSystem; i++)
 		{
-			//Create new Logic Block
-			_logicBlockList[i] = AxonLogicManager::instance()->createLogic( surfaceInfo.hardwareInterface[i] );
-			
-			if ( _logicBlockList[i] )
+			if (surfaceInfo.hardwareInterface[i] != 0)
 			{
-				switch(i)
+				//Create new Logic Block
+				_logicBlockList[i] = AxonLogicManager::instance()->createLogic( surfaceInfo.hardwareInterface[i], _mapHardwareInterface[i] );
+				
+				if ( _logicBlockList[i] != NULL )
 				{
-					case 0:		AxonKeyScanner::instance()->setOnKeyScan( 0, _logicBlockList[i] );		break;
-					case 1:		AxonKeyScanner::instance()->setOnKeyScan( 1, _logicBlockList[i] );		break;
-					case 2:		AxonKeyScanner::instance()->setOnKeyScan( 2, _logicBlockList[i] );		break;
-					case 3:		AxonKeyScanner::instance()->setOnKeyScan( 5, _logicBlockList[i] );		break;
-					case 4:		AxonKeyScanner::instance()->setOnKeyScan( 6, _logicBlockList[i] );		break;
-					case 5:		AxonKeyScanner::instance()->setOnKeyScan( 7, _logicBlockList[i] );		break;
-					case 6:		AxonKeyScanner::instance()->setOnKeyScan( 8, _logicBlockList[i] );		break;
-					case 7:		AxonKeyScanner::instance()->setOnKeyScan( 9, _logicBlockList[i] );		break;
-					case 8:		AxonKeyScanner::instance()->setOnKeyScan( 10, _logicBlockList[i] );		break;
-					case 9:		AxonKeyScanner::instance()->setOnKeyScan( 11, _logicBlockList[i] );		break;
-					case 10:	AxonKeyScanner::instance()->setOnKeyScan( 12, _logicBlockList[i] );		break;
-					case 11:	AxonKeyScanner::instance()->setOnKeyScan( 13, _logicBlockList[i] );		break;
-					case 12:	AxonKeyScanner::instance()->setOnKeyScan( 14, _logicBlockList[i] );		break;
-					case 13:	AxonKeyScanner::instance()->setOnKeyScan( 15, _logicBlockList[i] );		break;
-					case 14:	AxonKeyScanner::instance()->setOnKeyScan( 16, _logicBlockList[i] );		break;
-					case 15:	AxonKeyScanner::instance()->setOnKeyScan( 17, _logicBlockList[i] );		break;
-					case 16:	AxonKeyScanner::instance()->setOnKeyScan( 18, _logicBlockList[i] );		break;
-					case 17:	AxonKeyScanner::instance()->setOnKeyScan( 19, _logicBlockList[i] );		break;
-					case 18:	AxonKeyScanner::instance()->setOnKeyScan( 20, _logicBlockList[i] );		break;
-					case 19:	AxonKeyScanner::instance()->setOnKeyScan( 21, _logicBlockList[i] );		break;
-					case 20:	AxonKeyScanner::instance()->setOnKeyScan( 22, _logicBlockList[i] );		break;
-					case 21:	AxonKeyScanner::instance()->setOnKeyScan( 23, _logicBlockList[i] );		break;
-					
-					case 22:	AxonExprScanner::instance()->setOnExprScan( 0, _logicBlockList[i] );	break;
-					case 23:	AxonExprScanner::instance()->setOnExprScan( 1, _logicBlockList[i] );	break;
-					case 24:	AxonExprScanner::instance()->setOnExprScan( 2, _logicBlockList[i] );	break;
-					case 25:	AxonExprScanner::instance()->setOnExprScan( 3, _logicBlockList[i] );	break;
+					if ( i < 22 )
+					{
+						AxonKeyScanner::instance()->setOnKeyScan( _mapHardwareInterface[i], _logicBlockList[i] );
+					}
+					if ( i > 21 )
+					{
+						AxonExprScanner::instance()->setOnExprScan( i-22, _logicBlockList[i] );
+					}
 				}
 			}
 		}

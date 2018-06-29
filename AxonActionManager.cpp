@@ -124,57 +124,105 @@ void AxonActionManager::executeAction( uint16_t actionSlot, AxonEvent *event )
 				case AxonSendMidiCCActionCode:
 				{
 					AxonAction *tmp = new AxonSendMidiCCAction( actionInfo.param1, actionInfo.param2, actionInfo.param3 );
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					tmp->execute( NULL, event );
 					delete tmp;
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					break;
 				}
 				case AxonSendMidiFixedCCActionCode:
 				{
 					AxonAction *tmp = new AxonSendMidiFixedCCAction( actionInfo.param1, actionInfo.param2, actionInfo.param3, actionInfo.param4 );
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					tmp->execute( NULL, event );
 					delete tmp;
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					break;
 				}
 				case AxonSendMidiPCActionCode:
 				{
 					AxonAction *tmp = new AxonSendMidiPCAction( actionInfo.param1, actionInfo.param2, actionInfo.param3 );
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					tmp->execute( NULL, event );
 					delete tmp;
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					break;
 				}
 				case AxonContrastDownActionCode:
 				{
 					AxonAction *tmp = new AxonContrastDownAction();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					tmp->execute( NULL, event );
 					delete tmp;
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					break;
 				}
 				case AxonContrastSetActionCode:
 				{
 					AxonAction *tmp = new AxonContrastSetAction();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					tmp->execute( NULL, event );
 					delete tmp;
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					break;
 				}
 				case AxonContrastUpActionCode:
 				{
 					AxonAction *tmp = new AxonContrastUpAction();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					tmp->execute( NULL, event );
 					delete tmp;
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					break;
 				}
 				case AxonNextSurfaceActionCode:
 				{
 					AxonAction *tmp = new AxonNextSurfaceAction();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					tmp->execute( NULL, event );
 					delete tmp;
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					break;
 				}
 				case AxonPreviousSurfaceActionCode:
 				{
 					AxonAction *tmp = new AxonPreviousSurfaceAction();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					tmp->execute( NULL, event );
 					delete tmp;
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 					break;
 				}
 

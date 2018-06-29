@@ -9,7 +9,10 @@ class AxonSurfaceManager
 	public:
 		static const uint8_t maxSurfaceItems = 32;
 		static const uint8_t hardwareInterfacesPerSystem = 26;
+		
 	private:
+		static const uint8_t _mapHardwareInterface[];
+
 		static AxonSurfaceManager *_instance;
 		
 		static const uint32_t _baseAddress = 0x5A800;
@@ -19,7 +22,6 @@ class AxonSurfaceManager
 		AxonLogicBlock *_logicBlockList[hardwareInterfacesPerSystem] = { NULL };
 		
 		void dropAllLogicBlocks();
-//		void dropAllDisplayBlocks();
 		
 	public:
 		static const uint8_t NO_ERROR;

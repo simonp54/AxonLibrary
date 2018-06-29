@@ -5,6 +5,8 @@
 #include "AxonMomentarySwitchLogicBlock.h"
 #include "AxonVariableSwitchLogicBlock.h"
 
+#include "AxonLabelDisplayBlock.h"
+
 #include "AxonDebugDefines.h"
 #include "AxonCheckMem.h"
 
@@ -74,7 +76,7 @@ uint8_t AxonLogicManager::getLogicBuffer( uint16_t logicSlot, AxonLogicInfo_t *l
 }
 
 
-AxonLogicBlock *AxonLogicManager::createLogic( uint16_t logicSlot )
+AxonLogicBlock *AxonLogicManager::createLogic( uint16_t logicSlot, uint8_t scribbleID )
 {
 	AxonLogicInfo_t logicInfo;
 	AxonLogicBlock *axonLogicBlock = NULL;
@@ -84,20 +86,37 @@ AxonLogicBlock *AxonLogicManager::createLogic( uint16_t logicSlot )
 		switch (logicInfo.logicCode)
 		{
 			case AxonMomentarySwitchLogicBlockCode:
+			{
 				axonLogicBlock = new AxonMomentarySwitchLogicBlock();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 				break;
+			}
 			
 			case AxonLatchingSwitchLogicBlockCode:
+			{
 				axonLogicBlock = new AxonLatchingSwitchLogicBlock();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 				break;
-				
+			}
+			
 			case AxonVariableSwitchLogicBlockCode:
+			{
 				axonLogicBlock = new AxonVariableSwitchLogicBlock();
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
 				break;
-				
+			}
+			
 			default:
+			{
 				Serial.println( F(" ERROR: logicCode not supported") );
 				break;
+			}
 		}
 		
 		if (axonLogicBlock)
@@ -112,6 +131,28 @@ AxonLogicBlock *AxonLogicManager::createLogic( uint16_t logicSlot )
 					if ((flags & 0x80) == 0x80) { axonLogicBlock->setOnAction( actionNumber ); }
 					if ((flags & 0x40) == 0x40) { axonLogicBlock->setOffAction( actionNumber ); }
 					if ((flags & 0x20) == 0x20) { axonLogicBlock->setChangeAction( actionNumber ); }
+				}
+			}
+
+			// only if the scribbleID is one of the scribble screens
+			if (scribbleID <= 23)
+			{
+				switch (logicInfo.displayCode)
+				{
+					case AxonLabelDisplayBlockCode:
+					{
+						AxonDisplayBlock *tmp = new AxonLabelDisplayBlock( scribbleID, logicInfo.param2, logicInfo.param3, logicInfo.param4 );
+#ifdef DEBUG_OBJECT_CREATE_DESTROY
+AxonCheckMem::instance()->check();
+#endif
+						axonLogicBlock->setDisplayBlock( tmp );
+						break;
+					}	
+					default:
+					{
+						Serial.println( F(" ERROR: displayCode not supported") );
+						break;
+					}
 				}
 			}
 		}
@@ -129,16 +170,25 @@ void AxonLogicManager::__REMOVE__check_written( uint16_t logicSlot )
 	{
 		Serial.print( "LogicCode:" );
 		Serial.println( logicInfo.logicCode, HEX );
+		Serial.print( "displayCode:" );
+		Serial.println( logicInfo.displayCode );
+		Serial.print( "param1:" );
+		Serial.println( logicInfo.param1 );
+		Serial.print( "param2:" );
+		Serial.println( logicInfo.param2 );
+		Serial.print( "param3:" );
+		Serial.println( logicInfo.param3 );
+		Serial.print( "param4:" );
+		Serial.println( logicInfo.param4 );
 		
+		Serial.print( "Actions: ");
 		for(uint8_t i = 0; i < AxonLogicManager::actionSlotsPerLogicBlock; i++)
 		{
-			Serial.print( "Action");
-			Serial.print( i );
-			Serial.print( ":" );
-
+			Serial.print( "0x" );
 			Serial.print( logicInfo.actionSlot[i], HEX );
-			Serial.println();
+			Serial.print( " " );
 		}
+		Serial.println();
 	}
 	else
 	{

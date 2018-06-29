@@ -1,7 +1,7 @@
 /*
- * AxonLabelDisplayAction - an object that watches a switch "Subject"... and executes configured commands for "on" and "off"
+ * AxonLabelDisplayBlock - an object that watches a switch "Subject"... and executes configured commands for "on" and "off"
  */
-#include "AxonLabelDisplayAction.h"
+#include "AxonLabelDisplayBlock.h"
 #include "AxonSoftwareSwitchEvent.h"
 #include "AxonListManager.h"
 
@@ -12,26 +12,26 @@
 
 
 
-void AxonLabelDisplayAction::setOnLabel( const char *label )
+void AxonLabelDisplayBlock::setOnLabel( const char *label )
 {
 	snprintf( _onLabel, 6, "%s", label );
 	_w = (AxonScribble::instance()->getDisplayWidth()>>1)-(AxonScribble::instance()->getStrWidth(_onLabel)>>1);
 }
 
-void AxonLabelDisplayAction::setOffLabel( const char *label )
+void AxonLabelDisplayBlock::setOffLabel( const char *label )
 {
 	snprintf( _offLabel, 6, "%s", label );
 }
 
-AxonLabelDisplayAction::AxonLabelDisplayAction( uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4 )
+AxonLabelDisplayBlock::AxonLabelDisplayBlock( uint8_t param1, uint8_t param2, uint8_t param3, uint8_t param4 )
 {
 	// param1 is used as screenNumber
 	// param2 is the list identifier
 	// param3 is an index into that list for the on label
-	// param4 is an index into that list for the off lable
+	// param4 is an index into that list for the off label
 	
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-	Serial.println( F("AxonLabelDisplayAction::ctor") );
+	Serial.println( F("AxonLabelDisplayBlock::ctor") );
 #endif
 	if ((param1 >= 0) && (param1 <= 23))
 	{
@@ -50,24 +50,28 @@ AxonCheckMem::instance()->check();
 #endif
 }
 
-AxonLabelDisplayAction::~AxonLabelDisplayAction()
+AxonLabelDisplayBlock::~AxonLabelDisplayBlock()
 {
 #ifdef DEBUG_MOMENTARY_SWITCH_ACTION
-	Serial.println( F("AxonLabelDisplayAction::dtor") );
+	Serial.println( F("AxonLabelDisplayBlock::dtor") );
 #endif
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
+	AxonScribble::instance()->selectSingle( _row, _col );
+
+	AxonScribble::instance()->clearBuffer();          // clear the internal memory
+	AxonScribble::instance()->sendBuffer();
 }
 
-void AxonLabelDisplayAction::execute( AxonAction *sender, AxonEvent *event )
+void AxonLabelDisplayBlock::execute( AxonAction *sender, AxonEvent *event )
 {
 	static u8g2_uint_t h = (AxonScribble::instance()->getDisplayHeight()>>1)+(AxonScribble::instance()->getAscent()>>1);
 	static AxonScribble *aScribble = AxonScribble::instance();
 	
 	
 #ifdef DEBUG_LABEL_DISPLAY_ACTION
-	Serial.print( F("AxonLabelDisplayAction::event         received:") );
+	Serial.print( F("AxonLabelDisplayBlock::event         received:") );
 	Serial.println( event->getGroupID() );
 #endif
 	AxonSoftwareSwitchEvent *tmp = new AxonSoftwareSwitchEvent( 0 );				// switch number irrelevant
@@ -75,7 +79,7 @@ void AxonLabelDisplayAction::execute( AxonAction *sender, AxonEvent *event )
 	if (event->sameType( tmp ))				// is it a SoftwareSwitchEvent
 	{
 #ifdef DEBUG_LABEL_DISPLAY_ACTION
-		Serial.print( F("AxonLabelDisplayAction::event ") );
+		Serial.print( F("AxonLabelDisplayBlock::event ") );
 		Serial.println( F("is a software switch type") );
 #endif		
 		AxonSoftwareSwitchEvent *tmp2 = event;											// this is now safe to do!	

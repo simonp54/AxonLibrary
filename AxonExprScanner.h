@@ -41,7 +41,7 @@ class AxonExprScanner
 		
 		uint64_t _lastCheckMillis;										// throttle timing
 		
-		AxonLogicBlock *_onExprScan[_NUMBER_OF_EXPR_PEDALS] = {0};
+		AxonLogicBlock *_onExprScan[_NUMBER_OF_EXPR_PEDALS] = { NULL };
 };
 
 #endif
