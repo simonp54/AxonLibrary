@@ -3,6 +3,7 @@
 #include "AxonKeyScanner.h"
 #include "AxonExprScanner.h"
 #include "AxonStorage.h"
+#include "AxonScribble.h"
 
 #include "AxonDebugDefines.h"
 #include "AxonCheckMem.h"
@@ -91,6 +92,10 @@ void AxonSurfaceManager::dropAllLogicBlocks()
 void AxonSurfaceManager::loadSurface( uint8_t surfaceNumber )
 {	
 	AxonSurfaceInfo_t surfaceInfo;
+
+	AxonScribble::instance()->selectAll();
+	AxonScribble::instance()->clearBuffer();          // clear the internal memory
+	AxonScribble::instance()->sendBuffer();
 	
 	if (getSurfaceBuffer( surfaceNumber, &surfaceInfo ) == NO_ERROR )
 	{

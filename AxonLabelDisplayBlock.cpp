@@ -58,10 +58,6 @@ AxonLabelDisplayBlock::~AxonLabelDisplayBlock()
 #ifdef DEBUG_OBJECT_CREATE_DESTROY
 AxonCheckMem::instance()->check();
 #endif
-	AxonScribble::instance()->selectSingle( _row, _col );
-
-	AxonScribble::instance()->clearBuffer();          // clear the internal memory
-	AxonScribble::instance()->sendBuffer();
 }
 
 void AxonLabelDisplayBlock::execute( AxonAction *sender, AxonEvent *event )
