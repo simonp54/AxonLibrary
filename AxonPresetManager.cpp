@@ -38,6 +38,15 @@ AxonCheckMem::instance()->check();
 #endif
 }
 
+void AxonPresetManager::processOutstanding()
+{
+	if (_presetQueued)
+	{
+		_presetQueued = false;
+		loadPreset( _qPresetNumber );
+	}
+}
+
 void AxonPresetManager::format()
 {
 	AxonStorage::instance()->format( _baseAddress, 0x00, (maxPresetItems * sizeof(AxonPresetInfo_t)) );
@@ -71,6 +80,11 @@ uint8_t AxonPresetManager::getPresetBuffer( uint16_t presetNumber, AxonPresetInf
 	return( UNABLE_TO_READ );
 }
 
+void AxonPresetManager::qPreset( uint16_t presetNumber )
+{
+	_qPresetNumber = presetNumber;
+	_presetQueued = true;
+}
 
 void AxonPresetManager::loadPreset( uint16_t presetNumber )
 {
@@ -78,8 +92,6 @@ void AxonPresetManager::loadPreset( uint16_t presetNumber )
 	
 	if (getPresetBuffer( presetNumber, &presetInfo ) == NO_ERROR )
 	{
-		AxonSurfaceManager::instance()->loadSurface( presetInfo.surfaceNumber );
-
 		for (uint8_t i = 0; i < actionSlotsPerPreset; i++)
 		{
 			AxonActionManager::instance()->executeAction( presetInfo.actionSlot[i], NULL );
@@ -89,6 +101,8 @@ void AxonPresetManager::loadPreset( uint16_t presetNumber )
 		
 		// for each override action definition in the preset, update the action manager with override action definition
 		// using the switch and action number, "overwrite" the action with the overridden action number
+
+		AxonSurfaceManager::instance()->qSurface( presetInfo.surfaceNumber );
 	}
 }
 

@@ -9,7 +9,10 @@ class AxonPresetManager
 		static AxonPresetManager *_instance;
 		
 		static const uint32_t _baseAddress = 0x047C00;
-;
+		
+		uint16_t _qPresetNumber = 0;
+		bool _presetQueued = false;
+
 	public:
 		static const uint8_t NO_ERROR;
 		static const uint8_t INVALID_PRESET_NUMBER;
@@ -20,6 +23,9 @@ class AxonPresetManager
 		static const uint8_t actionSlotsPerPreset = 32;
 
 		static AxonPresetManager *instance();
+		
+		bool itemOutstanding() { return( _presetQueued ); }
+		void processOutstanding();
 		
 		void format();
 		
@@ -32,11 +38,13 @@ class AxonPresetManager
 		uint8_t definePreset( uint16_t presetNumber, const AxonPresetInfo_t *presetInfo );
 		uint8_t getPresetBuffer( uint16_t presetNumber, AxonPresetInfo_t *presetInfo );
 		
-		void loadPreset( uint16_t presetNumber );
+		void qPreset( uint16_t presetNumber );
 		
 		void __REMOVE__check_written( uint16_t presetNumber );
 	protected:
 	    AxonPresetManager();							// constructor
+		void loadPreset( uint16_t presetNumber );
+
 };
 
 #endif

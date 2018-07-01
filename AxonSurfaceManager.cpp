@@ -43,6 +43,15 @@ AxonCheckMem::instance()->check();
 #endif
 }
 
+void AxonSurfaceManager::processOutstanding()
+{
+	if (_surfaceQueued)
+	{
+		_surfaceQueued = false;
+		loadSurface( _qSurfaceNumber );
+	}
+}
+
 void AxonSurfaceManager::format()
 {
 	AxonStorage::instance()->format( _baseAddress, 0x00, (maxSurfaceItems * sizeof(AxonSurfaceInfo_t)) );
@@ -86,6 +95,12 @@ void AxonSurfaceManager::dropAllLogicBlocks()
 			_logicBlockList[i] = NULL;
 		}
 	}
+}
+
+void AxonSurfaceManager::qSurface( uint8_t surfaceNumber )
+{
+	_qSurfaceNumber = surfaceNumber;
+	_surfaceQueued = true;
 }
 
 

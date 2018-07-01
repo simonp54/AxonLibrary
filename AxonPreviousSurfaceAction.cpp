@@ -11,10 +11,10 @@ void AxonPreviousSurfaceAction::execute( AxonAction *sender, AxonEvent *event)
 	
 	if (surfaceNumber > 1)
 	{
-		AxonSurfaceManager::instance()->loadSurface( surfaceNumber - 1);
+		AxonSurfaceManager::instance()->qSurface( surfaceNumber - 1);
 	}
 	else
 	{
-		AxonSurfaceManager::instance()->loadSurface( AxonSurfaceManager::maxSurfaceItems );
+		AxonSurfaceManager::instance()->qSurface( AxonSurfaceManager::maxSurfaceItems );
 	}
 }
