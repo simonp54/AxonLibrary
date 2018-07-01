@@ -14,7 +14,7 @@ class AxonLogicManager
 		static const uint32_t _baseAddress = 0x36400;
 		
 	public:
-		static const uint16_t maxLogicItems = 128;
+		static const uint16_t maxLogicItems = 1024;
 
 		static const uint8_t NO_ERROR;
 		static const uint8_t INVALID_LOGIC_NUMBER;
