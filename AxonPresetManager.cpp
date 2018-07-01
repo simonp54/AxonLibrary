@@ -40,12 +40,12 @@ AxonCheckMem::instance()->check();
 
 void AxonPresetManager::format()
 {
-	AxonStorage::instance()->format( _baseAddress, 0x00, (_maxPresetItems * sizeof(AxonPresetInfo_t)) );
+	AxonStorage::instance()->format( _baseAddress, 0x00, (maxPresetItems * sizeof(AxonPresetInfo_t)) );
 }
 
 uint8_t AxonPresetManager::definePreset( uint16_t presetNumber, const AxonPresetInfo_t *presetInfo )
 {
-	if ((presetNumber < 0) or (presetNumber >= _maxPresetItems))
+	if ((presetNumber < 0) or (presetNumber >= maxPresetItems))
 	{
 		return( INVALID_PRESET_NUMBER );
 	}	
@@ -59,7 +59,7 @@ uint8_t AxonPresetManager::definePreset( uint16_t presetNumber, const AxonPreset
 
 uint8_t AxonPresetManager::getPresetBuffer( uint16_t presetNumber, AxonPresetInfo_t *presetInfo )
 {
-	if ((presetNumber < 0) or (presetNumber >= _maxPresetItems))
+	if ((presetNumber < 0) or (presetNumber >= maxPresetItems))
 	{
 		return( INVALID_PRESET_NUMBER );
 	}	
@@ -80,7 +80,7 @@ void AxonPresetManager::loadPreset( uint16_t presetNumber )
 	{
 		AxonSurfaceManager::instance()->loadSurface( presetInfo.surfaceNumber );
 
-		for (uint8_t i = 0; i < _maxPresetActions; i++)
+		for (uint8_t i = 0; i < actionSlotsPerPreset; i++)
 		{
 			AxonActionManager::instance()->executeAction( presetInfo.actionSlot[i], NULL );
 		}

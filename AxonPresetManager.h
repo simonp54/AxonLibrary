@@ -8,15 +8,15 @@ class AxonPresetManager
 	private:
 		static AxonPresetManager *_instance;
 		
-		static const uint32_t _baseAddress = 0x46400;
-		static const uint16_t _maxPresetItems = 1024;
-		static const uint8_t _maxPresetActions = 32;
+		static const uint32_t _baseAddress = 0x047C00;
+;
 	public:
 		static const uint8_t NO_ERROR;
 		static const uint8_t INVALID_PRESET_NUMBER;
 		static const uint8_t UNABLE_TO_WRITE;
 		static const uint8_t UNABLE_TO_READ;
-		
+
+		static const uint16_t maxPresetItems = 1024;
 		static const uint8_t actionSlotsPerPreset = 32;
 
 		static AxonPresetManager *instance();
