@@ -50,7 +50,7 @@ AxonCheckMem::instance()->check();
 
 void AxonActionManager::format()
 {
-	AxonStorage::instance()->format( _baseAddress, 0x00, ( (_maxActionItems + _maxOverrideItems) * sizeof(AxonActionInfo_t) ) );
+	AxonStorage::instance()->format( _baseAddress, 0x00, ( (maxActionItems + maxOverrideActionItems) * sizeof(AxonActionInfo_t) ) );
 }
 
 uint8_t AxonActionManager::writeAction( uint16_t actionSlot, const AxonActionInfo_t *actionInfo )
@@ -64,7 +64,7 @@ uint8_t AxonActionManager::writeAction( uint16_t actionSlot, const AxonActionInf
 
 uint8_t AxonActionManager::defineAction( uint16_t actionSlot, const AxonActionInfo_t *actionInfo )
 {
-	if ((actionSlot < 1) or (actionSlot > _maxActionItems))
+	if ((actionSlot < 1) or (actionSlot > maxActionItems))
 	{
 		return( INVALID_ACTION_SLOT );
 	}
@@ -74,18 +74,18 @@ uint8_t AxonActionManager::defineAction( uint16_t actionSlot, const AxonActionIn
 
 uint8_t AxonActionManager::defineOverrideAction( uint16_t overrideSlot, const AxonActionInfo_t *actionInfo )
 {
-	if ((overrideSlot < 1) or (overrideSlot > _maxOverrideItems))
+	if ((overrideSlot < 1) or (overrideSlot > maxOverrideActionItems))
 	{
 		return( INVALID_ACTION_SLOT );
 	}	
 
-	return( writeAction( _maxActionItems + overrideSlot, actionInfo ) );
+	return( writeAction( maxActionItems + overrideSlot, actionInfo ) );
 }
 
 
 uint8_t AxonActionManager::getActionInfo( uint16_t actionSlot, AxonActionInfo_t *actionInfo )
 {
-	if ((actionSlot < 1) or (actionSlot > _maxActionItems))
+	if ((actionSlot < 1) or (actionSlot > maxActionItems))
 	{
 		return( INVALID_ACTION_SLOT );
 	}	
@@ -99,7 +99,7 @@ uint8_t AxonActionManager::getActionInfo( uint16_t actionSlot, AxonActionInfo_t 
 
 uint8_t AxonActionManager::getShortActionInfo( uint16_t actionSlot, AxonActionInfoNoName_t *actionInfo )
 {
-	if ((actionSlot < 1) or (actionSlot > _maxActionItems))
+	if ((actionSlot < 1) or (actionSlot > maxActionItems))
 	{
 		return( INVALID_ACTION_SLOT );
 	}	
@@ -113,7 +113,7 @@ uint8_t AxonActionManager::getShortActionInfo( uint16_t actionSlot, AxonActionIn
 
 void AxonActionManager::executeAction( uint16_t actionSlot, AxonEvent *event )
 {
-	if ((actionSlot >= 1) and (actionSlot <= _maxActionItems))
+	if ((actionSlot >= 1) and (actionSlot <= maxActionItems))
 	{
 		AxonActionInfoNoName_t actionInfo;
 				

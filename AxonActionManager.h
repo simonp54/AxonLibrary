@@ -10,10 +10,6 @@ class AxonActionManager
 		static AxonActionManager *_instance;
 		
 		static const uint32_t _baseAddress = 0x30000;
-		static const uint16_t _maxActionItems = 1016;
-		static const uint8_t _maxOverrideItems = 8;
-		static const uint8_t _smallActionItemSize = 5;
-
 
 		struct AxonActionInfoNoName_t
 		{
@@ -25,6 +21,10 @@ class AxonActionManager
 		};
 		
 	public:
+		static const uint16_t maxActionItems = 1016;
+		static const uint8_t maxOverrideActionItems = 8;
+		static const uint8_t actionNameSize = 20;
+
 		static const uint8_t NO_ERROR;
 		static const uint8_t INVALID_ACTION_SLOT;
 		static const uint8_t UNABLE_TO_WRITE;
@@ -36,7 +36,7 @@ class AxonActionManager
 		
 		struct AxonActionInfo_t: AxonActionInfoNoName_t
 		{
-			uint8_t name[20];
+			uint8_t name[actionNameSize];
 		};
 
 		
