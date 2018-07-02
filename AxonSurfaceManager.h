@@ -15,7 +15,7 @@ class AxonSurfaceManager
 
 		static AxonSurfaceManager *_instance;
 		
-		static const uint32_t _baseAddress = 0x58400;
+		static const uint32_t _baseAddress = 0x58000;
 		
 		uint8_t _qSurfaceNumber = 0;
 		bool _surfaceQueued = false;
