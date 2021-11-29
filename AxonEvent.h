@@ -1,4 +1,3 @@
-// test
 #ifndef AXON_EVENT_h
 #define AXON_EVENT_h
 
