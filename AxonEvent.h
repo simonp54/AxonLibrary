@@ -10,12 +10,12 @@ class AxonEvent
 		AxonEvent();
 		virtual ~AxonEvent() {};
 		
-		// uint16_t getGroupID() { return _groupID; }
+		uint16_t getGroupID() { return _groupID; }
 		
-		// bool sameType( AxonEvent *event );
-		// virtual bool exactMatch( AxonEvent *event );
+		bool sameType( AxonEvent *event );
+		virtual bool exactMatch( AxonEvent *event );
 	protected:
-		// uint16_t _groupID;
+		uint16_t _groupID;
 	private:
 };
 
